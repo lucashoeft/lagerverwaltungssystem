@@ -48,17 +48,21 @@ public class Main extends JFrame {
     };
 
     JFileChooser filechooser = new JFileChooser();
-    JButton button3 = new JButton("Datei öffnen");
-    JButton searchButton = new JButton("Suchen");
-    JButton button1 = new JButton("Artikel erstellen");
-    JButton button2 = new JButton("Kategorien verwalten");
+    JButton openB = new JButton("Datei öffnen");
+    JButton searchB = new JButton("Suchen");
+    JButton createArtB = new JButton("Artikel erstellen");
+    JButton manageCatB = new JButton("Kategorien verwalten");
     JTextField textField1 = new JTextField("", 15);
     JTable table;
     int buttonClicked;
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new Main();
-    }
+    }*/
+    /*public static void my_exit(){
+        App.clear_config_file();
+        JFrame.EXIT_ON_CLOSE();
+    }*/
 
     public Main() {
 
@@ -68,25 +72,26 @@ public class Main extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         this.setTitle("Lagerverwaltungssystem");
 
         JPanel topPanel = new JPanel();
 
         ListenForButton listenForButton = new ListenForButton();
 
-        button3.addActionListener(listenForButton);
-        topPanel.add(button3);
+        openB.addActionListener(listenForButton);
+        topPanel.add(openB);
 
         ListenForKeys listenForKeys = new ListenForKeys();
         textField1.addKeyListener(listenForKeys);
         topPanel.add(textField1);
 
-        topPanel.add(searchButton);
+        topPanel.add(searchB);
 
-        button1.addActionListener(listenForButton);
-        topPanel.add(button1);
+        createArtB.addActionListener(listenForButton);
+        topPanel.add(createArtB);
 
-        topPanel.add(button2);
+        topPanel.add(manageCatB);
 
         this.add(topPanel, BorderLayout.NORTH);
 
@@ -97,7 +102,7 @@ public class Main extends JFrame {
 
         // Search Table
 
-        searchButton.addActionListener(listenForButton);
+        searchB.addActionListener(listenForButton);
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -114,12 +119,12 @@ public class Main extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == button1) {
+            if (e.getSource() == createArtB) {
                 buttonClicked++;
                 System.out.println(buttonClicked);
             }
 
-            if (e.getSource() == searchButton) {
+            if (e.getSource() == searchB) {
                 String text = textField1.getText();
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
                 table.setRowSorter(sorter);
@@ -130,13 +135,18 @@ public class Main extends JFrame {
                 }
             }
 
-            if (e.getSource() == button3) {
+            if (e.getSource() == openB) {
                 filechooser.setCurrentDirectory(new java.io.File("."));
                 filechooser.setDialogTitle("Datei öffnen");
                 filechooser.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
 
                 if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = filechooser.getSelectedFile();
+                    //System.out.println(file.getPath());
+                    // update config file and data path
+                    App.set_config_file(App.get_configPath(), file.getPath());
+                    App.get_dataBase().set_path(file.getPath());
+
                     List<InventoryItem> items = readBooksFromCSV(file);
 
                     for (InventoryItem b : items) {
