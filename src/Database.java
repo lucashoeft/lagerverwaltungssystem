@@ -1,20 +1,20 @@
-public class DataBase {
+public class Database {
     //public static String path;
     String path;
 
-    public DataBase (){
+    public Database(){
         this.path = null;
     }
 
-    public DataBase (String path){
+    public Database(String path){
         this.path = path;
     }
 
-    public void set_path (String path){
+    public void setPath(String path){
         this.path = path;
     }
 
-    public String get_path () {
+    public String getPath() {
         return this.path;
     }
 

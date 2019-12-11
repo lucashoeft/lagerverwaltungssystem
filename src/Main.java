@@ -48,10 +48,10 @@ public class Main extends JFrame {
     };
 
     JFileChooser filechooser = new JFileChooser();
-    JButton openB = new JButton("Datei öffnen");
-    JButton searchB = new JButton("Suchen");
-    JButton createArtB = new JButton("Artikel erstellen");
-    JButton manageCatB = new JButton("Kategorien verwalten");
+    JButton openButton = new JButton("Datei öffnen");
+    JButton searchButton = new JButton("Suchen");
+    JButton createInventoryItemButton = new JButton("Artikel erstellen");
+    JButton manageCatagoryButton = new JButton("Kategorien verwalten");
     JTextField textField1 = new JTextField("", 15);
     JTable table;
     int buttonClicked;
@@ -79,19 +79,19 @@ public class Main extends JFrame {
 
         ListenForButton listenForButton = new ListenForButton();
 
-        openB.addActionListener(listenForButton);
-        topPanel.add(openB);
+        openButton.addActionListener(listenForButton);
+        topPanel.add(openButton);
 
         ListenForKeys listenForKeys = new ListenForKeys();
         textField1.addKeyListener(listenForKeys);
         topPanel.add(textField1);
 
-        topPanel.add(searchB);
+        topPanel.add(searchButton);
 
-        createArtB.addActionListener(listenForButton);
-        topPanel.add(createArtB);
+        createInventoryItemButton.addActionListener(listenForButton);
+        topPanel.add(createInventoryItemButton);
 
-        topPanel.add(manageCatB);
+        topPanel.add(manageCatagoryButton);
 
         this.add(topPanel, BorderLayout.NORTH);
 
@@ -102,7 +102,7 @@ public class Main extends JFrame {
 
         // Search Table
 
-        searchB.addActionListener(listenForButton);
+        searchButton.addActionListener(listenForButton);
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -119,12 +119,12 @@ public class Main extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == createArtB) {
+            if (e.getSource() == createInventoryItemButton) {
                 buttonClicked++;
                 System.out.println(buttonClicked);
             }
 
-            if (e.getSource() == searchB) {
+            if (e.getSource() == searchButton) {
                 String text = textField1.getText();
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
                 table.setRowSorter(sorter);
@@ -135,7 +135,7 @@ public class Main extends JFrame {
                 }
             }
 
-            if (e.getSource() == openB) {
+            if (e.getSource() == openButton) {
                 filechooser.setCurrentDirectory(new java.io.File("."));
                 filechooser.setDialogTitle("Datei öffnen");
                 filechooser.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
@@ -144,8 +144,8 @@ public class Main extends JFrame {
                     File file = filechooser.getSelectedFile();
                     //System.out.println(file.getPath());
                     // update config file and data path
-                    App.set_config_file(App.get_configPath(), file.getPath());
-                    App.get_dataBase().set_path(file.getPath());
+                    App.setConfigFile(App.getConfigPath(), file.getPath());
+                    App.getDatabase().setPath(file.getPath());
 
                     List<InventoryItem> items = readBooksFromCSV(file);
 
