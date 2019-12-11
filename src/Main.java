@@ -48,17 +48,21 @@ public class Main extends JFrame {
     };
 
     JFileChooser filechooser = new JFileChooser();
-    JButton button3 = new JButton("Datei öffnen");
+    JButton openButton = new JButton("Datei öffnen");
     JButton searchButton = new JButton("Suchen");
-    JButton button1 = new JButton("Artikel erstellen");
-    JButton button2 = new JButton("Kategorien verwalten");
+    JButton createInventoryItemButton = new JButton("Artikel erstellen");
+    JButton manageCatagoryButton = new JButton("Kategorien verwalten");
     JTextField textField1 = new JTextField("", 15);
     JTable table;
     int buttonClicked;
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new Main();
-    }
+    }*/
+    /*public static void my_exit(){
+        App.clear_config_file();
+        JFrame.EXIT_ON_CLOSE();
+    }*/
 
     public Main() {
 
@@ -68,14 +72,15 @@ public class Main extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         this.setTitle("Lagerverwaltungssystem");
 
         JPanel topPanel = new JPanel();
 
         ListenForButton listenForButton = new ListenForButton();
 
-        button3.addActionListener(listenForButton);
-        topPanel.add(button3);
+        openButton.addActionListener(listenForButton);
+        topPanel.add(openButton);
 
         ListenForKeys listenForKeys = new ListenForKeys();
         textField1.addKeyListener(listenForKeys);
@@ -83,10 +88,10 @@ public class Main extends JFrame {
 
         topPanel.add(searchButton);
 
-        button1.addActionListener(listenForButton);
-        topPanel.add(button1);
+        createInventoryItemButton.addActionListener(listenForButton);
+        topPanel.add(createInventoryItemButton);
 
-        topPanel.add(button2);
+        topPanel.add(manageCatagoryButton);
 
         this.add(topPanel, BorderLayout.NORTH);
 
@@ -114,7 +119,7 @@ public class Main extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == button1) {
+            if (e.getSource() == createInventoryItemButton) {
                 buttonClicked++;
                 System.out.println(buttonClicked);
             }
@@ -130,13 +135,18 @@ public class Main extends JFrame {
                 }
             }
 
-            if (e.getSource() == button3) {
+            if (e.getSource() == openButton) {
                 filechooser.setCurrentDirectory(new java.io.File("."));
                 filechooser.setDialogTitle("Datei öffnen");
                 filechooser.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
 
                 if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = filechooser.getSelectedFile();
+                    //System.out.println(file.getPath());
+                    // update config file and data path
+                    App.setConfigFile(App.getConfigPath(), file.getPath());
+                    App.getDatabase().setPath(file.getPath());
+
                     List<InventoryItem> items = readBooksFromCSV(file);
 
                     for (InventoryItem b : items) {
