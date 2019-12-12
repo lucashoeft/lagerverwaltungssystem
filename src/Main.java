@@ -3,6 +3,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +21,6 @@ public class Main extends JFrame {
     static Object[][] databaseResults = {
             {"Stift (Schwarz)", "Stifte", 3, "000004", 2400, 0.99}
     };
-
-    /*
-    Lagerort:
-    0 - 9 sind verfügbare Zeichen
-    Nach Muster: ABCDDD
-    A - Abteilung
-    B - Sub-Abteilung
-    C - Regalnummer
-    DDD - Platznummer
-    >> Ergibt max. 1.000.000 Einträge
-
-    */
 
     static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
@@ -46,6 +36,8 @@ public class Main extends JFrame {
             return returnValue;
         }
     };
+
+    CSVParser csvParser = new CSVParser();
 
     JFileChooser filechooser = new JFileChooser();
     JButton openButton = new JButton("Datei öffnen");
@@ -72,6 +64,7 @@ public class Main extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        System.out.println("was" + App.dataBase.getPath());
 
         this.setTitle("Lagerverwaltungssystem");
 
@@ -95,7 +88,34 @@ public class Main extends JFrame {
 
         this.add(topPanel, BorderLayout.NORTH);
 
-        table = new JTable(dTableModel);
+        //
+
+        if (App.dataBase.path != null) {
+            List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.dataBase.path));
+
+
+            for (InventoryItem b : items) {
+                System.out.println(b);
+            }
+
+            Object[][] newContent = new Object[items.size()][6];
+
+            for(int i=0; i<items.size(); i++) {
+                newContent[i][0] = items.get(i).description;
+                newContent[i][1] = items.get(i).category;
+                newContent[i][2] = items.get(i).stock;
+                newContent[i][3] = items.get(i).location;
+                newContent[i][4] = items.get(i).weight;
+                newContent[i][5] = items.get(i).price;
+            }
+            table = new JTable(dTableModel);
+            table.setModel(new DefaultTableModel(newContent, columns));
+
+        } else {
+            table = new JTable(dTableModel);
+        }
+
+
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
@@ -142,12 +162,14 @@ public class Main extends JFrame {
 
                 if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = filechooser.getSelectedFile();
+
                     //System.out.println(file.getPath());
                     // update config file and data path
                     App.setConfigFile(App.getConfigPath(), file.getPath());
                     App.getDatabase().setPath(file.getPath());
 
-                    List<InventoryItem> items = readBooksFromCSV(file);
+                    List<InventoryItem> items = csvParser.readInventoryFromCSV(file.toPath());
+
 
                     for (InventoryItem b : items) {
                         System.out.println(b);
@@ -170,55 +192,6 @@ public class Main extends JFrame {
                 }
             }
         }
-    }
-
-    private static List<InventoryItem> readBooksFromCSV(File fileName) {
-        List<InventoryItem> books = new ArrayList<>();
-        Path pathToFile = fileName.toPath();
-
-        // create an instance of BufferedReader
-        // using try with resource, Java 7 feature to close resources
-        try (BufferedReader br = Files.newBufferedReader(pathToFile,
-                StandardCharsets.US_ASCII)) {
-
-            // read the first line from the text file
-            String line = br.readLine();
-
-            // loop until all lines are read
-            while (line != null) {
-
-                // use string.split to load a string array with the values from
-                // each line of
-                // the file, using a comma as the delimiter
-                String[] attributes = line.split(",");
-
-                InventoryItem book = createBook(attributes);
-
-                // adding book into ArrayList
-                books.add(book);
-
-                // read next line before looping
-                // if end of file reached, line would be null
-                line = br.readLine();
-            }
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        return books;
-    }
-
-    private static InventoryItem createBook(String[] metadata) {
-        String description = metadata[0].replaceAll("^\"|\"$", "");
-        String category = metadata[1].replaceAll("^\"|\"$", "");
-        int stock = Integer.parseInt(metadata[2]);
-        String location = metadata[3].replaceAll("^\"|\"$", "");
-        Double weight = Double.parseDouble(metadata[4]);
-        Double price = Double.parseDouble(metadata[5]);
-
-        // create and return book of this metadata
-        return new InventoryItem(description, category, stock, location, weight, price);
     }
 
     private class ListenForKeys implements KeyListener {

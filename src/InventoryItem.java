@@ -6,6 +6,18 @@ public class InventoryItem {
     Double weight;
     Double price;
 
+    /*
+    Lagerort:
+    0 - 9 sind verfügbare Zeichen
+    Nach Muster: ABCDDD
+    A - Abteilung
+    B - Sub-Abteilung
+    C - Regalnummer
+    DDD - Platznummer
+    >> Ergibt max. 1.000.000 Einträge
+
+    */
+
     public InventoryItem(String description, String category, Integer stock, String location, Double weight, Double price) {
         this.description = description;
         this.category = category;
@@ -13,10 +25,5 @@ public class InventoryItem {
         this.location = location;
         this.weight = weight;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "InventoryItem(description=" + description + ", category=" + category + "]";
     }
 }
