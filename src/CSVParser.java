@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,13 +8,12 @@ import java.util.List;
 
 public class CSVParser {
 
-    public static List<InventoryItem> readInventoryFromCSV(Path pathName) {
+    public List<InventoryItem> readInventoryFromCSV(Path pathName) {
         List<InventoryItem> inventory = new ArrayList<>();
-        Path pathToFile = pathName;
 
         // create an instance of BufferedReader
         // using try with resource, Java 7 feature to close resources
-        try (BufferedReader br = Files.newBufferedReader(pathToFile,
+        try (BufferedReader br = Files.newBufferedReader(pathName,
                 StandardCharsets.UTF_8)) {
 
             // read the first line from the text file
@@ -46,7 +44,7 @@ public class CSVParser {
         return inventory;
     }
 
-    private static InventoryItem createInventoryItem(String[] metadata) {
+    private InventoryItem createInventoryItem(String[] metadata) {
         String description = metadata[0].replaceAll("^\"|\"$", "");
         String category = metadata[1].replaceAll("^\"|\"$", "");
         int stock = Integer.parseInt(metadata[2]);
