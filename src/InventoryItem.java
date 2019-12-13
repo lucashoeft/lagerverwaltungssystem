@@ -26,4 +26,7 @@ public class InventoryItem {
         this.weight = weight;
         this.price = price;
     }
+
+    public InventoryItem() {
+    }
 }

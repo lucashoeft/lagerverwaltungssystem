@@ -6,6 +6,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class Main extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        if (App.database.path != null) {
+        if (App.database.path != null && Files.exists(Paths.get(App.database.path))) {
             List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.database.path));
 
             Object[][] newContent = convertToObject(items);

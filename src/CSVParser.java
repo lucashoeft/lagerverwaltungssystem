@@ -45,14 +45,19 @@ public class CSVParser {
     }
 
     private InventoryItem createInventoryItem(String[] metadata) {
-        String description = metadata[0].replaceAll("^\"|\"$", "");
-        String category = metadata[1].replaceAll("^\"|\"$", "");
-        int stock = Integer.parseInt(metadata[2]);
-        String location = metadata[3].replaceAll("^\"|\"$", "");
-        Double weight = Double.parseDouble(metadata[4]);
-        Double price = Double.parseDouble(metadata[5]);
+        InventoryItem inventoryItem = new InventoryItem();
+        try {
+            inventoryItem.description = metadata[0].replaceAll("^\"|\"$", "");
+            inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
+            inventoryItem.stock = Integer.parseInt(metadata[2]);
+            inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
+            inventoryItem.weight = Double.parseDouble(metadata[4]);
+            inventoryItem.price = Double.parseDouble(metadata[5]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // create and return book of this metadata
-        return new InventoryItem(description, category, stock, location, weight, price);
+        return inventoryItem;
     }
 }
