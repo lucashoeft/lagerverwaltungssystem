@@ -7,31 +7,30 @@ import java.util.*;
 
 public class App {
 
-    static DataBase dataBase = new DataBase();
-    static String configPath = System.getProperty("user.home") + "\\.Lagerverwaltung\\config.cfg";
+    static Database database = new Database();
+    static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
 
     public static void main(String[] args) throws IOException {
 
-
-        read_config_file(configPath);
+        readConfigFile(configPath);
         GUI.run();
 
         //Testausgabe des aktuellen Pfades der verwendeten Datenbank/.csv Datei
-        System.out.println(dataBase.get_path());
+        System.out.println(database.getPath());
     }
 
-    public static void read_config_file(String path) {
+    public static void readConfigFile(String path) {
         try {
             Path cfgFile = Paths.get(path);
             if (Files.exists(cfgFile)) {
                 System.out.println("Config file found");
-                if(clear_config_file(path) == 0) {
+                if(clearConfigFile(path) == 0) {
                     Scanner scan = new Scanner(cfgFile);
-                    dataBase.set_path(scan.nextLine());
+                    database.setPath(scan.nextLine());
                     System.out.println("Config file loaded");
                 }
                 else {
-                    read_config_file(path);
+                    readConfigFile(path);
                 }
             }
             else {
@@ -44,7 +43,7 @@ public class App {
         catch (IOException e) {System.err.println(e);}
     }
 
-    public static void set_config_file(String config_path, String new_path) {
+    public static void setConfigFile(String config_path, String new_path) {
         try {
             Path cfgFile = Paths.get(config_path);
             if (Files.exists(cfgFile)) {
@@ -62,7 +61,7 @@ public class App {
         catch (IOException e) {System.err.println(e);}
     }
 
-    public static int clear_config_file(String path){
+    public static int clearConfigFile(String path){
         File cfgFile = new File(path);
         if (cfgFile.length() == 0) {
             cfgFile.delete();
@@ -72,11 +71,11 @@ public class App {
         return 0;
     }
 
-    public static DataBase get_dataBase(){
-        return dataBase;
+    public static Database getDatabase(){
+        return database;
     }
 
-    public static String get_configPath(){
+    public static String getConfigPath(){
         return configPath;
     }
 }
