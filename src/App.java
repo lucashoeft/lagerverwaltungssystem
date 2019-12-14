@@ -7,17 +7,16 @@ import java.util.*;
 
 public class App {
 
-    static Database dataBase = new Database();
+    static Database database = new Database();
     static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
 
     public static void main(String[] args) throws IOException {
-
 
         readConfigFile(configPath);
         GUI.run();
 
         //Testausgabe des aktuellen Pfades der verwendeten Datenbank/.csv Datei
-        System.out.println(dataBase.getPath());
+        System.out.println(database.getPath());
     }
 
     public static void readConfigFile(String path) {
@@ -27,7 +26,7 @@ public class App {
                 System.out.println("Config file found");
                 if(clearConfigFile(path) == 0) {
                     Scanner scan = new Scanner(cfgFile);
-                    dataBase.setPath(scan.nextLine());
+                    database.setPath(scan.nextLine());
                     System.out.println("Config file loaded");
                 }
                 else {
@@ -73,7 +72,7 @@ public class App {
     }
 
     public static Database getDatabase(){
-        return dataBase;
+        return database;
     }
 
     public static String getConfigPath(){
