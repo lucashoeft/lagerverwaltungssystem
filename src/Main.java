@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Main extends JFrame {
 
-    static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
+    private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
     static DefaultTableModel dTableModel = new DefaultTableModel(null, columns) {
         public Class getColumnClass(int column) {
@@ -72,8 +72,8 @@ public class Main extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        if (App.database.path != null && Files.exists(Paths.get(App.database.path))) {
-            List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.database.path));
+        if (App.getDatabase().getPath() != null && Files.exists(Paths.get(App.getDatabase().getPath()))) {
+            List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.getDatabase().getPath()));
 
             Object[][] newContent = convertToObject(items);
 
