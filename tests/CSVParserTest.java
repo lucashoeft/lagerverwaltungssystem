@@ -1,37 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class CSVParserTest {
-
-    private String createTmpFileWithContent(String prefix, String suffix, String content) {
-        String fileName = "";
-        try {
-            File tmpFile = File.createTempFile(prefix, suffix);
-            PrintWriter pw = new PrintWriter(new FileWriter(tmpFile));
-            pw.print(content);
-            pw.close();
-            fileName = tmpFile.getCanonicalPath();
-        }
-        catch (IOException e) { }
-        System.out.printf("create tmp file: %s%n", fileName);
-        return fileName;
-    }
-
-    private void deleteTmpFile(String fileName) {
-        System.out.printf("delete tmp file: %s%n", fileName);
-        try {
-            Files.delete(Paths.get(fileName));
-        } catch (IOException e) { }
-    }
 
     @Test
     void readInventoryFromNotExistingFile() {
@@ -43,19 +17,26 @@ class CSVParserTest {
     void readInventoryFromEmptyFile() {
         assertDoesNotThrow(() -> {
             CSVParser myParser = new CSVParser();
-            String fileName = createTmpFileWithContent("my_test_database_", ".csv", "");
+            String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", "");
             Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
-            deleteTmpFile(fileName);
+            TestHelpers.deleteTmpFile(fileName);
         });
     }
 
     @Test
-    void readInventoryFromFileWithEmptyLine() {
+    void readInventoryFromFileWithContent() {
         assertDoesNotThrow(() -> {
             CSVParser myParser = new CSVParser();
-            String fileName = createTmpFileWithContent("my_test_database_", ".csv", "\n");
-            Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
-            deleteTmpFile(fileName);
+            String content =
+                    "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,15.71\n" + // from example
+                    "\n" + // empty line
+                    // TODO "\"ZIPIT \\, Wildlings\",\"Federmäppchen\",24,\"000023\",37.5,7.99\n" + // description with embedded ,
+                    // TODO "\"GirlZone Geschenke für Mädchen - \\"Gelstifte Set für Mädchen\\"\",\"Füllfederhalter & Kugelschreiber\",24,\"000026,43.2,12.99\n" + // decription with embedded "
+                    // TODO ""Staedtler 512 001 Doppelspitzer (für Bleistifte und Buntstifte Anspitzer mit Behälter)","Anspitzer",241,"A00016",46.4,3.56\n" + // invalid location
+                    "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",69.2,4.75\n";
+            String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
+            Assertions.assertEquals(2, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
+            TestHelpers.deleteTmpFile(fileName);
         });
     }
 }

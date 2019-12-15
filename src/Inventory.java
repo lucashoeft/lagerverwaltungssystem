@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 public class Inventory {
 
@@ -43,8 +43,10 @@ public class Inventory {
                 System.out.println("Backup created");
                 Files.createFile(file);
 
-                CSVWriter csvWriter = new CSVWriter();
-                csvWriter.writeInventoryCSV(file.toString());
+                //CSVWriter csvWriter = new CSVWriter();
+                //csvWriter.writeInventoryCSV(file.toString());
+                FileWriter fw = new FileWriter(path);
+                fw.write(toStringCSV());
 
                 System.out.println("Data saved");
                 Files.delete(Paths.get(backup));
