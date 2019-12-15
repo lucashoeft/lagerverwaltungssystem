@@ -72,14 +72,16 @@ public class Main extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        if (App.getDatabase().getPath() != null && Files.exists(Paths.get(App.getDatabase().getPath()))) {
-            List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.getDatabase().getPath()));
+        if (App.getInventory().getPath() != null && Files.exists(Paths.get(App.getInventory().getPath()))) {
+            App.getInventory().loadData();
 
-            Object[][] newContent = convertToObject(items);
+            Object[][] newContent = convertToObject(App.getInventory().getItems());
 
             dTableModel.setDataVector(newContent,columns);
         }
 
+
+        
         // Search Table
 
         searchButton.addActionListener(listenForButton);
@@ -115,11 +117,11 @@ public class Main extends JFrame {
 
                     // update config file and data path
                     App.setConfigFile(App.getConfigPath(), file.getPath());
-                    App.getDatabase().setPath(file.getPath());
+                    App.getInventory().setPath(file.getPath());
 
-                    List<InventoryItem> items = csvParser.readInventoryFromCSV(file.toPath());
+                    App.getInventory().loadData();
 
-                    Object[][] newContent = convertToObject(items);
+                    Object[][] newContent = convertToObject(App.getInventory().getItems());
 
                     dTableModel.setDataVector(newContent, columns);
 

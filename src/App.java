@@ -7,7 +7,7 @@ import java.util.*;
 
 public class App {
 
-    private static Database database = new Database();
+    private static Inventory inventory = new Inventory();
     private static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
 
     public static void main(String[] args) throws IOException {
@@ -16,7 +16,7 @@ public class App {
         GUI.run();
 
         //Testausgabe des aktuellen Pfades der verwendeten Datenbank/.csv Datei
-        System.out.println(database.getPath());
+        System.out.println(inventory.getPath());
     }
 
     public static void readConfigFile(String path) {
@@ -26,7 +26,7 @@ public class App {
                 System.out.println("Config file found");
                 if(clearConfigFile(path) == 0) {
                     Scanner scan = new Scanner(cfgFile);
-                    database.setPath(scan.nextLine());
+                    inventory.setPath(scan.nextLine());
                     System.out.println("Config file loaded");
                 }
                 else {
@@ -71,8 +71,8 @@ public class App {
         return 0;
     }
 
-    public static Database getDatabase(){
-        return database;
+    public static Inventory getInventory(){
+        return inventory;
     }
 
     public static String getConfigPath(){

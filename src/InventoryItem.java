@@ -29,4 +29,10 @@ public class InventoryItem {
 
     public InventoryItem() {
     }
+
+    public String toStringCSV() {
+        return description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
+    }
+
+
 }
