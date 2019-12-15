@@ -27,9 +27,7 @@ public class InventoryItem {
         this.price = price;
     }
 
-    public InventoryItem() {
-    }
-
+    // converting attributes into csv-compatible string
     public String toStringCSV() {
         return description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
     }

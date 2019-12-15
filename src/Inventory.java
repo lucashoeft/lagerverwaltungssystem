@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
 
 public class Inventory {
 
@@ -12,7 +12,7 @@ public class Inventory {
     private List<InventoryItem> items;
 
     public Inventory(){
-        path = null;
+        path = "";
     }
 
     public Inventory(String path){
@@ -37,44 +37,53 @@ public class Inventory {
     public void store(){
         try {
             Path file = Paths.get(path);
+            String backup = file.getParent().toString() + "/backup.csv";
+            // delete old backup
+            if (Files.exists(Paths.get(backup))) {
+                Files.delete(Paths.get(backup));
+                System.out.println("old backup deleted");
+            }
+            // create backup if old file exists
             if (Files.exists(file)) {
-                String backup = file.getParent().toString()+"/backup.csv";
                 Files.move(file, Paths.get(backup));
                 System.out.println("Backup created");
-                Files.createFile(file);
-
-                //CSVWriter csvWriter = new CSVWriter();
-                //csvWriter.writeInventoryCSV(file.toString());
-                FileWriter fw = new FileWriter(path);
-                fw.write(toStringCSV());
-
-                System.out.println("Data saved");
-                Files.delete(Paths.get(backup));
-                System.out.println("Backup deleted");
             }
             else {
-                System.out.println("ERROR");
-                // File not found Exception
+                System.out.println("New File created");
             }
+            Files.createFile(file);
+
+            //CSVWriter csvWriter = new CSVWriter();
+            //csvWriter.writeInventoryCSV(file.toString());
+
+            // write new file
+            FileWriter fw = new FileWriter(path);
+            fw.write(toStringCSV());
+            fw.close();
+
+            System.out.println("Data saved");
+            // delete backup
+            Files.delete(Paths.get(backup));
+            System.out.println("Backup deleted");
         }
         catch (IOException e) {System.err.println(e);}
     }
-
-    // liefert alle Items
+    // return all items
     public List<InventoryItem> getItems() {
         return items;
     }
 
-    // liefert alle Items mit einer Bezeichnung, die dem Suchbegriff entspricht
+    // return all items matching the search mask
     public List<InventoryItem> getItems(String searchMask) {
         return items;
     }
 
+    // converting item list into csv-compatible string
     public String toStringCSV() {
         String string = "";
         Iterator<InventoryItem> i = items.iterator();
         while (i.hasNext()){
-            string = string.concat(i.next().toStringCSV()+"\n");      //new line am ende!!
+            string = string.concat(i.next().toStringCSV()+"\n");
         }
         return string;
     }

@@ -38,14 +38,14 @@ public class CSVParser {
             }
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            //ioe.printStackTrace();
         }
 
         return inventory;
     }
 
     private InventoryItem createInventoryItem(String[] metadata) {
-        InventoryItem inventoryItem = new InventoryItem();
+        InventoryItem inventoryItem = new InventoryItem(null, null, null, null, null, null);
         try {
             inventoryItem.description = metadata[0].replaceAll("^\"|\"$", "");
             inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
@@ -54,7 +54,7 @@ public class CSVParser {
             inventoryItem.weight = Double.parseDouble(metadata[4]);
             inventoryItem.price = Double.parseDouble(metadata[5]);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         // create and return book of this metadata
