@@ -7,8 +7,8 @@ import java.util.*;
 
 public class App {
 
-    static Database database = new Database();
-    static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
+    private static Database database = new Database();
+    private static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
 
     public static void main(String[] args) throws IOException {
 
