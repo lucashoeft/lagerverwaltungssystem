@@ -29,7 +29,12 @@ public class InventoryItem {
 
     // converting attributes into csv-compatible string
     public String toStringCSV() {
-        return description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
+        String csv = "";
+        try {
+            csv = description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
+        }
+        catch (Exception e) { } // don't export invalid items
+        return csv;
     }
 
 
