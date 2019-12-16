@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Iterator;
 
 public class Inventory {
 
@@ -66,7 +65,7 @@ public class Inventory {
             Files.delete(Paths.get(backup));
             System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e);}
+        catch (IOException e) {System.err.println(e.toString());}
     }
     // return all items
     public List<InventoryItem> getItems() {
@@ -81,9 +80,8 @@ public class Inventory {
     // converting item list into csv-compatible string
     public String toStringCSV() {
         String string = "";
-        Iterator<InventoryItem> i = items.iterator();
-        while (i.hasNext()){
-            string = string.concat(i.next().toStringCSV()+"\n");
+        for (InventoryItem item : items) {
+            string = string.concat(item.toStringCSV() + "\n");
         }
         return string;
     }
