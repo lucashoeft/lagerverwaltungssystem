@@ -7,6 +7,10 @@ public class Storage {
 
     private HashMap<Integer, Shelf> shelfMap;
 
+    public Storage() {
+        shelfMap = new HashMap<Integer, Shelf>();
+    }
+
     public void init(Inventory inventory){
         Iterator<InventoryItem> i = inventory.getItems().iterator();
         // get all used shelves

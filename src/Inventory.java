@@ -1,10 +1,7 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Inventory {
 
@@ -13,6 +10,7 @@ public class Inventory {
 
     public Inventory(){
         path = "";
+        items = new ArrayList<>();
     }
 
     public Inventory(String path){
@@ -71,6 +69,11 @@ public class Inventory {
         }
         catch (IOException e) {System.err.println(e);}
     }*/
+
+    // add an item
+    // TODO currently only used for testing; does not check any constraints
+    public boolean addItem(InventoryItem item) {  return items.add(item); }
+
     // return all items
     public List<InventoryItem> getItems() {
         return items;

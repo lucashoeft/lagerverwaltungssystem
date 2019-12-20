@@ -37,7 +37,7 @@ public class Shelf {
     // try to add item to shelf
     public boolean addToShelf(InventoryItem item, int delta){
         // if combined weight to heavy
-        if (weight + (item.getWeight() * delta) > 1000000){
+        if (weight + (item.getWeight() * delta) > 10000000){
             return false;
         }
         else{
