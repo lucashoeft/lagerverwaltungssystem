@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Main extends JFrame {
 
-    static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
+    private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
     static DefaultTableModel dTableModel = new DefaultTableModel(null, columns) {
         public Class getColumnClass(int column) {
@@ -28,7 +28,7 @@ public class Main extends JFrame {
         }
     };
 
-    CSVParser csvParser = new CSVParser();
+    FileHandler fileHandler = new FileHandler();
 
     JFileChooser filechooser = new JFileChooser();
     JButton openButton = new JButton("Datei öffnen");
@@ -72,14 +72,16 @@ public class Main extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        if (App.database.path != null && Files.exists(Paths.get(App.database.path))) {
-            List<InventoryItem> items = csvParser.readInventoryFromCSV(Paths.get(App.database.path));
+        if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
+            App.getInventory().loadData();
 
-            Object[][] newContent = convertToObject(items);
+            Object[][] newContent = convertToObject(App.getInventory().getItems());
 
             dTableModel.setDataVector(newContent,columns);
         }
 
+
+        
         // Search Table
 
         searchButton.addActionListener(listenForButton);
@@ -115,11 +117,11 @@ public class Main extends JFrame {
 
                     // update config file and data path
                     App.setConfigFile(App.getConfigPath(), file.getPath());
-                    App.getDatabase().setPath(file.getPath());
+                    App.getInventory().setPath(file.getPath());
 
-                    List<InventoryItem> items = csvParser.readInventoryFromCSV(file.toPath());
+                    App.getInventory().loadData();
 
-                    Object[][] newContent = convertToObject(items);
+                    Object[][] newContent = convertToObject(App.getInventory().getItems());
 
                     dTableModel.setDataVector(newContent, columns);
 
