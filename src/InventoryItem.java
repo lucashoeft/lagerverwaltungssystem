@@ -43,4 +43,8 @@ public class InventoryItem {
     public int getStock(){
         return stock;
     }
+
+    public void setStock(Integer stock){
+        this.stock = stock;
+    }
 }
