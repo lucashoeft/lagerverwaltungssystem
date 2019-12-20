@@ -91,12 +91,6 @@ public class InventoryItemDialog extends JDialog {
 
             if (e.getSource() == acceptButton) {
                 acceptButtonClicked = true;
-                System.out.println("\n\n");
-                System.out.println("Description " + isValidDescription());
-                System.out.println("Stock " + isValidStock());
-                System.out.println("Location " + isValidLocation());
-                System.out.println("Weight " + isValidWeight());
-                System.out.println("Price " + isValidPrice());
                 if (isValidInput()) {
                     // TODO: Check if description is unique
                     // TODO: Check if location is unique
