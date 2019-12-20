@@ -49,7 +49,8 @@ class InventoryTest {
             Assertions.assertEquals(15.71, items.get(1).price);
 
             // store the database database
-            myInventory.store();
+            FileHandler myFileHandler = new FileHandler();
+            myFileHandler.storeInventoryInCSV(myInventory);
             myInventory.loadData(); // ... reload t
             items = myInventory.getItems(); // and check its content
             Assertions.assertEquals(2, items.size());

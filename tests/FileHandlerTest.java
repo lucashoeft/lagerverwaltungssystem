@@ -5,18 +5,18 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class CSVParserTest {
+class FileHandlerTest {
 
     @Test
     void readInventoryFromNotExistingFile() {
-        CSVParser myParser = new CSVParser();
+        FileHandler myParser = new FileHandler();
         Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get("not_existing_file.csv")).size());
     }
 
     @Test
     void readInventoryFromEmptyFile() {
         assertDoesNotThrow(() -> {
-            CSVParser myParser = new CSVParser();
+            FileHandler myParser = new FileHandler();
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", "");
             Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
             TestHelpers.deleteTmpFile(fileName);
@@ -26,7 +26,7 @@ class CSVParserTest {
     @Test
     void readInventoryFromFileWithContent() {
         assertDoesNotThrow(() -> {
-            CSVParser myParser = new CSVParser();
+            FileHandler myParser = new FileHandler();
             String content =
                     "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,15.71\n" + // from example
                     "\n" + // empty line

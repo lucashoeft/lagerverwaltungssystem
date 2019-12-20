@@ -28,7 +28,7 @@ public class Main extends JFrame {
         }
     };
 
-    CSVParser csvParser = new CSVParser();
+    FileHandler fileHandler = new FileHandler();
 
     JFileChooser filechooser = new JFileChooser();
     JButton openButton = new JButton("Datei öffnen");
@@ -72,7 +72,7 @@ public class Main extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        if (App.getInventory().getPath() != null && Files.exists(Paths.get(App.getInventory().getPath()))) {
+        if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
             App.getInventory().loadData();
 
             Object[][] newContent = convertToObject(App.getInventory().getItems());

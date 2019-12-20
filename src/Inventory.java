@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Iterator;
 
 public class Inventory {
 
@@ -28,12 +29,13 @@ public class Inventory {
 
     // file lesen, parsen und lokal abspeichern
     public void loadData() {
-        CSVParser csvParser = new CSVParser();          // static?
-        items = csvParser.readInventoryFromCSV(Paths.get(path));
+        FileHandler fileHandler = new FileHandler();
+        items = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
+    // nach FileHandler verschoben
     // auf disk als CSV datei abspeichern
-    public void store(){
+    /*public void store(){
         try {
             Path file = Paths.get(path);
             String backup = file.getParent().toString() + "/backup.csv";
@@ -52,10 +54,12 @@ public class Inventory {
             }
             Files.createFile(file);
 
-            //CSVWriter csvWriter = new CSVWriter();
-            //csvWriter.writeInventoryCSV(file.toString());
-
             // write new file
+            // if no path found, write at standard location
+            if (path == ""){
+                path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
+                App.setConfigFile(App.getConfigPath(), path);
+            }
             FileWriter fw = new FileWriter(path);
             fw.write(toStringCSV());
             fw.close();
@@ -65,8 +69,8 @@ public class Inventory {
             Files.delete(Paths.get(backup));
             System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e.toString());}
-    }
+        catch (IOException e) {System.err.println(e);}
+    }*/
     // return all items
     public List<InventoryItem> getItems() {
         return items;
@@ -80,8 +84,9 @@ public class Inventory {
     // converting item list into csv-compatible string
     public String toStringCSV() {
         String string = "";
-        for (InventoryItem item : items) {
-            string = string.concat(item.toStringCSV() + "\n");
+        Iterator<InventoryItem> i = items.iterator();
+        while (i.hasNext()){
+            string = string.concat(i.next().toStringCSV()+"\n");
         }
         return string;
     }
