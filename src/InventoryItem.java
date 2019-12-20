@@ -48,4 +48,16 @@ public class InventoryItem {
         if ((price == null) || (price < 0)) return false;
         return true;
     }
+
+    public int getShelf(){
+        return (Integer.parseInt(location.substring(0,3)));
+    }
+
+    public Double getWeight(){
+        return weight;
+    }
+
+    public int getStock(){
+        return stock;
+    }
 }
