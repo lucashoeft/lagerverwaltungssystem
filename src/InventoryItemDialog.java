@@ -121,7 +121,7 @@ public class InventoryItemDialog extends JDialog {
         // Produktbezeichnung (Produktname)
         String stringValue = descriptionTextField.getText();
 
-        if (stringValue.matches("[a-zA-ZöäüÖÄÜß1-9()!?.\\-]{1,256}") ) {
+        if (stringValue.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
             return true;
         }
         return false;
