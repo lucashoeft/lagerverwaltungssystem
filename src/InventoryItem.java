@@ -32,5 +32,15 @@ public class InventoryItem {
         return description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
     }
 
+    public int getShelf(){
+        return (Integer.parseInt(location.substring(0,3)));
+    }
 
+    public Double getWeight(){
+        return weight;
+    }
+
+    public int getStock(){
+        return stock;
+    }
 }
