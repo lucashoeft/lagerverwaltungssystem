@@ -8,7 +8,7 @@ import java.util.*;
 public class App {
 
     private static Inventory inventory = new Inventory();
-    private static String configPath = System.getProperty("user.home") + "/.Lagerverwaltung/config.cfg";
+    private static String configPath = System.getProperty("user.dir") + "/Data/config.cfg";
 
     public static void main(String[] args) throws IOException {
 

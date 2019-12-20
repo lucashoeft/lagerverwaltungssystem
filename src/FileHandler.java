@@ -1,12 +1,14 @@
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVParser {
+public class FileHandler {
 
     public List<InventoryItem> readInventoryFromCSV(Path pathName) {
         List<InventoryItem> inventory = new ArrayList<>();
@@ -60,4 +62,45 @@ public class CSVParser {
         // create and return book of this metadata
         return inventoryItem;
     }
+
+    public void storeInventoryInCSV(Inventory inventory) {
+        try {
+            String path = inventory.getPath();
+            Path file = Paths.get(path);
+            String backup = file.getParent().toString() + "/backup.csv";
+            // delete old backup
+            if (Files.exists(Paths.get(backup))) {
+                Files.delete(Paths.get(backup));
+                System.out.println("old backup deleted");
+            }
+            // create backup if old file exists
+            if (Files.exists(file)) {
+                Files.move(file, Paths.get(backup));
+                System.out.println("Backup created");
+            }
+            else {
+                System.out.println("New File created");
+            }
+            Files.createFile(file);
+
+            // write new file
+            // if no path found, write at standard location
+            if (path == ""){
+                path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
+                App.setConfigFile(App.getConfigPath(), path);
+            }
+            FileWriter fw = new FileWriter(path);
+            fw.write(inventory.toStringCSV());
+            fw.close();
+
+            System.out.println("Data saved");
+            // delete backup
+            Files.delete(Paths.get(backup));
+            System.out.println("Backup deleted");
+        }
+        catch (IOException e) {System.err.println(e);}
+    }
+
+
+
 }

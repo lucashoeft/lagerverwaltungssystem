@@ -29,12 +29,13 @@ public class Inventory {
 
     // file lesen, parsen und lokal abspeichern
     public void loadData() {
-        CSVParser csvParser = new CSVParser();          // static?
-        items = csvParser.readInventoryFromCSV(Paths.get(path));
+        FileHandler fileHandler = new FileHandler();
+        items = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
+    // nach FileHandler verschoben
     // auf disk als CSV datei abspeichern
-    public void store(){
+    /*public void store(){
         try {
             Path file = Paths.get(path);
             String backup = file.getParent().toString() + "/backup.csv";
@@ -53,10 +54,12 @@ public class Inventory {
             }
             Files.createFile(file);
 
-            //CSVWriter csvWriter = new CSVWriter();
-            //csvWriter.writeInventoryCSV(file.toString());
-
             // write new file
+            // if no path found, write at standard location
+            if (path == ""){
+                path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
+                App.setConfigFile(App.getConfigPath(), path);
+            }
             FileWriter fw = new FileWriter(path);
             fw.write(toStringCSV());
             fw.close();
@@ -67,7 +70,7 @@ public class Inventory {
             System.out.println("Backup deleted");
         }
         catch (IOException e) {System.err.println(e);}
-    }
+    }*/
     // return all items
     public List<InventoryItem> getItems() {
         return items;
