@@ -102,6 +102,18 @@ public class Main extends JFrame {
                     System.out.println(filechooser.getSelectedFile().toString());
                 }
             }
+
+            if (e.getSource() == createInventoryItemButton) {
+                InventoryItemDialog inventoryItemDialog = new InventoryItemDialog();
+                inventoryItemDialog.setSize(340,260);
+                inventoryItemDialog.setLocationRelativeTo(null);
+                inventoryItemDialog.setModal(true);
+                inventoryItemDialog.setVisible(true);
+
+                if (inventoryItemDialog.acceptButtonClicked) {
+                    inventoryTableModel.setData(App.getInventory());
+                }
+            }
         }
     }
 
