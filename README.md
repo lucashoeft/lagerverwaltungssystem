@@ -5,6 +5,22 @@
 
 ## How to work on this repository (first steps)
 
+Never commit directly into the master-branch!
+
+Easy way: Use GitHub Desktop App
+
+1. Clone the remote repository to your computer
+
+2. Create a local branch with naming style `YOURNAME/develop` (e.g. lucas/develop )
+
+3. Make changes
+
+4. Commit changes and push it to the remote branch
+
+5. Create a pull request on the website
+
+Hard way: Terminal / Command Line
+
 1. Go to the folder you want to create the local repository in
 
 2. Create local repository based on remote repository
