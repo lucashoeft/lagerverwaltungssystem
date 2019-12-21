@@ -65,4 +65,18 @@ class InventoryTest {
             TestHelpers.deleteTmpFile(fileName);
         });
     }
+
+    @Test
+    void checkUnique() {
+        Inventory myInventory = TestHelpers.createInventory();
+
+        // location already in use
+        Assertions.assertFalse(myInventory.checkUnique(new InventoryItem("item4", "cat1", 1100, "003001", 10.0, 1.99)));
+        // article already existing
+        Assertions.assertFalse(myInventory.checkUnique(new InventoryItem("item31", "cat1", 1100, "004001", 10.0, 1.99)));
+        // article already existing and location already used
+        Assertions.assertFalse(myInventory.checkUnique(new InventoryItem("item31", "cat1", 1100, "003001", 10.0, 1.99)));
+        // new article in new location
+        Assertions.assertTrue(myInventory.checkUnique(new InventoryItem("item4", "cat1", 1100, "004001", 10.0, 1.99)));
+    }
 }

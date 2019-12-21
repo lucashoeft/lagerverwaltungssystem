@@ -8,7 +8,7 @@ public class Storage {
     private HashMap<Integer, Shelf> shelfMap;
 
     public Storage() {
-        shelfMap = new HashMap<Integer, Shelf>();
+        shelfMap = new HashMap<>();
     }
 
     public void init(Inventory inventory){

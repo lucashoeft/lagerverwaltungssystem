@@ -31,7 +31,7 @@ public class FileHandler {
 
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
-                // adding invenotryItem into ArrayList
+                // adding inventoryItem into ArrayList
                 if (inventoryItem.isValid()) inventory.add(inventoryItem); // only add valid items to inventory
 
                 // read next line before looping
@@ -85,7 +85,7 @@ public class FileHandler {
 
             // write new file
             // if no path found, write at standard location
-            if (path == ""){
+            if (path.equals("")){
                 path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
                 App.setConfigFile(App.getConfigPath(), path);
             }
@@ -98,7 +98,7 @@ public class FileHandler {
             Files.delete(Paths.get(backup));
             System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e);}
+        catch (IOException e) {System.err.println(e.toString());}
     }
 
 

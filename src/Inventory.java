@@ -25,7 +25,7 @@ public class Inventory {
         return path;
     }
 
-    // file lesen, parsen und lokal abspeichern
+    // read file, parse and store
     public void loadData() {
         FileHandler fileHandler = new FileHandler();
         items = fileHandler.readInventoryFromCSV(Paths.get(path));

@@ -34,7 +34,7 @@ public class InventoryItem {
         try {
             csv = description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
         }
-        catch (Exception e) { } // don't export invalid items
+        catch (Exception ignored) { } // don't export invalid items
         return csv;
     }
 
@@ -42,11 +42,10 @@ public class InventoryItem {
     public boolean isValid() {
         if ((description == null) || (description.indexOf(',') >= 0)) return false;
         if ((category == null) || (category.indexOf(',') >= 0)) return false;
-        if ((location == null) || (location.matches("^[0-9]{6}$") == false)) return false;
+        if ((location == null) || (!location.matches("^[0-9]{6}$"))) return false;
         if ((stock == null) || (stock < 0)) return false;
         if ((weight == null) || (weight <= 0)) return false;
-        if ((price == null) || (price < 0)) return false;
-        return true;
+        return (price != null) && (price >= 0);
     }
 
     public String getDescription() {

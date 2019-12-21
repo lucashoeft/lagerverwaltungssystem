@@ -16,7 +16,7 @@ public class TestHelpers {
             pw.close();
             fileName = tmpFile.getCanonicalPath();
         }
-        catch (IOException e) { }
+        catch (IOException ignored) { }
         System.out.printf("create tmp file: %s%n", fileName);
         return fileName;
     }
@@ -25,7 +25,16 @@ public class TestHelpers {
         System.out.printf("delete tmp file: %s%n", fileName);
         try {
             Files.delete(Paths.get(fileName));
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
     }
 
+    static Inventory createInventory() {
+        Inventory myInventory = new Inventory();
+        myInventory.addItem(new InventoryItem("item11", "cat1", 1100, "001001", 10.0, 1.99));
+        myInventory.addItem(new InventoryItem("item12", "cat1", 1200, "001002", 10.0, 1.99));
+        //myInventory.addItem(new InventoryItem("item13", "cat1", 1300, "001001", 10.0, 1.99)); // location already in use -> ignore in init()
+        myInventory.addItem(new InventoryItem("item21", "cat1", 2, "002001", (1000.0 * 1000) / 2, 1.99));
+        myInventory.addItem(new InventoryItem("item31", "cat1", 1, "003001", (1000.0 * 1000 * 10) + 0.1, 1.99)); // to heavy item -> ignore in init()
+        return myInventory;
+    }
 }

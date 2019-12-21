@@ -3,8 +3,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StorageTest {
 
     @Test
@@ -27,7 +25,7 @@ class StorageTest {
     @Test
     void updateStorageContent() {
 
-        HashMap<Integer, Shelf> myMap = new HashMap<Integer, Shelf>();
+        HashMap<Integer, Shelf> myMap = new HashMap<>();
         myMap.put(1, new Shelf(1, 0.0));
         myMap.put(2, new Shelf(2, 0.0));
         myMap.put(3, new Shelf(3, 0.0));
@@ -40,7 +38,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(0.0, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item11", "cat1", 0, "001001", 10.0, 1.99), 100));
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item11", "cat1", 0, "001001", 10.0, 1.99), 100));
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -56,7 +54,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(0.0, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item12", "cat1", 0, "001002", 20.0, 1.99), 100));
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item12", "cat1", 0, "001002", 20.0, 1.99), 100));
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -64,7 +62,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(0.0, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item21", "cat1", 0, "002001", 20.0, 1.99), 1000));
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item21", "cat1", 0, "002001", 20.0, 1.99), 1000));
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -72,7 +70,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(0.0, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item31", "cat1", 0, "003001", 1.0*1000*1000, 1.99), 10));
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item31", "cat1", 0, "003001", 1.0 * 1000 * 1000, 1.99), 10));
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -80,7 +78,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(10000000.0, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(false, myStorage.addItemToStorage(new InventoryItem("item32", "cat1", 0, "003002", 1.0, 1.99), 1)); // adding 1g execeeds weight limit
+        Assertions.assertFalse(myStorage.addItemToStorage(new InventoryItem("item32", "cat1", 0, "003002", 1.0, 1.99), 1)); // adding 1g exceeds weight limit
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -88,7 +86,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(1.0*1000*1000*10, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.removeItemFromStorage(new InventoryItem("item31", "cat1", 10, "003001", 1.0*1000*1000, 1.99), 1)); // remove one item
+        Assertions.assertTrue(myStorage.removeItemFromStorage(new InventoryItem("item31", "cat1", 10, "003001", 1.0 * 1000 * 1000, 1.99), 1)); // remove one item
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -96,7 +94,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(1.0*1000*1000*9, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item32", "cat1", 0, "003002", 1.0, 1.99), 1)); // adding 1g now allowed
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item32", "cat1", 0, "003002", 1.0, 1.99), 1)); // adding 1g now allowed
         Assertions.assertEquals(3, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -104,7 +102,7 @@ class StorageTest {
         Assertions.assertEquals(3, myStorage.getShelfMap().get(3).getId());
         Assertions.assertEquals(1.0*1000*1000*9+1, myStorage.getShelfMap().get(3).getWeight());
 
-        Assertions.assertEquals(true, myStorage.addItemToStorage(new InventoryItem("item41", "cat1", 0, "004001", 1.0, 1.99), 10)); // new shelf required
+        Assertions.assertTrue(myStorage.addItemToStorage(new InventoryItem("item41", "cat1", 0, "004001", 1.0, 1.99), 10)); // new shelf required
         Assertions.assertEquals(4, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -114,7 +112,7 @@ class StorageTest {
         Assertions.assertEquals(4, myStorage.getShelfMap().get(4).getId());
         Assertions.assertEquals(1.0*10, myStorage.getShelfMap().get(4).getWeight());
 
-        Assertions.assertEquals(true, myStorage.removeItemFromStorage(new InventoryItem("item41", "cat1", 10, "004001", 1.0, 1.99), 1));
+        Assertions.assertTrue(myStorage.removeItemFromStorage(new InventoryItem("item41", "cat1", 10, "004001", 1.0, 1.99), 1));
         Assertions.assertEquals(4, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -124,7 +122,7 @@ class StorageTest {
         Assertions.assertEquals(4, myStorage.getShelfMap().get(4).getId());
         Assertions.assertEquals(1.0*9, myStorage.getShelfMap().get(4).getWeight());
 
-        Assertions.assertEquals(false, myStorage.removeItemFromStorage(new InventoryItem("item41", "cat1", 9, "004001", 1.0, 1.99), 10)); // can not remove more than in stock
+        Assertions.assertFalse(myStorage.removeItemFromStorage(new InventoryItem("item41", "cat1", 9, "004001", 1.0, 1.99), 10)); // can not remove more than in stock
         Assertions.assertEquals(4, myStorage.getShelfMap().size());
         Assertions.assertEquals(10.0 * 100 + 20.0 * 100, myStorage.getShelfMap().get(1).getWeight());
         Assertions.assertEquals(2, myStorage.getShelfMap().get(2).getId());
@@ -134,7 +132,7 @@ class StorageTest {
         Assertions.assertEquals(4, myStorage.getShelfMap().get(4).getId());
         Assertions.assertEquals(1.0*9, myStorage.getShelfMap().get(4).getWeight());
 
-        Assertions.assertEquals(false, myStorage.removeItemFromStorage(new InventoryItem("item51", "cat1", 10, "005001", 1.0, 1.99), 1)); // remove not existing item
+        Assertions.assertFalse(myStorage.removeItemFromStorage(new InventoryItem("item51", "cat1", 10, "005001", 1.0, 1.99), 1)); // remove not existing item
 
     }
 
