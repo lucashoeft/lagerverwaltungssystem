@@ -90,7 +90,6 @@ public class InventoryItemDialog extends JDialog {
             }
 
             if (e.getSource() == acceptButton) {
-                acceptButtonClicked = true;
                 if (isValidInput()) {
                     // TODO: Check if description is unique
                     // TODO: Check if location is unique
@@ -98,6 +97,7 @@ public class InventoryItemDialog extends JDialog {
 
                     // TODO: If every case above is true, add element to inventory
 
+                    acceptButtonClicked = true;
                     dispose();
                 } else {
                     System.out.println("Input not valid!");
