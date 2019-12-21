@@ -75,4 +75,15 @@ class InventoryItemTest {
         myItem.price = 0.0;
 
     }
+
+    @Test
+    void testEquals() {
+        InventoryItem i = new InventoryItem("test1", "cat", 100, "001001", 10.0, 1.00);
+        Assertions.assertFalse(i.equals(new InventoryItem("test1", "cat", 100, "001002", 10.0, 1.00))); // different location
+        Assertions.assertFalse(i.equals(new InventoryItem("test2", "cat", 100, "001001", 10.0, 1.00))); // different article
+        Assertions.assertTrue(i.equals(new InventoryItem("test1", "cat2", 100, "001001", 10.0, 1.00))); // different category
+        Assertions.assertTrue(i.equals(new InventoryItem("test1", "cat", 100, "001001", 20.0, 1.00))); // different weight
+        Assertions.assertTrue(i.equals(new InventoryItem("test1", "cat", 100, "001001", 10.0, 2.00))); // different price
+        Assertions.assertFalse(i.equals(1)); // different class
+    }
 }
