@@ -36,13 +36,13 @@ public class Storage {
         this.shelfMap = shelfMap;
     }
 
-    //fügt Storage delta neue Artikel hinzu, falls nicht zu schwer
-    public boolean addItemToStorage(InventoryItem item, int delta){
+    //fügt Storage count neue Artikel hinzu, falls nicht zu schwer
+    public boolean addItemToStorage(InventoryItem item, int count){
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
             // try to add Items
-            if (shelfMap.get(item.getShelf()).addToShelf(item, item.getStock() + delta)){
-                item.setStock(item.getStock() + delta);
+            if (shelfMap.get(item.getShelf()).addToShelf(item, count)){
+                item.setStock(item.getStock() + count);
                 return true;
             }
             // change to heavy
@@ -50,19 +50,19 @@ public class Storage {
         }
         else{
             // create new shelf with items
-            shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * (item.getStock() + delta)));
-            item.setStock(item.getStock() + delta);
+            shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * (item.getStock() + count)));
+            item.setStock(item.getStock() + count);
             return true;
         }
     }
 
-    //entfernt delta Artikel aus Storage
-    public boolean removeItemFromStorage(InventoryItem item, int delta){
+    //entfernt count Artikel aus Storage
+    public boolean removeItemFromStorage(InventoryItem item, int count){
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
             // try to remove items
-            if (shelfMap.get(item.getShelf()).removeFromShelf(item, item.getStock() - delta)){
-                item.setStock(item.getStock() - delta);
+            if (shelfMap.get(item.getShelf()).removeFromShelf(item,  count)){
+                item.setStock(item.getStock() - count);
                 return true;
             }
             // error in removal

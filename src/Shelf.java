@@ -35,27 +35,27 @@ public class Shelf {
     }
 
     // try to add item to shelf
-    public boolean addToShelf(InventoryItem item, int delta){
+    public boolean addToShelf(InventoryItem item, int count){
         // if combined weight to heavy
-        if (weight + (item.getWeight() * delta) > 10000000){
+        if (weight + (item.getWeight() * count) > 10000000){
             return false;
         }
         else{
             // add item weight
-            weight += item.getWeight() * delta;
+            weight += item.getWeight() * count;
             return true;
         }
     }
 
     // try to remove item from shelf
-    public boolean removeFromShelf(InventoryItem item, int delta){
+    public boolean removeFromShelf(InventoryItem item, int count){
         // if removing to much
-        if (weight - (item.getWeight() * delta) < 0){
+        if (weight - (item.getWeight() * count) < 0){
             return false;
         }
         else{
             // removing item weight
-            weight -= item.getWeight() * delta;
+            weight -= item.getWeight() * count;
             /*if (weight == 0){
                 //remove shelf
             }*/
