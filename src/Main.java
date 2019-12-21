@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -8,25 +7,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class Main extends JFrame {
-
-    private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
-
-    static DefaultTableModel dTableModel = new DefaultTableModel(null, columns) {
-        public Class getColumnClass(int column) {
-            Class returnValue;
-
-            if ((column >= 0) && (column < getColumnCount())) {
-                returnValue = getValueAt(0, column).getClass();
-            } else {
-                returnValue = Object.class;
-            }
-
-            return returnValue;
-        }
-    };
 
     FileHandler fileHandler = new FileHandler();
 
@@ -34,9 +16,10 @@ public class Main extends JFrame {
     JButton openButton = new JButton("Datei öffnen");
     JButton searchButton = new JButton("Suchen");
     JButton createInventoryItemButton = new JButton("Artikel erstellen");
-    JButton manageCatagoryButton = new JButton("Kategorien verwalten");
+    JButton manageCategoryButton = new JButton("Kategorien verwalten");
     JTextField textField1 = new JTextField("", 15);
     JTable table;
+    InventoryTableModel inventoryTableModel = new InventoryTableModel();
 
     public Main() {
 
@@ -62,26 +45,20 @@ public class Main extends JFrame {
         createInventoryItemButton.addActionListener(listenForButton);
         topPanel.add(createInventoryItemButton);
 
-        topPanel.add(manageCatagoryButton);
+        topPanel.add(manageCategoryButton);
 
         this.add(topPanel, BorderLayout.NORTH);
 
-        table = new JTable(dTableModel);
-        dTableModel.setRowCount(0);
+        table = new JTable(inventoryTableModel);
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
             App.getInventory().loadData();
-
-            Object[][] newContent = convertToObject(App.getInventory().getItems());
-
-            dTableModel.setDataVector(newContent,columns);
+            inventoryTableModel.setData(App.getInventory());
         }
 
-
-        
         // Search Table
 
         searchButton.addActionListener(listenForButton);
@@ -120,29 +97,25 @@ public class Main extends JFrame {
                     App.getInventory().setPath(file.getPath());
 
                     App.getInventory().loadData();
-
-                    Object[][] newContent = convertToObject(App.getInventory().getItems());
-
-                    dTableModel.setDataVector(newContent, columns);
+                    inventoryTableModel.setData(App.getInventory());
 
                     System.out.println(filechooser.getSelectedFile().toString());
+                }
+            }
+
+            if (e.getSource() == createInventoryItemButton) {
+                InventoryItemDialog inventoryItemDialog = new InventoryItemDialog();
+                inventoryItemDialog.setSize(340,260);
+                inventoryItemDialog.setLocationRelativeTo(null);
+                inventoryItemDialog.setModal(true);
+                inventoryItemDialog.setVisible(true);
+
+                if (inventoryItemDialog.acceptButtonClicked) {
+                    inventoryTableModel.setData(App.getInventory());
                 }
             }
         }
     }
 
-    private Object[][] convertToObject(List<InventoryItem> items) {
-        Object[][] newContent = new Object[items.size()][6];
 
-        for(int i=0; i<items.size(); i++) {
-            newContent[i][0] = items.get(i).description;
-            newContent[i][1] = items.get(i).category;
-            newContent[i][2] = items.get(i).stock;
-            newContent[i][3] = items.get(i).location;
-            newContent[i][4] = items.get(i).weight;
-            newContent[i][5] = items.get(i).price;
-        }
-
-        return newContent;
-    }
 }
