@@ -19,11 +19,15 @@ public class Storage {
             // if shelf already exists
             if (shelfMap.containsKey(item.getShelf())){
                 // add weight of new items
+                // ignored if to heavy/invalid
                 shelfMap.get(item.getShelf()).addToShelf(item, item.getStock());
             }
             else{
-                // create new shelf
-                shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
+                // create new shelf, ignore if to heavy/invalid
+                // TODO einheit noch in gramm
+                if(item.getWeight() * item.getStock() < 10000000){
+                    shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
+                }
             }
         }
     }

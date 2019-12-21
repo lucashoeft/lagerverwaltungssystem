@@ -49,6 +49,14 @@ public class InventoryItem {
         return true;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public int getShelf(){
         return (Integer.parseInt(location.substring(0,3)));
     }
@@ -64,4 +72,26 @@ public class InventoryItem {
     public void setStock(Integer stock){
         this.stock = stock;
     }
+
+    public boolean isUnique(Object o){
+        if ((o == null) || (o.getClass() != this.getClass())){
+            return false;
+        }
+        else {
+            InventoryItem obj = (InventoryItem) o;
+            return (!obj.getDescription().equals(getDescription()) && !obj.getLocation().equals(getLocation()));
+        }
+    }
+
+    public boolean equals(Object o){
+        if ((o == null) || (o.getClass() != this.getClass())){
+            return false;
+        }
+        else {
+            InventoryItem obj = (InventoryItem) o;
+            return (obj.getDescription().equals(getDescription()) && obj.getLocation().equals(getLocation()));
+        }
+    }
+
+
 }

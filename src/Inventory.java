@@ -31,47 +31,21 @@ public class Inventory {
         items = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
-    // nach FileHandler verschoben
-    // auf disk als CSV datei abspeichern
-    /*public void store(){
-        try {
-            Path file = Paths.get(path);
-            String backup = file.getParent().toString() + "/backup.csv";
-            // delete old backup
-            if (Files.exists(Paths.get(backup))) {
-                Files.delete(Paths.get(backup));
-                System.out.println("old backup deleted");
-            }
-            // create backup if old file exists
-            if (Files.exists(file)) {
-                Files.move(file, Paths.get(backup));
-                System.out.println("Backup created");
-            }
-            else {
-                System.out.println("New File created");
-            }
-            Files.createFile(file);
 
-            // write new file
-            // if no path found, write at standard location
-            if (path == ""){
-                path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
-                App.setConfigFile(App.getConfigPath(), path);
+    // check uniqueness
+    public boolean checkUnique(InventoryItem item) {
+        Iterator<InventoryItem> i = items.iterator();
+        while (i.hasNext()){
+            // description and location unique?
+            if (!i.next().isUnique(item)){
+                return false;
             }
-            FileWriter fw = new FileWriter(path);
-            fw.write(toStringCSV());
-            fw.close();
-
-            System.out.println("Data saved");
-            // delete backup
-            Files.delete(Paths.get(backup));
-            System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e);}
-    }*/
+        // unique
+        return true;
+    }
 
-    // add an item
-    // TODO currently only used for testing; does not check any constraints
+    // add item, checks required by caller
     public boolean addItem(InventoryItem item) {  return items.add(item); }
 
     // return all items

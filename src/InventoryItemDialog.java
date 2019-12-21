@@ -92,11 +92,26 @@ public class InventoryItemDialog extends JDialog {
             if (e.getSource() == acceptButton) {
                 acceptButtonClicked = true;
                 if (isValidInput()) {
-                    // TODO: Check if description is unique
-                    // TODO: Check if location is unique
-                    // TODO: Check if weight*stock is allowed
 
-                    // TODO: If every case above is true, add element to inventory
+
+                    // TODO read input, create item, fill in parameters
+                    /*if(App.getInventory().checkUnique(item)){
+                        if(App.getStorage().addItemToStorage(item, count)){     // für count würde im Zusammenhang mit Artikel erstellen auch item.getStock() gehen
+                            App.getInventory().addItem(item);
+                            System.out.println("new InventoryItem created");
+                        }
+                        // Gewichtsfehler
+                    }*/
+                    // Items bereits vorhanden
+
+                    // Alternative TODO bitte testen
+                    /*if(!App.getInventory().getItems().contains(item)){
+                        if(App.getStorage().addItemToStorage(item, count)){
+                            App.getInventory().addItem(item);
+                            System.out.println("new InventoryItem created");
+                        }
+                    }/*
+
 
                     dispose();
                 } else {

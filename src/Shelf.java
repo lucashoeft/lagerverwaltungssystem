@@ -37,6 +37,7 @@ public class Shelf {
     // try to add item to shelf
     public boolean addToShelf(InventoryItem item, int count){
         // if combined weight to heavy
+        // TODO einheit noch in gramm
         if (weight + (item.getWeight() * count) > 10000000){
             return false;
         }

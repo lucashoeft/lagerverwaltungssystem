@@ -76,6 +76,10 @@ public class App {
         return inventory;
     }
 
+    public static Storage getStorage(){
+        return storage;
+    }
+
     public static String getConfigPath(){
         return configPath;
     }
