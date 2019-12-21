@@ -95,6 +95,7 @@ public class InventoryItemDialog extends JDialog {
 
 
                     // TODO read input, create item, fill in parameters
+                    InventoryItem item = new InventoryItem("dummy", "cat", 100, "001001", 10.0, 1.00);
                     /*if(App.getInventory().checkUnique(item)){
                         if(App.getStorage().addItemToStorage(item, count)){     // für count würde im Zusammenhang mit Artikel erstellen auch item.getStock() gehen
                             App.getInventory().addItem(item);
