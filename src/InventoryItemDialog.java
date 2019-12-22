@@ -3,7 +3,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ *
+ * This Dialog class is opened when a user wants to create a new InventoryItem.
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class InventoryItemDialog extends JDialog {
 
     public Boolean acceptButtonClicked = false;
@@ -29,6 +35,9 @@ public class InventoryItemDialog extends JDialog {
     private JButton dismissButton = new JButton("Abbrechen");
     private JButton acceptButton = new JButton("Erstellen");
 
+    /**
+     * Constructor for the InventoryItemDialog
+     */
     public InventoryItemDialog() {
         this.setResizable(false);
         this.setTitle("Artikel erstellen");
@@ -81,6 +90,9 @@ public class InventoryItemDialog extends JDialog {
         this.pack();
     }
 
+    /**
+     * ButtonListener contains all actions that are taken when certain buttons are clicked
+     */
     class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -109,7 +121,9 @@ public class InventoryItemDialog extends JDialog {
             }
         }
     }
-
+    /**
+     * @return true if all Fields are entered without error else false
+     */
     private Boolean isValidInput() {
         if (isValidDescription() && isValidStock() && isValidLocation() && isValidWeight() && isValidPrice()) {
             return true;
@@ -117,6 +131,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if description is entered without error else false
+     */
     private Boolean isValidDescription() {
         // Produktbezeichnung (Produktname)
         String stringValue = descriptionTextField.getText();
@@ -127,6 +144,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if stock is entered without error else false
+     */
     private Boolean isValidStock() {
         // Bestand
         String stringValue = stockTextField.getText();
@@ -142,6 +162,9 @@ public class InventoryItemDialog extends JDialog {
         }
     }
 
+    /**
+     * @return true if location is entered without error else false
+     */
     private Boolean isValidLocation() {
         // Lagerort (Lagerplatznummer)
         String stringValue = locationTextField.getText();
@@ -152,6 +175,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if weight is entered without error else false
+     */
     private Boolean isValidWeight() {
         // Gewicht
         String stringValue = weightTextField.getText();
@@ -183,6 +209,9 @@ public class InventoryItemDialog extends JDialog {
         }
     }
 
+    /**
+     * @return true if price is entered without error else false
+     */
     private Boolean isValidPrice() {
         // Preis
         String stringValue = priceTextField.getText();

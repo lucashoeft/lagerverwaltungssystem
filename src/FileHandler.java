@@ -7,9 +7,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The File Handler manages all actions concerning reading and writing the database
+ * @author ...
+ * @version 1.0
+ */
 public class FileHandler {
 
+    /**
+     * create Inventory object from a .CSV file at pathName
+     * @param pathName the path where the file is used from
+     * @return Inventory object
+     */
     public List<InventoryItem> readInventoryFromCSV(Path pathName) {
         List<InventoryItem> inventory = new ArrayList<>();
 
@@ -46,6 +55,11 @@ public class FileHandler {
         return inventory;
     }
 
+    /**
+     * Creates a InventoryItem object from an Array that has been read from a .CSV file
+     * @param metadata String Array with all needed attributes of an InventoryItem object
+     * @return new InventoryItem containing metadata
+     */
     private InventoryItem createInventoryItem(String[] metadata) {
         InventoryItem inventoryItem = new InventoryItem(null, null, null, null, null, null);
         try {
@@ -63,6 +77,10 @@ public class FileHandler {
         return inventoryItem;
     }
 
+    /**
+     * Takes an Inventory object and writes it to a .CSV file
+     * @param inventory inventory which is to be saved
+     */
     public void storeInventoryInCSV(Inventory inventory) {
         try {
             String path = inventory.getPath();
