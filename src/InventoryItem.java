@@ -57,6 +57,10 @@ public class InventoryItem {
         return category;
     }
 
+    public Category getCategoryObj(){
+        return new Category(category, 1);
+    }
+
     public String getLocation() {
         return location;
     }

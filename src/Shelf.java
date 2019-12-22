@@ -1,9 +1,9 @@
 public class Shelf {
 
     private Integer id;
-    private int weight;
+    private long weight;
 
-    public Shelf(int id, int weight){
+    public Shelf(int id, long weight){
         this.id = id;
         this.weight = weight;
     }
@@ -26,7 +26,7 @@ public class Shelf {
         this.id = id;
     }
 
-    public int getWeight() {
+    public long getWeight() {
         return weight;
     }
 

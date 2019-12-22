@@ -3,6 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 public class InventoryItemDialog extends JDialog {
 
@@ -42,16 +43,18 @@ public class InventoryItemDialog extends JDialog {
 
         inputPanel.add(categoryLabel);
         inputPanel.add(categoryComboBox);
-        categoryComboBox.addItem("Anspitzer");
+
+        for(Category cat : App.getInventory().getCategoryMap().values()){
+            categoryComboBox.addItem(cat.getName());
+        }
+        /*categoryComboBox.addItem("Anspitzer");
         categoryComboBox.addItem("Federmäppchen");
         categoryComboBox.addItem("Füllfederhalter & Kugelschreiber");
         categoryComboBox.addItem("Marker & Filzstifte");
         categoryComboBox.addItem("Minen Patronen & Tintenlöscher");
         categoryComboBox.addItem("Radiergummies & Korrekturtools");
         categoryComboBox.addItem("Stifte");
-        categoryComboBox.addItem("Technisches Zeichnen");
-
-        // TODO get list of all existing categories and add to categoryComboBox
+        categoryComboBox.addItem("Technisches Zeichnen");*/
 
         inputPanel.add(stockLabel);
         inputPanel.add(stockTextField);
@@ -96,13 +99,8 @@ public class InventoryItemDialog extends JDialog {
                     // hard coded test example
                     InventoryItem item=new InventoryItem("Baum","cat1",3,"000001",2,3);
                     // TODO read input, create item, fill in parameters
-                    if(!App.getInventory().getItems().contains(item)) {
-                        if (App.getInventory().addItemToStorage(item, item.getStock())) {
-                            App.getInventory().addItem(item);
-                            System.out.println("new InventoryItem created");
-                            System.out.println(App.getInventory().toStringCSV());
-                        }
-                    }
+                    // TODO check return value for error
+                    App.getInventory().addItem(item);
 
 
                     /*
