@@ -32,8 +32,8 @@ class InventoryTest {
         assertDoesNotThrow(() -> {
             // generate a database file
             String content =
-                "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",692,475\n" +
-                "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,1571\n"; // from example
+                "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"010012\",692,475\n" +
+                "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"010001\",116,1571\n"; // from example
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
 
             // load the database file
@@ -45,9 +45,22 @@ class InventoryTest {
             Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get(1).description);
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
             Assertions.assertEquals(8, items.get(1).stock);
-            Assertions.assertEquals("000001", items.get(1).location);
+            Assertions.assertEquals("010001", items.get(1).location);
             Assertions.assertEquals(116, items.get(1).weight);
             Assertions.assertEquals(1571, items.get(1).price);
+
+            Assertions.assertEquals(0, myInventory.getShelfMap().size());
+            Assertions.assertEquals(0, myInventory.getCategoryMap().size());
+
+            myInventory.initStorage();
+            Assertions.assertEquals(1, myInventory.getShelfMap().size());
+            Assertions.assertEquals(10, myInventory.getShelfMap().get(10).getId());
+            Assertions.assertEquals(21*692+8*116, myInventory.getShelfMap().get(10).getWeight());
+
+            myInventory.initCategories();
+            Assertions.assertEquals(2, myInventory.getCategoryMap().size());
+            Assertions.assertEquals(1, myInventory.getCategoryMap().get("Stifte").getCount());
+            Assertions.assertEquals(1, myInventory.getCategoryMap().get("Füllfederhalter & Kugelschreiber").getCount());
 
             // store the database database
             FileHandler myFileHandler = new FileHandler();
@@ -58,7 +71,7 @@ class InventoryTest {
             Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get(1).description);
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
             Assertions.assertEquals(8, items.get(1).stock);
-            Assertions.assertEquals("000001", items.get(1).location);
+            Assertions.assertEquals("010001", items.get(1).location);
             Assertions.assertEquals(116, items.get(1).weight);
             Assertions.assertEquals(1571, items.get(1).price);
 
@@ -68,28 +81,47 @@ class InventoryTest {
     }
 
     @Test
-    void addItem() {
+    void addAndRemoveItem() {
         Inventory myInventory = new Inventory();
 
         Assertions.assertEquals(0, myInventory.getShelfMap().size());
         Assertions.assertEquals(0, myInventory.getCategoryMap().size());
 
-        myInventory.addCategory(new Category("cat0"));
-        myInventory.addCategory(new Category("cat1"));
+        Assertions.assertTrue(myInventory.addCategory(new Category("cat0")));
+        Assertions.assertFalse(myInventory.addCategory(new Category("cat0")));
+        Assertions.assertTrue(myInventory.addCategory(new Category("cat1")));
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat1").getCount());
 
-        myInventory.addItem(new InventoryItem("item11", "cat1", 1100, "001001", 10, 199));
-        myInventory.addItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199));
-        //myInventory.addItem(new InventoryItem("item13", "cat1", 1300, "001001", 10.0, 1.99)); // location already in use -> ignore in init()
-        myInventory.addItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199));
-        myInventory.addItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199)); // to heavy item -> ignore in init()
+        Assertions.assertTrue(myInventory.addItem(new InventoryItem("item11", "cat1", 1100, "001001", 10, 199)));
+        Assertions.assertTrue(myInventory.addItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199)));
+        //Assertions.assertFalse(myInventory.addItem(new InventoryItem("item13", "cat1", 1300, "001001", 10.0, 1.99))); // location already in use -> ignore in init()
+        Assertions.assertTrue(myInventory.addItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199)));
+        Assertions.assertFalse(myInventory.addItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
 
         Assertions.assertEquals(2, myInventory.getShelfMap().size());
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
         Assertions.assertEquals(3, myInventory.getCategoryMap().get("cat1").getCount());
+
+        Assertions.assertFalse(myInventory.removeItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // item not in inventory
+        Assertions.assertTrue(myInventory.removeItem(new InventoryItem("item21", "cat1", 1, "002001", (1000 * 1000) / 2, 199)));
+        Assertions.assertEquals(2, myInventory.getShelfMap().size());
+        Assertions.assertEquals(2, myInventory.getCategoryMap().size());
+        Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
+        Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
+        Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
+        //TODO Assertions.assertEquals((1000 * 1000) / 2, myInventory.getShelfMap().get(2).getWeight());
+        //TODO Assertions.assertTrue(myInventory.removeItem(new InventoryItem("item21", "cat1", 1, "002001", (1000 * 1000) / 2, 199)));
+        Assertions.assertEquals(2, myInventory.getShelfMap().size());
+        Assertions.assertEquals(2, myInventory.getCategoryMap().size());
+        Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
+        Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
+        Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
+        //TODO Assertions.assertEquals(0, myInventory.getShelfMap().get(2).getWeight());
+        Assertions.assertFalse(myInventory.removeItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199)));
+
     }
 
     @Test
@@ -122,7 +154,7 @@ class InventoryTest {
         Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
         Assertions.assertEquals(0.0, myInventory.getShelfMap().get(2).getWeight());
         Assertions.assertEquals(3, myInventory.getShelfMap().get(3).getId());
-        Assertions.assertEquals(0.0, myInventory.getShelfMap().get(3).getWeight());
+        Assertions.assertEquals(0, myInventory.getShelfMap().get(3).getWeight());
 
         Assertions.assertTrue(myInventory.addItemToStorage(new InventoryItem("item12", "cat1", 0, "001002", 20, 199), 100));
         Assertions.assertEquals(3, myInventory.getShelfMap().size());

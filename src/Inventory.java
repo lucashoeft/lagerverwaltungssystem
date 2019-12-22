@@ -170,7 +170,7 @@ public class Inventory {
         else {
             categoryMap.put(cat.getName(), cat);
             // category added
-            return false;
+            return true;
         }
     }
 
