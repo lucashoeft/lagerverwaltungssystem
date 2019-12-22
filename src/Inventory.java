@@ -9,13 +9,13 @@ public class Inventory {
     private String path;
     private List<InventoryItem> items;
     private HashMap<Integer, Shelf> shelfMap;
-    private List<String> categories;
+    private HashMap<String, Category> categoryMap;
 
     public Inventory(){
         path = "";
         items = new ArrayList<>();
         shelfMap = new HashMap<Integer, Shelf>();
-        categories = new ArrayList<>();
+        categoryMap = new HashMap<String, Category>();
     }
 
     public Inventory(String path){
@@ -36,8 +36,36 @@ public class Inventory {
         items = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
-    // add item, checks required by caller
-    public boolean addItem(InventoryItem item) {  return items.add(item); }
+    // add item
+    public boolean addItem(InventoryItem item) {
+        // new item?
+        if (!items.contains(item)) {
+            // not to heavy?
+            if (addItemToStorage(item, item.getStock())) {
+                // add item
+                categoryMap.get(item.getCategory()).increaseCount();
+                items.add(item);
+                System.out.println("new InventoryItem created");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // remove item
+    public boolean removeItem(InventoryItem item) {
+        // item exists?
+        if (items.contains(item)) {
+            if (removeItemFromStorage(item, item.getStock())) {
+                // remove item
+                categoryMap.get(item.getCategory()).decreaseCount();
+                items.remove(item);
+                System.out.println("InventoryItem removed");
+                return true;
+            }
+        }
+        return false;
+    }
 
     // return all items
     public List<InventoryItem> getItems() {
@@ -59,6 +87,7 @@ public class Inventory {
         return string;
     }
 
+    // initialize storage with all needed shelves
     public void initStorage(){
         Iterator<InventoryItem> i = getItems().iterator();
         // get all used shelves
@@ -125,18 +154,34 @@ public class Inventory {
         }
     }
 
-    public List<String> getCategories(){
-        return categories;
+    public HashMap<String, Category> getCategoryMap(){
+        return categoryMap;
     }
 
-    public boolean addCategory(String name){
+    //
+    public boolean addCategory(Category cat){
         // category already exists?
-        if (!categories.contains(name)){
-            return categories.add(name);
-            // category added
+        if (categoryMap.containsKey(cat.getName())){
+            return false;
         }
         else {
-            // category not added
+            categoryMap.put(cat.getName(), cat);
+            // category added
+            return false;
+        }
+    }
+
+    //public boolean addToCategory()
+
+    public boolean removeCategory(Category cat){
+        // category exists and is empty?
+        if (categoryMap.containsKey(cat.getName()) && categoryMap.get(cat.getName()).getCount() == 0){
+            categoryMap.remove(cat.getName());
+            // category removed
+            return true;
+        }
+        else {
+            // category not found/removed
             return false;
         }
     }
@@ -146,10 +191,14 @@ public class Inventory {
         // get all used categories
         while (i.hasNext()){
             InventoryItem item = i.next();
-            // category already exists?
-            if (!categories.contains(item.getCategory())){
-                // add category
-                categories.add(item.getCategory());
+            // if category already exists
+            if (categoryMap.containsKey(item.getCategory())){
+                // add new item
+                categoryMap.get(item.getCategory()).increaseCount();
+            }
+            else{
+                // create new category
+                categoryMap.put(item.getCategory(), item.getCategoryObj());
             }
         }
     }
