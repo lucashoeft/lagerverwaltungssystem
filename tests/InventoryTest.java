@@ -31,8 +31,8 @@ class InventoryTest {
         assertDoesNotThrow(() -> {
             // generate a database file
             String content =
-                "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",69.2,4.75\n" +
-                "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,15.71\n"; // from example
+                "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",692,475\n" +
+                "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,1571\n"; // from example
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
 
             // load the database file
@@ -45,8 +45,8 @@ class InventoryTest {
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
             Assertions.assertEquals(8, items.get(1).stock);
             Assertions.assertEquals("000001", items.get(1).location);
-            Assertions.assertEquals(116.0, items.get(1).weight);
-            Assertions.assertEquals(15.71, items.get(1).price);
+            Assertions.assertEquals(116, items.get(1).weight);
+            Assertions.assertEquals(1571, items.get(1).price);
 
             // store the database database
             FileHandler myFileHandler = new FileHandler();
@@ -58,8 +58,8 @@ class InventoryTest {
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
             Assertions.assertEquals(8, items.get(1).stock);
             Assertions.assertEquals("000001", items.get(1).location);
-            Assertions.assertEquals(116.0, items.get(1).weight);
-            Assertions.assertEquals(15.71, items.get(1).price);
+            Assertions.assertEquals(116, items.get(1).weight);
+            Assertions.assertEquals(1571, items.get(1).price);
 
             // cleanup used file
             TestHelpers.deleteTmpFile(fileName);

@@ -93,25 +93,19 @@ public class InventoryItemDialog extends JDialog {
                 acceptButtonClicked = true;
                 if (isValidInput()) {
 
-
+                    // hard coded test example
+                    InventoryItem item=new InventoryItem("Baum","cat1",3,"000001",2,3);
                     // TODO read input, create item, fill in parameters
-                    InventoryItem item = new InventoryItem("dummy", "cat", 100, "001001", 10.0, 1.00);
-                    /*if(App.getInventory().checkUnique(item)){
-                        if(App.getStorage().addItemToStorage(item, count)){     // für count würde im Zusammenhang mit Artikel erstellen auch item.getStock() gehen
+                    if(!App.getInventory().getItems().contains(item)) {
+                        if (App.getInventory().addItemToStorage(item, item.getStock())) {
                             App.getInventory().addItem(item);
                             System.out.println("new InventoryItem created");
+                            System.out.println(App.getInventory().toStringCSV());
                         }
-                        // Gewichtsfehler
-                    }*/
-                    // Items bereits vorhanden
+                    }
 
-                    // Alternative TODO bitte testen
-                    /*if(!App.getInventory().getItems().contains(item)){
-                        if(App.getStorage().addItemToStorage(item, count)){
-                            App.getInventory().addItem(item);
-                            System.out.println("new InventoryItem created");
-                        }
-                    }/*
+
+                    /*
 
 
                     dispose();

@@ -53,8 +53,8 @@ public class FileHandler {
             inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
             inventoryItem.stock = Integer.parseInt(metadata[2]);
             inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
-            inventoryItem.weight = Double.parseDouble(metadata[4]);
-            inventoryItem.price = Double.parseDouble(metadata[5]);
+            inventoryItem.weight = Integer.parseInt(metadata[4]);
+            inventoryItem.price = Integer.parseInt(metadata[5]);
         } catch (Exception e) {
             //e.printStackTrace();
         }

@@ -1,9 +1,9 @@
 public class Shelf {
 
     private Integer id;
-    private Double weight;
+    private int weight;
 
-    public Shelf(int id, Double weight){
+    public Shelf(int id, int weight){
         this.id = id;
         this.weight = weight;
     }
@@ -26,7 +26,7 @@ public class Shelf {
         this.id = id;
     }
 
-    public Double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
@@ -35,8 +35,7 @@ public class Shelf {
     // try to add item to shelf
     public boolean addToShelf(InventoryItem item, int count){
         // if combined weight to heavy
-        // TODO einheit noch in gramm
-        if (weight + (item.getWeight() * count) > 10000000){
+        if (weight + (item.getWeight() * count) > 100000000){   // in 0.1g
             return false;
         }
         else{
