@@ -45,6 +45,7 @@ public class Main extends JFrame {
         createInventoryItemButton.addActionListener(listenForButton);
         topPanel.add(createInventoryItemButton);
 
+        manageCategoryButton.addActionListener(listenForButton);
         topPanel.add(manageCategoryButton);
 
         this.add(topPanel, BorderLayout.NORTH);
@@ -113,6 +114,14 @@ public class Main extends JFrame {
                 if (inventoryItemDialog.acceptButtonClicked) {
                     inventoryTableModel.setData(App.getInventory());
                 }
+            }
+
+            if (e.getSource() == manageCategoryButton) {
+                CategoryListDialog categoryDialog = new CategoryListDialog();
+                categoryDialog.setSize(600,400);
+                categoryDialog.setLocationRelativeTo(null);
+                categoryDialog.setModal(true);
+                categoryDialog.setVisible(true);
             }
         }
     }
