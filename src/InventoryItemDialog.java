@@ -93,7 +93,6 @@ public class InventoryItemDialog extends JDialog {
             }
 
             if (e.getSource() == acceptButton) {
-                acceptButtonClicked = true;
                 if (isValidInput()) {
 
                     // hard coded test example
@@ -106,6 +105,7 @@ public class InventoryItemDialog extends JDialog {
                     /*
 
 
+                    acceptButtonClicked = true;
                     dispose();
                 } else {
                     System.out.println("Input not valid!");
