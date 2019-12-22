@@ -102,11 +102,11 @@ public class InventoryItemDialog extends JDialog {
             }
 
             if (e.getSource() == acceptButton) {
+
                 if (isValidInput()) {
                     // TODO: Check if description is unique
                     // TODO: Check if location is unique
                     // TODO: Check if weight*stock is allowed
-
                     // TODO: If every case above is true, add element to inventory
 
                     acceptButtonClicked = true;
