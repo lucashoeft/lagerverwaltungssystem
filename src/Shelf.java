@@ -30,7 +30,7 @@ public class Shelf {
         return weight;
     }
 
-    public void setWeight(Double w) { this.weight = w; }
+    public void setWeight(int w) { this.weight = w; }
 
     // try to add item to shelf
     public boolean addToShelf(InventoryItem item, int count){
