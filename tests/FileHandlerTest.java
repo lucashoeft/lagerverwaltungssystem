@@ -28,13 +28,13 @@ class FileHandlerTest {
         assertDoesNotThrow(() -> {
             FileHandler myParser = new FileHandler();
             String content =
-                    "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,15.71\n" + // from example
+                    "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"000001\",116,1571\n" + // from example
                     "\n" + // empty line -> ignore
-                    "ZIPIT, Wildlings,Federmäppchen,24,000023,37.5,7.99\n" + // description with embedded , -> invalid number of fields -> ignore
-                    "ZIPIT Wildlings,Federmäppchen,24,000023,,7.99\n" + // weight not specified -> ignore
-                    "ZIPIT Wildlings,Federmäppchen,24,000023,37.5,\n" + // price not specified -> ignore
-                    "\"GirlZone Geschenke für Mädchen - \"Gelstifte Set für Mädchen\"\",Füllfederhalter & Kugelschreiber,24,000026,43.2,12.99\n" + // description with embedded "
-                    "Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",69.2,4.75\n";
+                    "ZIPIT, Wildlings,Federmäppchen,24,000023,375,799\n" + // description with embedded , -> invalid number of fields -> ignore
+                    "ZIPIT Wildlings,Federmäppchen,24,000023,,799\n" + // weight not specified -> ignore
+                    "ZIPIT Wildlings,Federmäppchen,24,000023,375,\n" + // price not specified -> ignore
+                    "\"GirlZone Geschenke für Mädchen - \"Gelstifte Set für Mädchen\"\",Füllfederhalter & Kugelschreiber,24,000026,432,1299\n" + // description with embedded "
+                    "Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",692,475\n";
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
             Assertions.assertEquals(3, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
             // TODO check content of items

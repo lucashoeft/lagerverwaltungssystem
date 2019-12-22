@@ -3,8 +3,8 @@ public class InventoryItem {
     String category;
     Integer stock;
     String location;
-    Double weight;
-    Double price;
+    Integer weight;     // in 0.1g
+    Integer price;       // in cents
 
     /*
     Lagerort:
@@ -18,7 +18,7 @@ public class InventoryItem {
 
     */
 
-    public InventoryItem(String description, String category, Integer stock, String location, Double weight, Double price) {
+    public InventoryItem(String description, String category, Integer stock, String location, Integer weight, Integer price) {
         this.description = description;
         this.category = category;
         this.stock = stock;
@@ -53,6 +53,10 @@ public class InventoryItem {
         return description;
     }
 
+    public String getCategory(){
+        return category;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -61,7 +65,7 @@ public class InventoryItem {
         return (Integer.parseInt(location.substring(0,3)));
     }
 
-    public Double getWeight(){
+    public Integer getWeight(){
         return weight;
     }
 
@@ -71,16 +75,6 @@ public class InventoryItem {
 
     public void setStock(Integer stock){
         this.stock = stock;
-    }
-
-    public boolean isUnique(Object o){
-        if ((o == null) || (o.getClass() != this.getClass())){
-            return false;
-        }
-        else {
-            InventoryItem obj = (InventoryItem) o;
-            return (!obj.getDescription().equals(getDescription()) && !obj.getLocation().equals(getLocation()));
-        }
     }
 
     public boolean equals(Object o){

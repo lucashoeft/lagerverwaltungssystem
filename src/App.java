@@ -7,7 +7,6 @@ import java.util.*;
 
 public class App {
 
-    private static Storage storage = new Storage();
     private static Inventory inventory = new Inventory();
     private static String configPath = System.getProperty("user.dir") + "/Data/config.cfg";
 
@@ -74,10 +73,6 @@ public class App {
 
     public static Inventory getInventory(){
         return inventory;
-    }
-
-    public static Storage getStorage(){
-        return storage;
     }
 
     public static String getConfigPath(){
