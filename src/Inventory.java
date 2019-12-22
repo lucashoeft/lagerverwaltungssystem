@@ -130,10 +130,13 @@ public class Inventory {
         }
         else{
             // create new shelf with items
-            shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * (item.getStock() + count)));
-            item.setStock(item.getStock() + count);
-            return true;
+            if(item.getWeight() * item.getStock() < 100000000) {
+                shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * (item.getStock() + count)));
+                item.setStock(item.getStock() + count);
+                return true;
+            }
         }
+        return false;
     }
 
     //entfernt count Artikel aus Storage
