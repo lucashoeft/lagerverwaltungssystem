@@ -38,8 +38,11 @@ public class Inventory {
 
     // add item
     public boolean addItem(InventoryItem item) {
+        // new item?
         if (!items.contains(item)) {
+            // not to heavy?
             if (addItemToStorage(item, item.getStock())) {
+                // add item
                 categoryMap.get(item.getCategory()).increaseCount();
                 items.add(item);
                 System.out.println("new InventoryItem created");
@@ -51,8 +54,10 @@ public class Inventory {
 
     // remove item
     public boolean removeItem(InventoryItem item) {
+        // item exists?
         if (items.contains(item)) {
             if (removeItemFromStorage(item, item.getStock())) {
+                // remove item
                 categoryMap.get(item.getCategory()).decreaseCount();
                 items.remove(item);
                 System.out.println("InventoryItem removed");

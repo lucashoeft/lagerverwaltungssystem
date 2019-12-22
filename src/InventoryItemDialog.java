@@ -103,8 +103,6 @@ public class InventoryItemDialog extends JDialog {
 
 
                     /*
-
-
                     acceptButtonClicked = true;
                     dispose();
                 } else {
@@ -168,13 +166,13 @@ public class InventoryItemDialog extends JDialog {
             if (stringValue.contains(",")) {
                 if (stringValue.matches(".*,")) {
                     String value = stringValue.replace(",","");
-                    Long decigramValue = Long.parseLong(value) * 10;
+                    int decigramValue = Integer.parseInt(value) * 10;
                     if (decigramValue >= 1 && decigramValue <= 100_000_000) {
                         return true;
                     }
                 } else if (stringValue.matches(".*,[0-9]")) {
                     String value = stringValue.replace(",","");
-                    Long decigramValue = Long.parseLong(value);
+                    int decigramValue = Integer.parseInt(value);
                     if (decigramValue >= 1 && decigramValue <= 100_000_000) {
                         return true;
                     }

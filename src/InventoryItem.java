@@ -38,7 +38,7 @@ public class InventoryItem {
         return csv;
     }
 
-    // return true if inventory is valid
+    // return true if inventory item is valid
     public boolean isValid() {
         if ((description == null) || (description.indexOf(',') >= 0)) return false;
         if ((category == null) || (category.indexOf(',') >= 0)) return false;
