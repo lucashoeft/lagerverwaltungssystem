@@ -105,13 +105,13 @@ class InventoryTest {
         Assertions.assertEquals(3, myInventory.getCategoryMap().get("cat1").getCount());
 
         Assertions.assertFalse(myInventory.deleteItem("item31")); // item not in inventory
-        //TODO Assertions.assertTrue(myInventory.deleteItem("item21"));
+        Assertions.assertTrue(myInventory.deleteItem("item21"));
         Assertions.assertEquals(2, myInventory.getShelfMap().size());
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
-        //TODO Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
+        Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
         Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
-        //TODO Assertions.assertEquals(0, myInventory.getShelfMap().get(2).getWeight());
+        Assertions.assertEquals(0, myInventory.getShelfMap().get(2).getWeight());
         Assertions.assertFalse(myInventory.deleteItem("item21"));
     }
 

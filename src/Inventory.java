@@ -150,7 +150,6 @@ public class Inventory {
         if (shelfMap.containsKey(item.getShelf())){
             // try to add Items
             if (shelfMap.get(item.getShelf()).addToShelf(item, count)){
-                item.setStock(item.getStock() + count);
                 return true;
             }
             // change to heavy
@@ -160,7 +159,7 @@ public class Inventory {
             // create new shelf with items
             if(item.getWeight() * item.getStock() < 100000000) {
                 shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * count));
-                item.setStock(item.getStock() + count);
+                //item.setStock(item.getStock() + count);
                 return true;
             }
         }
@@ -173,7 +172,6 @@ public class Inventory {
         if (shelfMap.containsKey(item.getShelf())){
             // try to remove items
             if (shelfMap.get(item.getShelf()).removeFromShelf(item,  count)){
-                item.setStock(item.getStock() - count);
                 return true;
             }
             // error in removal

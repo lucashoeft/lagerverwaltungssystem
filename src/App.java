@@ -17,6 +17,7 @@ public class App {
 
         //Testausgabe des aktuellen Pfades der verwendeten Datenbank/.csv Datei
         System.out.println(inventory.getPath());
+        System.out.println(configPath);
     }
 
     public static void readConfigFile(String path) {

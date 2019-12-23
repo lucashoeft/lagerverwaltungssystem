@@ -33,7 +33,9 @@ public class FileHandler {
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
                 // adding inventoryItem into ArrayList
-                if (inventoryItem.isValid()) itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
+                if (inventoryItem.isValid()) {
+                    itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
+                }
 
                 // read next line before looping
                 // if end of file reached, line would be null

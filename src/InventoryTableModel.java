@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 public class InventoryTableModel extends AbstractTableModel {
 
+    // TODO Gewicht und Preis vom dg und cent in g und euro umrechenen
     private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
     private static Object[][] data = { { "", "", "", "", "", "" } };
@@ -51,6 +52,7 @@ public class InventoryTableModel extends AbstractTableModel {
             newContent[j][3] = item.getLocation();
             newContent[j][4] = item.getWeight();
             newContent[j][5] = item.getPrice();
+            j++;
         }
        /* for(int i = 0; i<inventory.getItemMap().size(); i++) {
             newContent[i][0] = inventory.getItemMap().get(i).description;
