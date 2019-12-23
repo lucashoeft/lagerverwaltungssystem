@@ -44,7 +44,14 @@ public class Inventory {
             // not to heavy?
             if (addItemToStorage(item, item.getStock())) {
                 // add item
-                categoryMap.get(item.getCategory()).increaseCount();
+                // category exists?
+                if (categoryMap.containsKey(item.getCategory())) {
+                    categoryMap.get(item.getCategory()).increaseCount();
+                }
+                // add new category
+                else{
+                    addCategory(new Category(item.getCategory()));
+                }
                 itemMap.put(item.getDescription(), item);
                 System.out.println("new InventoryItem created");
                 return true;
@@ -89,10 +96,10 @@ public class Inventory {
         return false;
     }
 
-    // same as above maybe merge
+    // change item stock
     public boolean decreaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
-            if (addItemToStorage(itemMap.get(name), count)){
+            if (removeItemFromStorage(itemMap.get(name), count)){
                 itemMap.get(name).setStock(itemMap.get(name).getStock() - count);
                 return true;
             }
