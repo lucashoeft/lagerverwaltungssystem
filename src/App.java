@@ -7,7 +7,6 @@ import java.util.*;
 
 public class App {
 
-    private static Storage storage = new Storage();
     private static Inventory inventory = new Inventory();
     private static String configPath = System.getProperty("user.dir") + "/Data/config.cfg";
 
@@ -18,6 +17,7 @@ public class App {
 
         //Testausgabe des aktuellen Pfades der verwendeten Datenbank/.csv Datei
         System.out.println(inventory.getPath());
+        System.out.println(configPath);
     }
 
     public static void readConfigFile(String path) {

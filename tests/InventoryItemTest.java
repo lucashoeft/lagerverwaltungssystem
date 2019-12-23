@@ -5,74 +5,83 @@ class InventoryItemTest {
 
     @Test
     void toStringCSV() {
-        InventoryItem myItem = new InventoryItem("Buntstifte Marke \"Premium\" Variante 2018", "Buntstifte", 100, "000000", 321.99, 2.99);
-        Assertions.assertEquals("Buntstifte Marke \"Premium\" Variante 2018,Buntstifte,100,000000,321.99,2.99", myItem.toStringCSV());
+        InventoryItem myItem = new InventoryItem("Buntstifte Marke \"Premium\" Variante 2018", "Buntstifte", 100, "000000", 32199, 299);
+        Assertions.assertEquals("Buntstifte Marke \"Premium\" Variante 2018,Buntstifte,100,000000,32199,299", myItem.toStringCSV());
 
         // check invalid items
-        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", null, "000000", 321.99, 2.99);
+        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", null, "000000", 32199, 299);
         Assertions.assertEquals("", myItem.toStringCSV());
 
-        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", 100, "000000", null, 2.99);
+        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", 100, "000000", null, 299);
         Assertions.assertEquals("", myItem.toStringCSV());
 
-        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", 100, "000000", 321.99, null);
+        myItem = new InventoryItem("Buntstifte Marke \"Premium\", Variante 2018", "Buntstifte", 100, "000000", 32199, null);
         Assertions.assertEquals("", myItem.toStringCSV());
     }
 
     @Test
     void isValid() {
         InventoryItem myItem = new InventoryItem(null, null, null, null, null, null);
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.description = "description";
         myItem.category = "category";
         myItem.stock = 0;
         myItem.location = "000000";
-        myItem.weight = 0.1;
-        myItem.price = 0.0;
-        Assertions.assertEquals(true, myItem.isValid());
+        myItem.weight = 1;
+        myItem.price = 0;
+        Assertions.assertTrue(myItem.isValid());
 
         myItem.description = "desc,ription";
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.description = null;
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
         myItem.description = "description";
 
         myItem.category = "cate,gory";
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.category = null;
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
         myItem.category = "category";
 
         myItem.stock = -1;
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.stock = null;
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
         myItem.stock = 1;
 
         myItem.location = "00000";
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.location = null;
-        Assertions.assertEquals(false, myItem.isValid());
+        Assertions.assertFalse(myItem.isValid());
         myItem.location = "000000";
 
-        myItem.weight = 0.0;
-        Assertions.assertEquals(false, myItem.isValid());
+        myItem.weight = 0;
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.weight = null;
-        Assertions.assertEquals(false, myItem.isValid());
-        myItem.weight = 0.1;
+        Assertions.assertFalse(myItem.isValid());
+        myItem.weight = 1;
 
-        myItem.price = -0.1;
-        Assertions.assertEquals(false, myItem.isValid());
+        myItem.price = -1;
+        Assertions.assertFalse(myItem.isValid());
 
         myItem.price = null;
-        Assertions.assertEquals(false, myItem.isValid());
-        myItem.price = 0.0;
+        Assertions.assertFalse(myItem.isValid());
+        myItem.price = 0;
 
+    }
+
+    @Test
+    void checkUsage() {
+        InventoryItem i = new InventoryItem("test1", "cat", 100, "001001", 100, 100);
+        Assertions.assertTrue(i.checkUsage(new InventoryItem("test1", "cat", 100, "001002", 100, 100))); // same name
+        Assertions.assertTrue(i.checkUsage(new InventoryItem("test2", "cat", 100, "001001", 100, 100))); // same location
+        Assertions.assertTrue(i.checkUsage(new InventoryItem("test1", "cat", 100, "001001", 100, 100))); // same name and location
+        Assertions.assertFalse(i.checkUsage(new InventoryItem("test2", "cat", 100, "001002", 100, 200))); // different name and location
     }
 }
