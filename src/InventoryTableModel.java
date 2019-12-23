@@ -54,15 +54,6 @@ public class InventoryTableModel extends AbstractTableModel {
             newContent[j][5] = item.getPrice();
             j++;
         }
-       /* for(int i = 0; i<inventory.getItemMap().size(); i++) {
-            newContent[i][0] = inventory.getItemMap().get(i).description;
-            newContent[i][1] = inventory.getItemMap().get(i).category;
-            newContent[i][2] = inventory.getItemMap().get(i).stock;
-            newContent[i][3] = inventory.getItemMap().get(i).location;
-            newContent[i][4] = inventory.getItemMap().get(i).weight;
-            newContent[i][5] = inventory.getItemMap().get(i).price;
-        }*/
-
         return newContent;
     }
 }

@@ -36,23 +36,27 @@ public class Inventory {
     // add item
     public boolean addNewItem(InventoryItem item) {
         // new item?
-        if (!itemMap.containsValue(item)) {         // does containsValue use o.equals()?
-            // not to heavy?
-            if (addItemToStorage(item, item.getStock())) {
-                // add item
-                // category exists?
-                if (categoryMap.containsKey(item.getCategory())) {
-                    categoryMap.get(item.getCategory()).increaseCount();
-                }
-                // add new category
-                else{
-                    addCategory(new Category(item.getCategory()));
-                }
-                itemMap.put(item.getDescription(), item);
-                System.out.println("new InventoryItem created");
-                return true;
+        for(InventoryItem itemCheck : getItemMap().values()) {
+            if(item.checkUsage(itemCheck)){
+                return false;
             }
         }
+        // not to heavy?
+        if (addItemToStorage(item, item.getStock())) {
+            // add item
+            // category exists?
+            if (categoryMap.containsKey(item.getCategory())) {
+                categoryMap.get(item.getCategory()).increaseCount();
+            }
+            // add new category
+            else{
+                addCategory(new Category(item.getCategory()));
+            }
+            itemMap.put(item.getDescription(), item);
+            System.out.println("new InventoryItem created");
+            return true;
+            }
+
         return false;
     }
 

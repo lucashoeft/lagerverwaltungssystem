@@ -84,14 +84,8 @@ public class InventoryItem {
         return price;
     }
 
-    public boolean equals(Object o){
-        if ((o == null) || (o.getClass() != this.getClass())){
-            return false;
-        }
-        else {
-            InventoryItem obj = (InventoryItem) o;
-            return (obj.getDescription().equals(getDescription()) && obj.getLocation().equals(getLocation()));
-        }
+    public boolean checkUsage(InventoryItem item){
+        return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
     }
 
 

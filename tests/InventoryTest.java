@@ -95,7 +95,7 @@ class InventoryTest {
 
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item11", "cat1", 1100, "001001", 10, 199)));
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199)));
-        //Assertions.assertFalse(myInventory.addItem(new InventoryItem("item13", "cat1", 1300, "001001", 10.0, 1.99))); // location already in use -> ignore
+        Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item13", "cat1", 1300, "001001", 10, 199))); // location already in use -> ignore
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199)));
         Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
 
