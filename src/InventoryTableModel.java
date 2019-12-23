@@ -47,7 +47,7 @@ public class InventoryTableModel extends AbstractTableModel {
         int j = 0;
         for(InventoryItem item : App.getInventory().getItemMap().values()){
             newContent[j][0] = item.getDescription();
-            newContent[j][1] = item.getDescription();
+            newContent[j][1] = item.getCategory();
             newContent[j][2] = item.getStock();
             newContent[j][3] = item.getLocation();
             newContent[j][4] = item.getWeight();
