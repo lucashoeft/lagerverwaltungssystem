@@ -80,7 +80,7 @@ class InventoryTest {
     }
 
     @Test
-    void addAndRemoveItem() {
+    void addAndDeleteItem() {
         Inventory myInventory = new Inventory();
 
         Assertions.assertEquals(0, myInventory.getShelfMap().size());
@@ -112,7 +112,44 @@ class InventoryTest {
         Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
         Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
         Assertions.assertEquals(0, myInventory.getShelfMap().get(2).getWeight());
-        Assertions.assertFalse(myInventory.deleteItem("item21"));
+        Assertions.assertFalse(myInventory.deleteItem("item21")); // Item already deleted
+
+        Assertions.assertTrue(myInventory.removeCategory(new Category("cat0")));
+        Assertions.assertEquals(1, myInventory.getCategoryMap().size());
+        Assertions.assertFalse(myInventory.removeCategory(new Category("cat0"))); // category does not exist
+        Assertions.assertFalse(myInventory.removeCategory(new Category("cat1"))); // category still used
+
+        Assertions.assertTrue(myInventory.deleteItem("item11"));
+        Assertions.assertTrue(myInventory.deleteItem("item12"));
+        Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat1").getCount());
+        Assertions.assertTrue(myInventory.removeCategory(new Category("cat1")));
+        Assertions.assertEquals(0, myInventory.getCategoryMap().size());
+
+    }
+
+    @Test
+    void increaseAndDecreaseStock() {
+        Inventory myInventory = new Inventory();
+
+        //myInventory.addCategory(new Category("cat1"));
+        myInventory.addNewItem(new InventoryItem("item11", "cat1", 1100, "001001", 10, 199));
+        myInventory.addNewItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199));
+
+        // item does not exist
+        Assertions.assertFalse(myInventory.increaseStockBy("item21", 10));
+        Assertions.assertFalse(myInventory.decreaseStockBy("item21", 10));
+        Assertions.assertEquals(1100, myInventory.getItem("item11").getStock());
+        Assertions.assertEquals(1200, myInventory.getItem("item12").getStock());
+
+        // item exists
+        Assertions.assertTrue(myInventory.increaseStockBy("item11", 10));
+        Assertions.assertTrue(myInventory.increaseStockBy("item12", -10));
+        Assertions.assertEquals(1110, myInventory.getItem("item11").getStock());
+        Assertions.assertEquals(1190, myInventory.getItem("item12").getStock());
+        Assertions.assertTrue(myInventory.decreaseStockBy("item11", 10));
+        Assertions.assertTrue(myInventory.decreaseStockBy("item12", -10));
+        Assertions.assertEquals(1100, myInventory.getItem("item11").getStock());
+        Assertions.assertEquals(1200, myInventory.getItem("item12").getStock());
     }
 
     @Test

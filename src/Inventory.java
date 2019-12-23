@@ -1,8 +1,5 @@
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 public class Inventory {
 
@@ -77,6 +74,12 @@ public class Inventory {
     // return all items
     public HashMap<String, InventoryItem> getItemMap() {
         return itemMap;
+    }
+
+    // return the item with the specified description or null
+    public InventoryItem getItem(String name)
+    {
+        return itemMap.get(name);
     }
 
     // return all items matching the search mask
