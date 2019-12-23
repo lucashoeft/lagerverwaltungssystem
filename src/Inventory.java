@@ -7,13 +7,13 @@ import java.util.List;
 public class Inventory {
 
     private String path;
-    private List<InventoryItem> items;
+    private HashMap<String, InventoryItem> itemMap;
     private HashMap<Integer, Shelf> shelfMap;
     private HashMap<String, Category> categoryMap;
 
     public Inventory(){
         path = "";
-        items = new ArrayList<>();
+        itemMap = new HashMap<String, InventoryItem>();
         shelfMap = new HashMap<Integer, Shelf>();
         categoryMap = new HashMap<String, Category>();
     }
@@ -33,18 +33,19 @@ public class Inventory {
     // read file, parse and store
     public void loadData() {
         FileHandler fileHandler = new FileHandler();
-        items = fileHandler.readInventoryFromCSV(Paths.get(path));
+        itemMap = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
     // add item
-    public boolean addItem(InventoryItem item) {
+    public boolean addNewItem(InventoryItem item) {
         // new item?
-        if (!items.contains(item)) {
+        // TODO testen
+        if (!itemMap.containsValue(item)) {         // does containsValue use o.equals()?
             // not to heavy?
             if (addItemToStorage(item, item.getStock())) {
                 // add item
                 categoryMap.get(item.getCategory()).increaseCount();
-                items.add(item);
+                itemMap.put(item.getDescription(), item);
                 System.out.println("new InventoryItem created");
                 return true;
             }
@@ -53,13 +54,13 @@ public class Inventory {
     }
 
     // remove item
-    public boolean removeItem(InventoryItem item) {
+    public boolean deleteItem(String name) {
         // item exists?
-        if (items.contains(item)) {
-            if (removeItemFromStorage(item, item.getStock())) {
+        if (itemMap.containsKey(name)) {
+            if (removeItemFromStorage(itemMap.get(name), itemMap.get(name).getStock())) {
                 // remove item
-                categoryMap.get(item.getCategory()).decreaseCount();
-                items.remove(item);
+                categoryMap.get(itemMap.get(name).getCategory()).decreaseCount();
+                itemMap.remove(name);
                 System.out.println("InventoryItem removed");
                 return true;
             }
@@ -68,31 +69,51 @@ public class Inventory {
     }
 
     // return all items
-    public List<InventoryItem> getItems() {
-        return items;
+    public HashMap<String, InventoryItem> getItemMap() {
+        return itemMap;
     }
 
     // return all items matching the search mask
-    public List<InventoryItem> getItems(String searchMask) {
-        return items;
+    public HashMap<String, InventoryItem> getItems(String searchMask) {
+        return itemMap;
     }
+
+    // change item stock
+    public boolean increaseStockBy(String name, int count){
+        if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
+            if (addItemToStorage(itemMap.get(name), count)){
+                itemMap.get(name).setStock(itemMap.get(name).getStock() + count);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // same as above maybe merge
+    public boolean decreaseStockBy(String name, int count){
+        if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
+            if (addItemToStorage(itemMap.get(name), count)){
+                itemMap.get(name).setStock(itemMap.get(name).getStock() - count);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // converting item list into csv-compatible string
     public String toStringCSV() {
         String string = "";
-        Iterator<InventoryItem> i = items.iterator();
-        while (i.hasNext()){
-            string = string.concat(i.next().toStringCSV()+"\n");
+        for(InventoryItem item : getItemMap().values()){
+            string = string.concat(item.toStringCSV()+"\n");
         }
         return string;
     }
 
     // initialize storage with all needed shelves
     public void initStorage(){
-        Iterator<InventoryItem> i = getItems().iterator();
         // get all used shelves
-        while (i.hasNext()){
-            InventoryItem item = i.next();
+        for(InventoryItem item : getItemMap().values()){
             // if shelf already exists
             if (shelfMap.containsKey(item.getShelf())){
                 // add weight of new items
@@ -131,7 +152,7 @@ public class Inventory {
         else{
             // create new shelf with items
             if(item.getWeight() * item.getStock() < 100000000) {
-                shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * (item.getStock() + count)));
+                shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * count));
                 item.setStock(item.getStock() + count);
                 return true;
             }
@@ -190,10 +211,8 @@ public class Inventory {
     }
 
     public void initCategories(){
-        Iterator<InventoryItem> i = getItems().iterator();
         // get all used categories
-        while (i.hasNext()){
-            InventoryItem item = i.next();
+        for(InventoryItem item : getItemMap().values()){
             // if category already exists
             if (categoryMap.containsKey(item.getCategory())){
                 // add new item

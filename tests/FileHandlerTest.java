@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.util.HashMap;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,7 +39,7 @@ class FileHandlerTest {
                     // TODO "\"GirlZone Geschenke für Mädchen - \"Gelstifte Set für Mädchen\"\",Füllfederhalter & Kugelschreiber,24,000026,432,1299\n" + // description with embedded " -> ignore
                     "Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",692,475\n";
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
-            List<InventoryItem> myItems = myParser.readInventoryFromCSV(Paths.get(fileName));
+            HashMap<String, InventoryItem> myItems = myParser.readInventoryFromCSV(Paths.get(fileName));
             Assertions.assertEquals(3, myItems.size());
 
             // check content of items

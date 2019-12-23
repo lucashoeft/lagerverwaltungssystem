@@ -80,6 +80,10 @@ public class InventoryItem {
         this.stock = stock;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public boolean equals(Object o){
         if ((o == null) || (o.getClass() != this.getClass())){
             return false;

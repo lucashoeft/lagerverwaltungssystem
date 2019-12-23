@@ -99,7 +99,7 @@ public class InventoryItemDialog extends JDialog {
                     InventoryItem item=new InventoryItem("Baum","cat1",3,"000001",2,3);
                     // TODO read input, create item, fill in parameters
                     // TODO check return value for error
-                    App.getInventory().addItem(item);
+                    App.getInventory().addNewItem(item);
 
 
                     /*

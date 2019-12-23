@@ -40,7 +40,7 @@ class InventoryTest {
             Inventory myInventory = new Inventory();
             myInventory.setPath(fileName);
             myInventory.loadData();
-            List<InventoryItem> items = myInventory.getItems();
+            List<InventoryItem> items = myInventory.getItemMap();
             Assertions.assertEquals(2, items.size());
             Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get(1).description);
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
@@ -66,7 +66,7 @@ class InventoryTest {
             FileHandler myFileHandler = new FileHandler();
             myFileHandler.storeInventoryInCSV(myInventory);
             myInventory.loadData(); // ... reload t
-            items = myInventory.getItems(); // and check its content
+            items = myInventory.getItemMap(); // and check its content
             Assertions.assertEquals(2, items.size());
             Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get(1).description);
             Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get(1).category);
@@ -112,8 +112,8 @@ class InventoryTest {
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());
         Assertions.assertEquals(2, myInventory.getCategoryMap().get("cat1").getCount());
         Assertions.assertEquals(2, myInventory.getShelfMap().get(2).getId());
-        //TODO Assertions.assertEquals((1000 * 1000) / 2, myInventory.getShelfMap().get(2).getWeight());
-        //TODO Assertions.assertTrue(myInventory.removeItem(new InventoryItem("item21", "cat1", 1, "002001", (1000 * 1000) / 2, 199)));
+        Assertions.assertEquals((1000 * 1000) / 2, myInventory.getShelfMap().get(2).getWeight());
+        Assertions.assertTrue(myInventory.removeItem(new InventoryItem("item21", "cat1", 1, "002001", (1000 * 1000) / 2, 199)));
         Assertions.assertEquals(2, myInventory.getShelfMap().size());
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());
         Assertions.assertEquals(0, myInventory.getCategoryMap().get("cat0").getCount());

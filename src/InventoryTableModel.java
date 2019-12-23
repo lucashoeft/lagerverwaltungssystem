@@ -1,5 +1,5 @@
 import javax.swing.table.AbstractTableModel;
-import java.util.List;
+import java.util.HashMap;
 
 public class InventoryTableModel extends AbstractTableModel {
 
@@ -41,16 +41,25 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     private Object[][] convertToObject(Inventory inventory) {
-        Object[][] newContent = new Object[inventory.getItems().size()][6];
+        Object[][] newContent = new Object[inventory.getItemMap().size()][6];
 
-        for(int i=0; i<inventory.getItems().size(); i++) {
-            newContent[i][0] = inventory.getItems().get(i).description;
-            newContent[i][1] = inventory.getItems().get(i).category;
-            newContent[i][2] = inventory.getItems().get(i).stock;
-            newContent[i][3] = inventory.getItems().get(i).location;
-            newContent[i][4] = inventory.getItems().get(i).weight;
-            newContent[i][5] = inventory.getItems().get(i).price;
+        int j = 0;
+        for(InventoryItem item : App.getInventory().getItemMap().values()){
+            newContent[j][0] = item.getDescription();
+            newContent[j][1] = item.getDescription();
+            newContent[j][2] = item.getStock();
+            newContent[j][3] = item.getLocation();
+            newContent[j][4] = item.getWeight();
+            newContent[j][5] = item.getPrice();
         }
+       /* for(int i = 0; i<inventory.getItemMap().size(); i++) {
+            newContent[i][0] = inventory.getItemMap().get(i).description;
+            newContent[i][1] = inventory.getItemMap().get(i).category;
+            newContent[i][2] = inventory.getItemMap().get(i).stock;
+            newContent[i][3] = inventory.getItemMap().get(i).location;
+            newContent[i][4] = inventory.getItemMap().get(i).weight;
+            newContent[i][5] = inventory.getItemMap().get(i).price;
+        }*/
 
         return newContent;
     }
