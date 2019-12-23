@@ -39,7 +39,6 @@ public class Inventory {
     // add item
     public boolean addNewItem(InventoryItem item) {
         // new item?
-        // TODO testen
         if (!itemMap.containsValue(item)) {         // does containsValue use o.equals()?
             // not to heavy?
             if (addItemToStorage(item, item.getStock())) {
