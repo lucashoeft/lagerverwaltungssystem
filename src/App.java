@@ -16,11 +16,6 @@ import java.util.*;
 public class App {
 
     /**
-     * A Storage contains all shelves which contain items in the warehouse
-     */
-    private static Storage storage = new Storage();
-
-    /**
      * inventory contains all items in the warehouse
      */
     private static Inventory inventory = new Inventory();
