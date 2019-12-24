@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+
 /**
  * The File Handler manages all actions concerning reading and writing the database
  * @author ...
@@ -14,6 +16,8 @@ import java.util.List;
  */
 public class FileHandler {
 
+    public HashMap<String, InventoryItem> readInventoryFromCSV(Path pathName) {
+        HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
     /**
      * create Inventory object from a .CSV file at pathName
      * @param pathName the path where the file is used from
@@ -40,8 +44,10 @@ public class FileHandler {
 
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
-                // adding invenotryItem into ArrayList
-                if (inventoryItem.isValid()) inventory.add(inventoryItem); // only add valid items to inventory
+                // adding inventoryItem into ArrayList
+                if (inventoryItem.isValid()) {
+                    itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
+                }
 
                 // read next line before looping
                 // if end of file reached, line would be null
@@ -52,7 +58,7 @@ public class FileHandler {
             //ioe.printStackTrace();
         }
 
-        return inventory;
+        return itemMap;
     }
 
     /**
@@ -67,8 +73,8 @@ public class FileHandler {
             inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
             inventoryItem.stock = Integer.parseInt(metadata[2]);
             inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
-            inventoryItem.weight = Double.parseDouble(metadata[4]);
-            inventoryItem.price = Double.parseDouble(metadata[5]);
+            inventoryItem.weight = Integer.parseInt(metadata[4]);
+            inventoryItem.price = Integer.parseInt(metadata[5]);
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -103,7 +109,7 @@ public class FileHandler {
 
             // write new file
             // if no path found, write at standard location
-            if (path == ""){
+            if (path.equals("")){
                 path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
                 App.setConfigFile(App.getConfigPath(), path);
             }
@@ -116,7 +122,7 @@ public class FileHandler {
             Files.delete(Paths.get(backup));
             System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e);}
+        catch (IOException e) {System.err.println(e.toString());}
     }
 
 

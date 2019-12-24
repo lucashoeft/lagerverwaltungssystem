@@ -12,18 +12,9 @@ public class Shelf {
      * shelf number
      */
     private Integer id;
+    private int weight;
 
-    /**
-     * shelf total weight
-      */
-    private Double weight;
-
-    /**
-     * Shelf Constructor
-     * @param id unique identification number of a shelf
-     * @param weight current total weight a shelf holds
-      */
-    public Shelf(int id, Double weight){
+    public Shelf(int id, int weight){
         this.id = id;
         this.weight = weight;
     }
@@ -59,20 +50,11 @@ public class Shelf {
         this.id = id;
     }
 
-    /**
-     * @return total weight of shelf
-     */
-    public Double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    /**
-     * Setter for shelf weight
-     * @param weigth new total shelf weight
-     */
-    public void setWeight(Double weigth) {
-        this.weight = weight;
-    }
+    public void setWeight(int w) { this.weight = w; }
 
 
     /**
@@ -84,7 +66,7 @@ public class Shelf {
       */
     public boolean addToShelf(InventoryItem item, int count){
         // if combined weight to heavy
-        if (weight + (item.getWeight() * count) > 10000000){
+        if (weight + (item.getWeight() * count) > 100000000){   // in 0.1g
             return false;
         }
         else{

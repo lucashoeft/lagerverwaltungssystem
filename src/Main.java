@@ -113,6 +113,8 @@ public class Main extends JFrame {
         // Wenn CSV Datei existiert, dann lade die CSV Datei in die Tabelle
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
             App.getInventory().loadData();
+            App.getInventory().initStorage();
+            App.getInventory().initCategories();
             inventoryTableModel.setData(App.getInventory());
         }
 
@@ -160,6 +162,8 @@ public class Main extends JFrame {
                     App.getInventory().setPath(file.getPath());
 
                     App.getInventory().loadData();
+                    App.getInventory().initStorage();
+                    App.getInventory().initCategories();
                     inventoryTableModel.setData(App.getInventory());
 
                     System.out.println(filechooser.getSelectedFile().toString());

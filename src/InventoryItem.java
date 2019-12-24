@@ -33,27 +33,22 @@ public class InventoryItem {
      * This results in a maximum of 1.000.000 different items in the System
      */
     String location;
+    Integer weight;     // in 0.1g
+    Integer price;       // in cents
 
-    /**
-     * The weight of a single of item of this type
-     */
-    Double weight;
+    /*
+    Lagerort:
+    0 - 9 sind verfügbare Zeichen
+    Nach Muster: ABCDDD
+    A - Abteilung
+    B - Sub-Abteilung
+    C - Regalnummer
+    DDD - Platznummer
+    >> Ergibt max. 1.000.000 Einträge
 
-    /**
-     * the price of a single item of this type
-     */
-    Double price;
+    */
 
-    /**
-     * Constructor for a InventoryItem object
-     * @param description Short description of the item
-     * @param category Category of the item
-     * @param stock Amount of items of this type on stock
-     * @param location location in the Warehouse which holds this item
-     * @param weight The weight of a single of item of this type
-     * @param price the price of a single item of this type
-     */
-    public InventoryItem(String description, String category, Integer stock, String location, Double weight, Double price) {
+    public InventoryItem(String description, String category, Integer stock, String location, Integer weight, Integer price) {
         this.description = description;
         this.category = category;
         this.stock = stock;
@@ -72,21 +67,37 @@ public class InventoryItem {
         try {
             csv = description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
         }
-        catch (Exception e) { } // don't export invalid items
+        catch (Exception ignored) { } // don't export invalid items
         return csv;
     }
 
+    // return true if inventory item is valid
     /**
      * @return true if inventory is valid
      */
     public boolean isValid() {
         if ((description == null) || (description.indexOf(',') >= 0)) return false;
         if ((category == null) || (category.indexOf(',') >= 0)) return false;
-        if ((location == null) || (location.matches("^[0-9]{6}$") == false)) return false;
+        if ((location == null) || (!location.matches("^[0-9]{6}$"))) return false;
         if ((stock == null) || (stock < 0)) return false;
         if ((weight == null) || (weight <= 0)) return false;
-        if ((price == null) || (price < 0)) return false;
-        return true;
+        return (price != null) && (price >= 0);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCategory(){
+        return category;
+    }
+
+    public Category getCategoryObj(){
+        return new Category(category, 1);
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     /**
@@ -96,10 +107,7 @@ public class InventoryItem {
         return (Integer.parseInt(location.substring(0,3)));
     }
 
-    /**
-     * @return weight of a single InventoryItem
-     */
-    public Double getWeight(){
+    public Integer getWeight(){
         return weight;
     }
 
@@ -116,4 +124,14 @@ public class InventoryItem {
     public void setStock(Integer stock){
         this.stock = stock;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public boolean checkUsage(InventoryItem item){
+        return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
+    }
+
+
 }

@@ -1,30 +1,24 @@
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-/**
- * One inventory object contains the whole database during runtime
- * @author ...
- * @version 1.0
- */
+import java.util.HashMap;
+
 public class Inventory {
 
     /**
      * path stores the path where the .csv file of the database lies
      */
     private String path;
-
-    /**
-     * items contains a list of all items currently on stock
-     */
-    private List<InventoryItem> items;
+    private HashMap<String, InventoryItem> itemMap;
+    private HashMap<Integer, Shelf> shelfMap;
+    private HashMap<String, Category> categoryMap;
 
     /**
      * Constructor for a new Inventory object
      */
     public Inventory(){
         path = "";
-        items = new ArrayList<>();
+        itemMap = new HashMap<String, InventoryItem>();
+        shelfMap = new HashMap<Integer, Shelf>();
+        categoryMap = new HashMap<String, Category>();
     }
 
     /**
@@ -49,70 +43,95 @@ public class Inventory {
         return path;
     }
 
+    // read file, parse and store
     /**
      * read file, parse file to object and save locally
      */
     public void loadData() {
         FileHandler fileHandler = new FileHandler();
-        items = fileHandler.readInventoryFromCSV(Paths.get(path));
+        itemMap = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
-    // nach FileHandler verschoben
-    // auf disk als CSV datei abspeichern
-    /*public void store(){
-        try {
-            Path file = Paths.get(path);
-            String backup = file.getParent().toString() + "/backup.csv";
-            // delete old backup
-            if (Files.exists(Paths.get(backup))) {
-                Files.delete(Paths.get(backup));
-                System.out.println("old backup deleted");
+    // add item
+    public boolean addNewItem(InventoryItem item) {
+        // new item?
+        for(InventoryItem itemCheck : getItemMap().values()) {
+            if(item.checkUsage(itemCheck)){
+                return false;
             }
-            // create backup if old file exists
-            if (Files.exists(file)) {
-                Files.move(file, Paths.get(backup));
-                System.out.println("Backup created");
-            }
-            else {
-                System.out.println("New File created");
-            }
-            Files.createFile(file);
-
-            // write new file
-            // if no path found, write at standard location
-            if (path == ""){
-                path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
-                App.setConfigFile(App.getConfigPath(), path);
-            }
-            FileWriter fw = new FileWriter(path);
-            fw.write(toStringCSV());
-            fw.close();
-
-            System.out.println("Data saved");
-            // delete backup
-            Files.delete(Paths.get(backup));
-            System.out.println("Backup deleted");
         }
-        catch (IOException e) {System.err.println(e);}
-    }*/
+        // not to heavy?
+        if (addItemToStorage(item, item.getStock())) {
+            // add item
+            // category exists?
+            if (categoryMap.containsKey(item.getCategory())) {
+                categoryMap.get(item.getCategory()).increaseCount();
+            }
+            // add new category
+            else{
+                addCategory(new Category(item.getCategory()));
+            }
+            itemMap.put(item.getDescription(), item);
+            System.out.println("new InventoryItem created");
+            return true;
+            }
 
-    // add an item
-    // TODO currently only used for testing; does not check any constraints
-    public boolean addItem(InventoryItem item) {  return items.add(item); }
-
-    /**
-     * @return all items in Inventory
-     */
-    public List<InventoryItem> getItems() {
-        return items;
+        return false;
     }
 
-    /**
-     * @return all items matching the search mask
-      */
-    public List<InventoryItem> getItems(String searchMask) {
-        return items;
+    // remove item
+    public boolean deleteItem(String name) {
+        // item exists?
+        if (itemMap.containsKey(name)) {
+            if (removeItemFromStorage(itemMap.get(name), itemMap.get(name).getStock())) {
+                // remove item
+                categoryMap.get(itemMap.get(name).getCategory()).decreaseCount();
+                itemMap.remove(name);
+                System.out.println("InventoryItem removed");
+                return true;
+            }
+        }
+        return false;
     }
+
+    // return all items
+    public HashMap<String, InventoryItem> getItemMap() {
+        return itemMap;
+    }
+
+    // return the item with the specified description or null
+    public InventoryItem getItem(String name)
+    {
+        return itemMap.get(name);
+    }
+
+    // return all items matching the search mask
+    public HashMap<String, InventoryItem> getItems(String searchMask) {
+        return itemMap;
+    }
+
+    // change item stock
+    public boolean increaseStockBy(String name, int count){
+        if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
+            if (addItemToStorage(itemMap.get(name), count)){
+                itemMap.get(name).setStock(itemMap.get(name).getStock() + count);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // change item stock
+    public boolean decreaseStockBy(String name, int count){
+        if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
+            if (removeItemFromStorage(itemMap.get(name), count)){
+                itemMap.get(name).setStock(itemMap.get(name).getStock() - count);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * converting item list into csv-compatible string
@@ -120,11 +139,123 @@ public class Inventory {
      */
     public String toStringCSV() {
         String string = "";
-        Iterator<InventoryItem> i = items.iterator();
-        while (i.hasNext()){
-            string = string.concat(i.next().toStringCSV()+"\n");
+        for(InventoryItem item : getItemMap().values()){
+            string = string.concat(item.toStringCSV()+"\n");
         }
         return string;
+    }
+
+    // initialize storage with all needed shelves
+    public void initStorage(){
+        // get all used shelves
+        for(InventoryItem item : getItemMap().values()){
+            // if shelf already exists
+            if (shelfMap.containsKey(item.getShelf())){
+                // add weight of new items
+                // ignored if to heavy/invalid
+                shelfMap.get(item.getShelf()).addToShelf(item, item.getStock());
+            }
+            else{
+                // create new shelf, ignore if to heavy/invalid
+                if(item.getWeight() * item.getStock() < 100000000){     // 10t = 10 000kg = 10 000 000g = 100 000 000
+                    shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
+                }
+            }
+        }
+    }
+
+    public HashMap<Integer, Shelf> getShelfMap() {
+        return shelfMap;
+    }
+
+    public void setShelfMap(HashMap<Integer, Shelf> shelfMap) {
+        this.shelfMap = shelfMap;
+    }
+
+    //fügt Storage count neue Artikel hinzu, falls nicht zu schwer
+    public boolean addItemToStorage(InventoryItem item, int count){
+        // if shelf exists
+        if (shelfMap.containsKey(item.getShelf())){
+            // try to add Items
+            if (shelfMap.get(item.getShelf()).addToShelf(item, count)){
+                return true;
+            }
+            // change to heavy
+            return false;
+        }
+        else{
+            // create new shelf with items
+            if(item.getWeight() * item.getStock() < 100000000) {
+                shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * count));
+                //item.setStock(item.getStock() + count);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //entfernt count Artikel aus Storage
+    public boolean removeItemFromStorage(InventoryItem item, int count){
+        // if shelf exists
+        if (shelfMap.containsKey(item.getShelf())){
+            // try to remove items
+            if (shelfMap.get(item.getShelf()).removeFromShelf(item,  count)){
+                return true;
+            }
+            // error in removal
+            return false;
+        }
+        else{
+            // shelf doesnt exists
+            return false;
+        }
+    }
+
+    public HashMap<String, Category> getCategoryMap(){
+        return categoryMap;
+    }
+
+    //
+    public boolean addCategory(Category cat){
+        // category already exists?
+        if (categoryMap.containsKey(cat.getName())){
+            return false;
+        }
+        else {
+            categoryMap.put(cat.getName(), cat);
+            // category added
+            return true;
+        }
+    }
+
+    //public boolean addToCategory()
+
+    public boolean removeCategory(Category cat){
+        // category exists and is empty?
+        if (categoryMap.containsKey(cat.getName()) && categoryMap.get(cat.getName()).getCount() == 0){
+            categoryMap.remove(cat.getName());
+            // category removed
+            return true;
+        }
+        else {
+            // category not found/removed
+            return false;
+        }
+    }
+
+    public void initCategories(){
+        // get all used categories
+        for(InventoryItem item : getItemMap().values()){
+            // if category already exists
+            if (categoryMap.containsKey(item.getCategory())){
+                // add new item
+                categoryMap.get(item.getCategory()).increaseCount();
+            }
+            else{
+                // create new category
+                categoryMap.put(item.getCategory(), item.getCategoryObj());
+            }
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 import javax.swing.table.AbstractTableModel;
-import java.util.List;
+import java.util.HashMap;
 /**
  *
  * The InventoryTableModel class contains all Methods and data needed to construct a meaningful table in Main.java
@@ -9,9 +9,8 @@ import java.util.List;
  * @version 1.0
  */
 public class InventoryTableModel extends AbstractTableModel {
-    /**
-     * column titles as an Object list
-     */
+
+    // TODO Gewicht und Preis vom dg und cent in g und euro umrechenen
     private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
     /**
@@ -80,17 +79,18 @@ public class InventoryTableModel extends AbstractTableModel {
      * @return a Object list of the inventory
      */
     private Object[][] convertToObject(Inventory inventory) {
-        Object[][] newContent = new Object[inventory.getItems().size()][6];
+        Object[][] newContent = new Object[inventory.getItemMap().size()][6];
 
-        for(int i=0; i<inventory.getItems().size(); i++) {
-            newContent[i][0] = inventory.getItems().get(i).description;
-            newContent[i][1] = inventory.getItems().get(i).category;
-            newContent[i][2] = inventory.getItems().get(i).stock;
-            newContent[i][3] = inventory.getItems().get(i).location;
-            newContent[i][4] = inventory.getItems().get(i).weight;
-            newContent[i][5] = inventory.getItems().get(i).price;
+        int j = 0;
+        for(InventoryItem item : App.getInventory().getItemMap().values()){
+            newContent[j][0] = item.getDescription();
+            newContent[j][1] = item.getCategory();
+            newContent[j][2] = item.getStock();
+            newContent[j][3] = item.getLocation();
+            newContent[j][4] = item.getWeight();
+            newContent[j][5] = item.getPrice();
+            j++;
         }
-
         return newContent;
     }
 }
