@@ -33,21 +33,25 @@ public class InventoryItem {
      * This results in a maximum of 1.000.000 different items in the System
      */
     String location;
-    Integer weight;     // in 0.1g
-    Integer price;       // in cents
 
-    /*
-    Lagerort:
-    0 - 9 sind verfügbare Zeichen
-    Nach Muster: ABCDDD
-    A - Abteilung
-    B - Sub-Abteilung
-    C - Regalnummer
-    DDD - Platznummer
-    >> Ergibt max. 1.000.000 Einträge
+    /**
+     * weight of an item in 0.1 gram
+     */
+    Integer weight;
 
-    */
+    /**
+     * price of an item in cents
+     */
+    Integer price;
 
+    /**
+     * @param description Short description of the item
+     * @param category Category of the item
+     * @param stock Amount of items of this type on stock
+     * @param location location of the item
+     * @param weight weight of an item in 0.1 gram
+     * @param price price of an item in cents
+     */
     public InventoryItem(String description, String category, Integer stock, String location, Integer weight, Integer price) {
         this.description = description;
         this.category = category;
@@ -71,7 +75,6 @@ public class InventoryItem {
         return csv;
     }
 
-    // return true if inventory item is valid
     /**
      * @return true if inventory is valid
      */

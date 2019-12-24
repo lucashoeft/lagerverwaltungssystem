@@ -12,29 +12,88 @@ import java.awt.event.ActionListener;
  */
 import java.util.Iterator;
 
+/**
+ *
+ * InventoryItemDialog is the window which is used to create new items
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class InventoryItemDialog extends JDialog {
 
+    /**
+     * is true when acceptButton has been clicked
+     */
     public Boolean acceptButtonClicked = false;
 
+    /**
+     * Label which shows "Produkbezeichnung"
+     */
     private JLabel descriptionLabel = new JLabel("Produktbezeichnung");
+
+    /**
+     * text field which holds the new description of the item
+     */
     private JTextField descriptionTextField = new JTextField(15);
 
+    /**
+     * Label which shows "Kategorie"
+     */
     private JLabel categoryLabel = new JLabel("Kategorie");
+
+    /**
+     *
+     */
     private JComboBox categoryComboBox = new JComboBox();
 
+    /**
+     * Label which shows "Lagerbestand"
+     */
     private JLabel stockLabel = new JLabel("Lagerbestand");
+
+    /**
+     * text field which holds the new stock of the item
+     */
     private JTextField stockTextField = new JTextField(15);
 
+    /**
+     * Label which shows "Lagerort"
+     */
     private JLabel locationLabel = new JLabel("Lagerort");
+
+    /**
+     * text field which holds the new location of the item
+     */
     private JTextField locationTextField = new JTextField(15);
 
+    /**
+     * Label which shows "Gewicht in g"
+     */
     private JLabel weightLabel = new JLabel("Gewicht in g");
+
+    /**
+     * text field which holds the new weight of the item in gram
+     */
     private JTextField weightTextField = new JTextField(15);
 
+    /**
+     * Label which shows "Preis in €"
+     */
     private JLabel priceLabel = new JLabel("Preis in €");
+
+    /**
+     * text field which holds the new price of the item
+     */
     private JTextField priceTextField = new JTextField(15);
 
+    /**
+     * Button to close dialog without any changes to the item
+     */
     private JButton dismissButton = new JButton("Abbrechen");
+
+    /**
+     * Button to close dialog but save all changes if possible
+     */
     private JButton acceptButton = new JButton("Erstellen");
 
     /**

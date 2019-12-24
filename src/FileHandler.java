@@ -15,16 +15,13 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class FileHandler {
-
-    public HashMap<String, InventoryItem> readInventoryFromCSV(Path pathName) {
-        HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
     /**
      * create Inventory object from a .CSV file at pathName
      * @param pathName the path where the file is used from
      * @return Inventory object
      */
-    public List<InventoryItem> readInventoryFromCSV(Path pathName) {
-        List<InventoryItem> inventory = new ArrayList<>();
+    public HashMap<String, InventoryItem> readInventoryFromCSV(Path pathName) {
+        HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
 
         // create an instance of BufferedReader
         // using try with resource, Java 7 feature to close resources

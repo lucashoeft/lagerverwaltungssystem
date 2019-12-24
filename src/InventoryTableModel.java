@@ -11,6 +11,9 @@ import java.util.HashMap;
 public class InventoryTableModel extends AbstractTableModel {
 
     // TODO Gewicht und Preis vom dg und cent in g und euro umrechenen
+    /**
+     * column title array
+     */
     private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
 
     /**

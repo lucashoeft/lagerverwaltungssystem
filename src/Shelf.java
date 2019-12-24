@@ -12,8 +12,18 @@ public class Shelf {
      * shelf number
      */
     private Integer id;
+
+    /**
+     * total weight of shelf
+     */
     private int weight;
 
+    /**
+     * Constructor for a new shelf
+     *
+     * @param id shelf number of new shelf
+     * @param weight total weight of new shelf
+     */
     public Shelf(int id, int weight){
         this.id = id;
         this.weight = weight;
@@ -50,11 +60,19 @@ public class Shelf {
         this.id = id;
     }
 
+    /**
+     * @return weight of shelf
+     */
     public int getWeight() {
         return weight;
     }
 
-    public void setWeight(int w) { this.weight = w; }
+    /**
+     * @param w new weight of shelf
+     */
+    public void setWeight(int w) {
+        this.weight = w;
+    }
 
 
     /**

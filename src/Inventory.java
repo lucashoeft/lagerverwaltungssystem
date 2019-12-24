@@ -1,14 +1,33 @@
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+/**
+ *
+ * during runtime an Inventory object contains all items of the database
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class Inventory {
 
     /**
      * path stores the path where the .csv file of the database lies
      */
     private String path;
+
+    /**
+     * itemMap contains all items at the key of their description
+     */
     private HashMap<String, InventoryItem> itemMap;
+
+    /**
+     * shelfMap contains all shelves at the key of their ID
+     */
     private HashMap<Integer, Shelf> shelfMap;
+
+    /**
+     * categoryMap contains all categories at the key of their name
+     */
     private HashMap<String, Category> categoryMap;
 
     /**
@@ -43,7 +62,6 @@ public class Inventory {
         return path;
     }
 
-    // read file, parse and store
     /**
      * read file, parse file to object and save locally
      */
@@ -52,7 +70,13 @@ public class Inventory {
         itemMap = fileHandler.readInventoryFromCSV(Paths.get(path));
     }
 
-    // add item
+    /**
+     * add a new item to itemMap.
+     * is successful when item doesn't exist yet and won't make shelf too heavy
+     *
+     * @param item item to be added
+     * @return true if successful else return false
+     */
     public boolean addNewItem(InventoryItem item) {
         // new item?
         for(InventoryItem itemCheck : getItemMap().values()) {
@@ -79,7 +103,12 @@ public class Inventory {
         return false;
     }
 
-    // remove item
+    /**
+     * remove item from itemMap
+     *
+     * @param name name of the item
+     * @return true if item removed else return false
+     */
     public boolean deleteItem(String name) {
         // item exists?
         if (itemMap.containsKey(name)) {
@@ -94,23 +123,39 @@ public class Inventory {
         return false;
     }
 
-    // return all items
+    /**
+     * @return all existing items
+     */
     public HashMap<String, InventoryItem> getItemMap() {
         return itemMap;
     }
 
     // return the item with the specified description or null
+
+    /**
+     * @param name name of an item
+     * @return item object with name
+     */
     public InventoryItem getItem(String name)
     {
         return itemMap.get(name);
     }
 
-    // return all items matching the search mask
+    /**
+     * @param searchMask String which needs to be in all found items
+     * @return all items fitting the search mask
+     */
     public HashMap<String, InventoryItem> getItems(String searchMask) {
         return itemMap;
     }
 
-    // change item stock
+    /**
+     * increase the stock of an item
+     *
+     * @param name name of the item
+     * @param count new stock = old stock + count
+     * @return true if successful else return false
+     */
     public boolean increaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
             if (addItemToStorage(itemMap.get(name), count)){
@@ -122,6 +167,14 @@ public class Inventory {
     }
 
     // change item stock
+
+    /**
+     * decrease the stock of an item
+     *
+     * @param name name of the item
+     * @param count new stock= old stock - count
+     * @return true if successful else return false
+     */
     public boolean decreaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
             if (removeItemFromStorage(itemMap.get(name), count)){
@@ -145,7 +198,9 @@ public class Inventory {
         return string;
     }
 
-    // initialize storage with all needed shelves
+    /**
+     * initialize storage with all valid shelves
+     */
     public void initStorage(){
         // get all used shelves
         for(InventoryItem item : getItemMap().values()){
@@ -164,15 +219,27 @@ public class Inventory {
         }
     }
 
+    /**
+     * @return all shelves Map
+     */
     public HashMap<Integer, Shelf> getShelfMap() {
         return shelfMap;
     }
 
+    /**
+     * @param shelfMap new Map of all shelves
+     */
     public void setShelfMap(HashMap<Integer, Shelf> shelfMap) {
         this.shelfMap = shelfMap;
     }
 
-    //fügt Storage count neue Artikel hinzu, falls nicht zu schwer
+    /**
+     * add count new items to Storage if it doesn't make shelf too heavy
+     *
+     * @param item item to be added
+     * @param count amount of items
+     * @return true if successful, else return false
+     */
     public boolean addItemToStorage(InventoryItem item, int count){
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
@@ -195,6 +262,14 @@ public class Inventory {
     }
 
     //entfernt count Artikel aus Storage
+
+    /**
+     * remove count items from Storage
+     *
+     * @param item item to be removed
+     * @param count amount of items to be removed
+     * @return true if successful, else return false
+     */
     public boolean removeItemFromStorage(InventoryItem item, int count){
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
@@ -211,11 +286,17 @@ public class Inventory {
         }
     }
 
+    /**
+     * @return Map of all categories
+     */
     public HashMap<String, Category> getCategoryMap(){
         return categoryMap;
     }
 
-    //
+    /**
+     * @param cat new categorie which is added to categoryMap
+     * @return true if successful, else return false
+     */
     public boolean addCategory(Category cat){
         // category already exists?
         if (categoryMap.containsKey(cat.getName())){
@@ -230,6 +311,10 @@ public class Inventory {
 
     //public boolean addToCategory()
 
+    /**
+     * @param cat category which is to be removed
+     * @return true if successful, else return false
+     */
     public boolean removeCategory(Category cat){
         // category exists and is empty?
         if (categoryMap.containsKey(cat.getName()) && categoryMap.get(cat.getName()).getCount() == 0){
@@ -243,6 +328,9 @@ public class Inventory {
         }
     }
 
+    /**
+     * Find all categories in itemMap and set categoryMap to all used categories
+     */
     public void initCategories(){
         // get all used categories
         for(InventoryItem item : getItemMap().values()){

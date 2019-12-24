@@ -125,6 +125,10 @@ public class Main extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Listener class for Button clicks. When a button is clicked the ListenForButton class checks which button has
+     * been clicked and then decides what method to run
+     */
     private class ListenForButton implements ActionListener {
 
         // Wird aufgerufen wenn ein Button gedrückt wird
