@@ -27,7 +27,7 @@ public class InventoryItemDialog extends JDialog {
     public Boolean acceptButtonClicked = false;
 
     /**
-     * Label which shows "Produkbezeichnung"
+     * Label which holds title for descriptionTextField
      */
     private JLabel descriptionLabel = new JLabel("Produktbezeichnung");
 
@@ -37,17 +37,17 @@ public class InventoryItemDialog extends JDialog {
     private JTextField descriptionTextField = new JTextField(15);
 
     /**
-     * Label which shows "Kategorie"
+     * Label which holds title for categoryComboBox
      */
     private JLabel categoryLabel = new JLabel("Kategorie");
 
     /**
-     *
+     * Dropdown menu so select category9
      */
     private JComboBox categoryComboBox = new JComboBox();
 
     /**
-     * Label which shows "Lagerbestand"
+     * Label which holds label for stockTextField
      */
     private JLabel stockLabel = new JLabel("Lagerbestand");
 
@@ -57,7 +57,7 @@ public class InventoryItemDialog extends JDialog {
     private JTextField stockTextField = new JTextField(15);
 
     /**
-     * Label which shows "Lagerort"
+     * Label which golds title for locationTextField
      */
     private JLabel locationLabel = new JLabel("Lagerort");
 
@@ -67,7 +67,7 @@ public class InventoryItemDialog extends JDialog {
     private JTextField locationTextField = new JTextField(15);
 
     /**
-     * Label which shows "Gewicht in g"
+     * Label which holds title for weightTextField
      */
     private JLabel weightLabel = new JLabel("Gewicht in g");
 
@@ -77,7 +77,7 @@ public class InventoryItemDialog extends JDialog {
     private JTextField weightTextField = new JTextField(15);
 
     /**
-     * Label which shows "Preis in €"
+     * Label which holds description of priceTextField
      */
     private JLabel priceLabel = new JLabel("Preis in €");
 

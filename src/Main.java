@@ -18,22 +18,22 @@ public class Main extends JFrame {
 
     /**
      * FileHandler for loading and saving of the database
-      */
+     */
     FileHandler fileHandler = new FileHandler();
 
     /**
      * FileChooser to choose a .CSV file
-      */
+     */
     JFileChooser filechooser = new JFileChooser();
 
     /**
      * Button to open a new .CSV file
-      */
+     */
     JButton openButton = new JButton("Datei öffnen");
 
     /**
-     * Search Button
-      */
+     * search Button
+     */
     JButton searchButton = new JButton("Suchen");
 
     /**
@@ -42,23 +42,23 @@ public class Main extends JFrame {
     JButton createInventoryItemButton = new JButton("Artikel erstellen");
 
     /**
-     * Manage Categories Button
+     * manage Categories Button
      */
     JButton manageCategoryButton = new JButton("Kategorien verwalten");
 
     /**
-     * Search Field
+     * search Field
      */
     JTextField textField1 = new JTextField("", 15);
 
     /**
      * table to show item data
-      */
+     */
     JTable table;
 
     /**
-     * Data model which holds data for the table
-      */
+     * data model which holds data for the table
+     */
     InventoryTableModel inventoryTableModel = new InventoryTableModel();
 
     /**
@@ -66,29 +66,29 @@ public class Main extends JFrame {
      */
     public Main() {
 
-        // minimale Fenstergröße 620x420
+        // minimum window size : 620x420
         this.setMinimumSize(new Dimension(620, 420));
 
         this.setSize(800, 600);
 
-        // Fenster mittig auf dem Bildschirm
+        // window centered on screen
         this.setLocationRelativeTo(null);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setTitle("Lagerverwaltungssystem");
 
-        // Bereich über der Tabelle als Panel
+        // area above table as Panel
         JPanel topPanel = new JPanel();
 
         // Button Listener
-        // Entscheidet was nach einem Knopfdruck passiert
+        // Decides what happens after button press
         ListenForButton listenForButton = new ListenForButton();
 
-        // Button zum öffnen einer CSV Datei
+        // Button for opening a .CSV file
         openButton.addActionListener(listenForButton);
 
-        // Hinzufügen der Komponenten zum Fenster
+        // adding of components to the window
         topPanel.add(openButton);
         topPanel.add(textField1);
         topPanel.add(searchButton);
@@ -97,20 +97,20 @@ public class Main extends JFrame {
         manageCategoryButton.addActionListener(listenForButton);
         topPanel.add(manageCategoryButton);
 
-        // Hinzufügen des ButtonListeners zu den Buttons
+        // Adding of Button Listener to buttons
         createInventoryItemButton.addActionListener(listenForButton);
         searchButton.addActionListener(listenForButton);
 
         this.add(topPanel, BorderLayout.NORTH);
 
-        // Erstellen der Tabelle
-        // Daten sind in inventoryTableModel gespeichert
+        // table creation
+        // data is stored in InvetoryTableModel
         table = new JTable(inventoryTableModel);
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
 
-        // Wenn CSV Datei existiert, dann lade die CSV Datei in die Tabelle
+        // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
             App.getInventory().loadData();
             App.getInventory().initStorage();
@@ -118,7 +118,7 @@ public class Main extends JFrame {
             inventoryTableModel.setData(App.getInventory());
         }
 
-        // Bereich auf dem Fenster mit der Tabelle
+        // Scrollable area which contains the table
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -139,8 +139,8 @@ public class Main extends JFrame {
          */
         public void actionPerformed(ActionEvent e) {
 
-            // Aktion für Suchbutton
-            // Durchsuche Tabelle nach Schlüsselwort in textField1
+            // action for searchButton
+            // Search table for string in textField1
             if (e.getSource() == searchButton) {
                 String text = textField1.getText();
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
@@ -152,8 +152,8 @@ public class Main extends JFrame {
                 }
             }
 
-            // Aktion für Öffnenbutton
-            // Öffne Filechooser, setze neuen Pfad der CSV Datei auf die ausgewählte Datei, aktualisiere die Tabelle
+            // Action for openButton
+            // open Filechooser, set new Path of .CSV file to selected file, update table
             if (e.getSource() == openButton) {
                 filechooser.setCurrentDirectory(new java.io.File("."));
                 filechooser.setDialogTitle("Datei öffnen");
@@ -173,8 +173,8 @@ public class Main extends JFrame {
                     System.out.println(filechooser.getSelectedFile().toString());
                 }
             }
-            // Aktion für Erstellen Button
-            // Öffne neues InventoryItemDialog Fenster
+            // action for createInventroyItemButton
+            // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
                 InventoryItemDialog inventoryItemDialog = new InventoryItemDialog();
                 inventoryItemDialog.setSize(340,260);

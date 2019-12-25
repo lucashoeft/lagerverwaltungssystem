@@ -18,7 +18,7 @@ public class AddCategoryDialog extends JDialog {
     public Boolean acceptButtonClicked = false;
 
     /**
-     * Label that holds "Kategoriename"
+     * Label that holds tite for categoryNameTextField
      */
     private JLabel categoryNameLabel = new JLabel("Kategoriename");
 
