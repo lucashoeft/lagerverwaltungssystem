@@ -3,33 +3,102 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ *
+ * This Dialog class is opened when a user wants to create a new InventoryItem.
+ *
+ * @author ...
+ * @version 1.0
+ */
 import java.util.Iterator;
 
+/**
+ *
+ * InventoryItemDialog is the window which is used to create new items
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class InventoryItemDialog extends JDialog {
 
+    /**
+     * is true when acceptButton has been clicked
+     */
     public Boolean acceptButtonClicked = false;
 
+    /**
+     * Label which holds title for descriptionTextField
+     */
     private JLabel descriptionLabel = new JLabel("Produktbezeichnung");
+
+    /**
+     * text field which holds the new description of the item
+     */
     private JTextField descriptionTextField = new JTextField(15);
 
+    /**
+     * Label which holds title for categoryComboBox
+     */
     private JLabel categoryLabel = new JLabel("Kategorie");
+
+    /**
+     * Dropdown menu so select category9
+     */
     private JComboBox categoryComboBox = new JComboBox();
 
+    /**
+     * Label which holds label for stockTextField
+     */
     private JLabel stockLabel = new JLabel("Lagerbestand");
+
+    /**
+     * text field which holds the new stock of the item
+     */
     private JTextField stockTextField = new JTextField(15);
 
+    /**
+     * Label which golds title for locationTextField
+     */
     private JLabel locationLabel = new JLabel("Lagerort");
+
+    /**
+     * text field which holds the new location of the item
+     */
     private JTextField locationTextField = new JTextField(15);
 
+    /**
+     * Label which holds title for weightTextField
+     */
     private JLabel weightLabel = new JLabel("Gewicht in g");
+
+    /**
+     * text field which holds the new weight of the item in gram
+     */
     private JTextField weightTextField = new JTextField(15);
 
+    /**
+     * Label which holds description of priceTextField
+     */
     private JLabel priceLabel = new JLabel("Preis in €");
+
+    /**
+     * text field which holds the new price of the item
+     */
     private JTextField priceTextField = new JTextField(15);
 
+    /**
+     * Button to close dialog without any changes to the item
+     */
     private JButton dismissButton = new JButton("Abbrechen");
+
+    /**
+     * Button to close dialog but save all changes if possible
+     */
     private JButton acceptButton = new JButton("Erstellen");
 
+    /**
+     * Constructor for the InventoryItemDialog
+     */
     public InventoryItemDialog() {
         this.setResizable(false);
         this.setTitle("Artikel erstellen");
@@ -84,6 +153,9 @@ public class InventoryItemDialog extends JDialog {
         this.pack();
     }
 
+    /**
+     * ButtonListener contains all actions that are taken when certain buttons are clicked
+     */
     class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -93,6 +165,7 @@ public class InventoryItemDialog extends JDialog {
             }
 
             if (e.getSource() == acceptButton) {
+
                 if (isValidInput()) {
 
                     // hard coded test example
@@ -115,7 +188,9 @@ public class InventoryItemDialog extends JDialog {
             }
         }
     }
-
+    /**
+     * @return true if all Fields are entered without error else false
+     */
     private Boolean isValidInput() {
         if (isValidDescription() && isValidStock() && isValidLocation() && isValidWeight() && isValidPrice()) {
             return true;
@@ -123,6 +198,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if description is entered without error else false
+     */
     private Boolean isValidDescription() {
         // Produktbezeichnung (Produktname)
         String stringValue = descriptionTextField.getText();
@@ -133,6 +211,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if stock is entered without error else false
+     */
     private Boolean isValidStock() {
         // Bestand
         String stringValue = stockTextField.getText();
@@ -148,6 +229,9 @@ public class InventoryItemDialog extends JDialog {
         }
     }
 
+    /**
+     * @return true if location is entered without error else false
+     */
     private Boolean isValidLocation() {
         // Lagerort (Lagerplatznummer)
         String stringValue = locationTextField.getText();
@@ -158,6 +242,9 @@ public class InventoryItemDialog extends JDialog {
         return false;
     }
 
+    /**
+     * @return true if weight is entered without error else false
+     */
     private Boolean isValidWeight() {
         // Gewicht
         String stringValue = weightTextField.getText();
@@ -189,6 +276,9 @@ public class InventoryItemDialog extends JDialog {
         }
     }
 
+    /**
+     * @return true if price is entered without error else false
+     */
     private Boolean isValidPrice() {
         // Preis
         String stringValue = priceTextField.getText();

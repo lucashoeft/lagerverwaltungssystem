@@ -4,16 +4,42 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The AddCategoryDialog is the window used to create new categories
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class AddCategoryDialog extends JDialog {
 
+    /**
+     * acceptButtonClicked is true when the acceptButton is pressed
+     */
     public Boolean acceptButtonClicked = false;
 
+    /**
+     * Label that holds tite for categoryNameTextField
+     */
     private JLabel categoryNameLabel = new JLabel("Kategoriename");
+
+    /**
+     * text field that holds the name of the new category
+     */
     private JTextField categoryNameTextField = new JTextField(15);
 
+    /**
+     * button to close dialog and cancel creating category
+     */
     JButton dismissButton = new JButton("Abbrechen");
+
+    /**
+     * button to confirm input and create new category
+     */
     JButton acceptButton = new JButton("Erstellen");
 
+    /**
+     * Constructor for a new AddCategoryDialog
+     */
     AddCategoryDialog() {
         this.setTitle("Kategorie hinzufügen");
         this.setLayout(new GridLayout(2,1));
@@ -42,6 +68,10 @@ public class AddCategoryDialog extends JDialog {
         this.pack();
     }
 
+    /**
+     * ButtonListener listens for button presses. When a button is pressed ButtonListener checks which button has been
+     * pressed and what should be done.
+     */
     class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == dismissButton) {
@@ -68,6 +98,9 @@ public class AddCategoryDialog extends JDialog {
         }
     }
 
+    /**
+     * @return is the entered name a valid category name?
+     */
     private Boolean isValidInput() {
         String stringValue = categoryNameTextField.getText();
 

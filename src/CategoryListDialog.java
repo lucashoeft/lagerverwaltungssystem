@@ -5,11 +5,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * CategoryListDialog is the window which shows all categories in a table. From here it is possible to create and
+ * delete categories
+ *
+ * @author ...
+ * @version 1.0
+ */
 public class CategoryListDialog extends JDialog {
 
+    /**
+     * Button to open the AddCategoryDialog window
+     */
     JButton addCategoryButton = new JButton("Kategorie hinzufügen");
+
+    /**
+     * Table which holds all categories
+     */
     JTable jtable;
 
+    /**
+     * Data inside the table currently only hardcoded
+     */
     String[][] rowData = {
             { "Anspitzer", "4" },
             { "Federmäppchen", "5" },
@@ -21,10 +38,16 @@ public class CategoryListDialog extends JDialog {
             { "Technisches Zeichnen", "4" }
     };
 
+    /**
+     * column titles
+     */
     String[] columnNames =  {
             "Kategorie", "Anzahl der Artikel"
     };
 
+    /**
+     * categoryTableModel of the table which is the DefaultTableModel with an overwriten getColumnClass Method
+     */
     DefaultTableModel categoryTableModel = new DefaultTableModel(rowData, columnNames) {
         @Override
         public Class<?> getColumnClass(int columnIndex) {
@@ -40,6 +63,9 @@ public class CategoryListDialog extends JDialog {
         }
     };
 
+    /**
+     * Constructor for a new CategoryListDialog
+     */
     public CategoryListDialog() {
         this.setResizable(false);
         this.setTitle("Kategorien verwalten");
