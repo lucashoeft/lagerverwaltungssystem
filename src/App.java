@@ -34,12 +34,13 @@ public class App {
      */
     public static void main(String[] args) throws IOException {
 
-        //Testausgabe des aktuellen Pfades der verwendeten Da tenbank/.csv Datei
-        System.out.println(inventory.getPath());
-        System.out.println(configPath);
+
         readConfigFile(configPath);
         GUI.run();
 
+        //print to check for correct path of .csv file
+        System.out.println(inventory.getPath());
+        System.out.println(configPath);
 
     }
 
