@@ -25,20 +25,6 @@ public class CategoryListDialog extends JDialog {
     JTable jtable;
 
     /**
-     * Data inside the table currently only hardcoded
-     */
-    String[][] rowData = {
-            { "Anspitzer", "4" },
-            { "Federmäppchen", "5" },
-            { "Füllfederhalter & Kugelschreiber", "3" },
-            { "Marker & Filzstifte", "2" },
-            { "Minen Patronen & Tintenlöscher", "1"},
-            { "Radiergummies & Korrekturtools", "3" },
-            { "Stifte", "4" },
-            { "Technisches Zeichnen", "4" }
-    };
-
-    /**
      * column titles
      */
     String[] columnNames =  {
@@ -48,7 +34,7 @@ public class CategoryListDialog extends JDialog {
     /**
      * categoryTableModel of the table which is the DefaultTableModel with an overwriten getColumnClass Method
      */
-    DefaultTableModel categoryTableModel = new DefaultTableModel(rowData, columnNames) {
+    DefaultTableModel categoryTableModel = new DefaultTableModel(null, columnNames) {
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             Class returnValue;
@@ -85,6 +71,11 @@ public class CategoryListDialog extends JDialog {
         jtable.setRowHeight(jtable.getRowHeight() + 6);
         jtable.setAutoCreateRowSorter(true);
 
+        for(Category cat : App.getInventory().getCategoryMap().values()){
+            String[] obj = { cat.getName(), String.valueOf(cat.getCount()) };
+            categoryTableModel.addRow(obj);
+        }
+
         JScrollPane scrollPane = new JScrollPane(jtable);
         inputPanel.add(scrollPane, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.NORTH);
@@ -101,7 +92,16 @@ public class CategoryListDialog extends JDialog {
                 addCategoryDialog.setVisible(true);
 
                 if (addCategoryDialog.acceptButtonClicked) {
-                    // TODO: Update TableModel
+                    while (categoryTableModel.getRowCount()>0) {
+                        categoryTableModel.removeRow(0);
+                    }
+
+                    for(Category cat : App.getInventory().getCategoryMap().values()){
+                        String[] obj = { cat.getName(), String.valueOf(cat.getCount()) };
+                        categoryTableModel.addRow(obj);
+                    }
+
+                    // TODO: Save updated App.getInventory().getCategoryMap() in CSV file
                 }
             }
         });
