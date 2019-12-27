@@ -154,7 +154,7 @@ public class Main extends JFrame {
                 if (text.length() == 0) {
                     sorter.setRowFilter(null);
                 } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".","")));
                 }
             }
 
