@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -7,6 +8,9 @@ import java.awt.event.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * This is the main Window of the Storage-Management-System.
  * It contains a filterable table with all items on stock.
@@ -109,6 +113,8 @@ public class Main extends JFrame {
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(4).setCellRenderer(new WeightTableCellRenderer());
+        table.getColumnModel().getColumn(5).setCellRenderer(new PriceTableCellRenderer());
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
@@ -198,5 +204,38 @@ public class Main extends JFrame {
         }
     }
 
+    private class WeightTableCellRenderer extends DefaultTableCellRenderer {
+
+        public WeightTableCellRenderer() {
+            setHorizontalAlignment(JLabel.RIGHT);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (value instanceof Number) {
+                Double valueX = ((Number) value).doubleValue() / 10.0;
+                NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
+                nf.setMinimumFractionDigits(1);
+                value = nf.format(valueX);
+            }
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+    }
+
+    private class PriceTableCellRenderer extends DefaultTableCellRenderer {
+
+        public PriceTableCellRenderer() {
+            setHorizontalAlignment(JLabel.RIGHT);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (value instanceof Number) {
+                Double valueX = ((Number) value).doubleValue() / 100.0;
+                value = NumberFormat.getCurrencyInstance(Locale.GERMANY).format(valueX);
+            }
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+    }
 
 }
