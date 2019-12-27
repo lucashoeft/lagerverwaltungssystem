@@ -116,14 +116,6 @@ public class InventoryItemDialog extends JDialog {
         for(Category cat : App.getInventory().getCategoryMap().values()){
             categoryComboBox.addItem(cat.getName());
         }
-        /*categoryComboBox.addItem("Anspitzer");
-        categoryComboBox.addItem("Federmäppchen");
-        categoryComboBox.addItem("Füllfederhalter & Kugelschreiber");
-        categoryComboBox.addItem("Marker & Filzstifte");
-        categoryComboBox.addItem("Minen Patronen & Tintenlöscher");
-        categoryComboBox.addItem("Radiergummies & Korrekturtools");
-        categoryComboBox.addItem("Stifte");
-        categoryComboBox.addItem("Technisches Zeichnen");*/
 
         inputPanel.add(stockLabel);
         inputPanel.add(stockTextField);
@@ -165,29 +157,96 @@ public class InventoryItemDialog extends JDialog {
             }
 
             if (e.getSource() == acceptButton) {
-
                 if (isValidInput()) {
-
-                    // hard coded test example
-                    InventoryItem item=new InventoryItem("Baum","cat1",3,"000001",2,3);
-                    // TODO read input, create item, fill in parameters
-                    // TODO check return value for error
-                    App.getInventory().addNewItem(item);
-
-
-                    /*
-                    acceptButtonClicked = true;
-                    dispose();
+                    try {
+                        InventoryItem item = new InventoryItem(
+                                getDescription(),
+                                getCategory(),
+                                getStock(),
+                                getItemLocation(),
+                                getWeight(),
+                                getPrice()
+                        );
+                        if (App.getInventory().addNewItem(item)) {
+                            acceptButtonClicked = true;
+                            dispose();
+                        } else {
+                            showErrorOptionPane();
+                        }
+                    } catch (Exception err){
+                        showErrorOptionPane();
+                    }
                 } else {
-                    System.out.println("Input not valid!");
-                    /* final JDialog dialog = new JDialog();
-                    dialog.setAlwaysOnTop(true);
-                    JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft oder nicht vorhanden. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
-                    */
+                    showErrorOptionPane();
                 }
             }
         }
     }
+
+    private String getDescription() {
+        return descriptionTextField.getText();
+    }
+
+    private String getCategory() {
+        return categoryComboBox.getSelectedItem().toString();
+    }
+
+    private Integer getStock() throws Exception {
+        // Bestand
+        String stringValue = stockTextField.getText();
+
+        try {
+            Integer stockValue = Integer.parseInt(stringValue);
+            return stockValue;
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
+    private String getItemLocation() {
+        return locationTextField.getText();
+    }
+
+    private Integer getWeight() {
+        String stringValue = weightTextField.getText();
+
+        if (stringValue.contains(",")) {
+            if (stringValue.matches(".*,")) {
+                String value = stringValue.replace(",","");
+                Integer decigramValue = Integer.parseInt(value) * 10;
+                return decigramValue;
+            } else if (stringValue.matches(".*,[0-9]")) {
+                String value = stringValue.replace(",","");
+                Integer decigramValue = Integer.parseInt(value);
+                return decigramValue;
+            }
+        }
+        Integer decigramValue = Integer.parseInt(stringValue) * 10;
+        return decigramValue;
+    }
+
+    private Integer getPrice() {
+        String stringValue = priceTextField.getText();
+        if (stringValue.contains(",")) {
+            if (stringValue.matches(".*,")) {
+                String value = stringValue.replace(",", "");
+                Integer centValue = Integer.parseInt(value) * 100;
+                return centValue;
+            } else if (stringValue.matches(".*,[0-9]")) {
+                String value = stringValue.replace(",", "");
+                Integer centValue = Integer.parseInt(value) * 10;
+                return centValue;
+            } else if (stringValue.matches(".*,[0-9][0-9]")) {
+                String value = stringValue.replace(",", "");
+                Integer centValue = Integer.parseInt(value);
+                return centValue;
+            }
+        }
+        String value = stringValue.replace(",","");
+        Integer centValue = Integer.parseInt(value) * 100;
+        return centValue;
+    }
+
     /**
      * @return true if all Fields are entered without error else false
      */
@@ -202,10 +261,7 @@ public class InventoryItemDialog extends JDialog {
      * @return true if description is entered without error else false
      */
     private Boolean isValidDescription() {
-        // Produktbezeichnung (Produktname)
-        String stringValue = descriptionTextField.getText();
-
-        if (stringValue.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
+        if (getDescription().matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
             return true;
         }
         return false;
@@ -215,12 +271,8 @@ public class InventoryItemDialog extends JDialog {
      * @return true if stock is entered without error else false
      */
     private Boolean isValidStock() {
-        // Bestand
-        String stringValue = stockTextField.getText();
-
         try {
-            Integer stockValue = Integer.parseInt(stringValue);
-            if (stockValue >= 0 && stockValue <= 100_000_000) {
+            if (getStock() >= 0 && getStock() <= 100_000_000) {
                 return true;
             }
             return false;
@@ -233,10 +285,7 @@ public class InventoryItemDialog extends JDialog {
      * @return true if location is entered without error else false
      */
     private Boolean isValidLocation() {
-        // Lagerort (Lagerplatznummer)
-        String stringValue = locationTextField.getText();
-
-        if (stringValue.matches("[0-9]{6}")) {
+        if (getItemLocation().matches("[0-9]{6}")) {
             return true;
         }
         return false;
@@ -246,32 +295,9 @@ public class InventoryItemDialog extends JDialog {
      * @return true if weight is entered without error else false
      */
     private Boolean isValidWeight() {
-        // Gewicht
-        String stringValue = weightTextField.getText();
-
-        try {
-            if (stringValue.contains(",")) {
-                if (stringValue.matches(".*,")) {
-                    String value = stringValue.replace(",","");
-                    int decigramValue = Integer.parseInt(value) * 10;
-                    if (decigramValue >= 1 && decigramValue <= 100_000_000) {
-                        return true;
-                    }
-                } else if (stringValue.matches(".*,[0-9]")) {
-                    String value = stringValue.replace(",","");
-                    int decigramValue = Integer.parseInt(value);
-                    if (decigramValue >= 1 && decigramValue <= 100_000_000) {
-                        return true;
-                    }
-                }
-            } else {
-                Long decigramValue = Long.parseLong(stringValue) * 10;
-                if (decigramValue >= 1 && decigramValue <= 100_000_000) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception e) {
+        if (getWeight() >= 1 && getWeight() <= 100000000) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -280,40 +306,16 @@ public class InventoryItemDialog extends JDialog {
      * @return true if price is entered without error else false
      */
     private Boolean isValidPrice() {
-        // Preis
-        String stringValue = priceTextField.getText();
-
-        try {
-            if (stringValue.contains(",")) {
-                if (stringValue.matches(".*,")) {
-                    String value = stringValue.replace(",","");
-                    Integer centValue = Integer.parseInt(value) * 100;
-                    if (centValue >= 1 && centValue <= 99_99_900) {
-                        return true;
-                    }
-                } else if (stringValue.matches(".*,[0-9]")) {
-                    String value = stringValue.replace(",","");
-                    Integer centValue = Integer.parseInt(value) * 10;
-                    if (centValue >= 1 && centValue <= 99_99_900) {
-                        return true;
-                    }
-                } else if (stringValue.matches(".*,[0-9][0-9]")) {
-                    String value = stringValue.replace(",","");
-                    Integer centValue = Integer.parseInt(value);
-                    if (centValue >= 1 && centValue <= 99_99_900) {
-                        return true;
-                    }
-                }
-            } else {
-                String value = stringValue.replace(",","");
-                Integer centValue = Integer.parseInt(value) * 100;
-                if (centValue >= 1 && centValue <= 99_99_900) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception e) {
+        if (getPrice() >= 1 && getPrice() <= 99_99_900) {
+            return true;
+        } else {
             return false;
         }
+    }
+
+    private void showErrorOptionPane() {
+        final JDialog dialog = new JDialog();
+        dialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -184,6 +184,7 @@ public class Main extends JFrame {
 
                 if (inventoryItemDialog.acceptButtonClicked) {
                     inventoryTableModel.setData(App.getInventory());
+                    fileHandler.storeInventoryInCSV(App.getInventory());
                 }
             }
 
