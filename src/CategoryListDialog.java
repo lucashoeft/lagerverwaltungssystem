@@ -89,8 +89,7 @@ public class CategoryListDialog extends JDialog {
                 JTable table = (JTable)e.getSource();
                 int modelRow = Integer.valueOf(e.getActionCommand());
                 String categoryName = table.getModel().getValueAt(modelRow,0).toString();
-                System.out.println(categoryName);
-
+                
                 if (App.getInventory().getCategoryMap().get(categoryName).getCount() == 0) {
                     final JDialog dialog = new JDialog();
                     dialog.setAlwaysOnTop(true);
