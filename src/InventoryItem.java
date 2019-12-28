@@ -136,5 +136,14 @@ public class InventoryItem {
         return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
     }
 
+    public boolean isCategory() {
+        if (description != null) return false;
+        if ((category == null) || (category.indexOf(',') >= 0)) return false;
+        if (location != null) return false;
+        if (stock != null) return false;
+        if (weight != null) return false;
+        return (price == null);
+    }
+
 
 }
