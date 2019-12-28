@@ -14,12 +14,12 @@ public class InventoryTableModel extends AbstractTableModel {
     /**
      * column title array
      */
-    private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €"};
+    private static Object[] columns = {"Produktbezeichnung", "Kategorie", "Lagerbestand", "Lagerort", "Gewicht in g", "Preis in €", "" };
 
     /**
      * item table with one list per item
      */
-    private static Object[][] data = { { "", "", "", "", "", "" } };
+    private static Object[][] data = { };
 
     /**
      *
@@ -35,6 +35,16 @@ public class InventoryTableModel extends AbstractTableModel {
             returnValue = Object.class;
         }
         return returnValue;
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        switch (columnIndex) {
+            case 6:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -82,7 +92,7 @@ public class InventoryTableModel extends AbstractTableModel {
      * @return a Object list of the inventory
      */
     private Object[][] convertToObject(Inventory inventory) {
-        Object[][] newContent = new Object[inventory.getItemMap().size()][6];
+        Object[][] newContent = new Object[inventory.getItemMap().size()][7];
 
         int j = 0;
         for(InventoryItem item : App.getInventory().getItemMap().values()){
@@ -92,6 +102,7 @@ public class InventoryTableModel extends AbstractTableModel {
             newContent[j][3] = item.getLocation();
             newContent[j][4] = item.getWeight();
             newContent[j][5] = item.getPrice();
+            newContent[j][6] = "Verwalten";
             j++;
         }
         return newContent;
