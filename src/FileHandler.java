@@ -37,16 +37,8 @@ public class FileHandler {
                 // use string.split to load a string array with the values from
                 // each line of
                 // the file, using a comma as the delimiter
-                //String[] attributes = line.split(",");
-                String[] attributes = new String[6];
-                int i = 0;
-                for (String piece: line.split(",")) {
-                    if (!piece.equals("") && !piece.equals(null)) {
-                        attributes[i] = piece;
-                    }
-                    i++;
-                }
-
+                String[] attributes = line.split(",");
+                
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
                 // adding inventoryItem into itemMap
@@ -79,24 +71,12 @@ public class FileHandler {
     private InventoryItem createInventoryItem(String[] metadata) {
         InventoryItem inventoryItem = new InventoryItem(null, null, null, null, null, null);
         try {
-            if(metadata[0] != null) {
-                inventoryItem.description = metadata[0].replaceAll("^\"|\"$", "");
-            }
-            if(metadata[1] != null) {
-                inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
-            }
-            if(metadata[2] != null) {
-                inventoryItem.stock = Integer.parseInt(metadata[2]);
-            }
-            if(metadata[3] != null) {
-                inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
-            }
-            if(metadata[4] != null) {
-                inventoryItem.weight = Integer.parseInt(metadata[4]);
-            }
-            if(metadata[5] != null) {
-                inventoryItem.price = Integer.parseInt(metadata[5]);
-            }
+            inventoryItem.description = metadata[0].replaceAll("^\"|\"$", "");
+            inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
+            inventoryItem.stock = Integer.parseInt(metadata[2]);
+            inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
+            inventoryItem.weight = Integer.parseInt(metadata[4]);
+            inventoryItem.price = Integer.parseInt(metadata[5]);
         } catch (Exception e) {
             //e.printStackTrace();
         }

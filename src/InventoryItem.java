@@ -137,12 +137,12 @@ public class InventoryItem {
     }
 
     public boolean isCategory() {
-        if (description != null) return false;
-        if ((category == null) || (category.indexOf(',') >= 0)) return false;
-        if (location != null) return false;
-        if (stock != null) return false;
-        if (weight != null) return false;
-        return (price == null);
+        if (!description.equals("-1")) return false;
+        if ((category.equals("-1")) || (category.indexOf(',') >= 0)) return false;
+        if (!location.equals("-1")) return false;
+        if (!stock.equals(-1)) return false;
+        if (!weight.equals(-1)) return false;
+        return (price.equals(-1));
     }
 
 
