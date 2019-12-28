@@ -101,7 +101,10 @@ public class CategoryListDialog extends JDialog {
                         categoryTableModel.addRow(obj);
                     }
 
-                    // TODO: Save updated App.getInventory().getCategoryMap() in CSV file
+                    //write Categories
+                    FileHandler fw = new FileHandler();
+                    fw.storeInventoryInCSV(App.getInventory());
+
                 }
             }
         });

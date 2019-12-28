@@ -192,6 +192,9 @@ public class Inventory {
      */
     public String toStringCSV() {
         String string = "";
+        for(Category cat : getCategoryMap().values()){
+            string = string.concat(cat.toStringCSV()+"\n");
+        }
         for(InventoryItem item : getItemMap().values()){
             string = string.concat(item.toStringCSV()+"\n");
         }

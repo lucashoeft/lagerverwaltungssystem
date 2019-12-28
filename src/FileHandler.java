@@ -38,12 +38,17 @@ public class FileHandler {
                 // each line of
                 // the file, using a comma as the delimiter
                 String[] attributes = line.split(",");
-
+                
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
-                // adding inventoryItem into ArrayList
+                // adding inventoryItem into itemMap
                 if (inventoryItem.isValid()) {
                     itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
+                }
+                // if Category found
+                // add Category into categoryMap
+                if (inventoryItem.isCategory()) {
+                    App.getInventory().addCategory(new Category(inventoryItem.getCategory()));
                 }
 
                 // read next line before looping
@@ -89,20 +94,20 @@ public class FileHandler {
             String path = inventory.getPath();
             Path file = Paths.get(path);
             String backup = file.getParent().toString() + "/backup.csv";
-            // delete old backup
-            if (Files.exists(Paths.get(backup))) {
-                Files.delete(Paths.get(backup));
-                System.out.println("old backup deleted");
+            if (!path.equals("")) {
+                // delete old backup
+                if (Files.exists(Paths.get(backup))) {
+                    Files.delete(Paths.get(backup));
+                    System.out.println("old backup deleted");
+                }
+                // create backup if old file exists
+                if (Files.exists(file)) {
+                    Files.move(file, Paths.get(backup));
+                    System.out.println("Backup created");
+                } else {
+                    System.out.println("New File created");
+                }
             }
-            // create backup if old file exists
-            if (Files.exists(file)) {
-                Files.move(file, Paths.get(backup));
-                System.out.println("Backup created");
-            }
-            else {
-                System.out.println("New File created");
-            }
-            Files.createFile(file);
 
             // write new file
             // if no path found, write at standard location
@@ -116,10 +121,12 @@ public class FileHandler {
 
             System.out.println("Data saved");
             // delete backup
-            Files.delete(Paths.get(backup));
-            System.out.println("Backup deleted");
+            if (Files.exists(Paths.get(backup))) {
+                Files.delete(Paths.get(backup));
+                System.out.println("Backup deleted");
+            }
         }
-        catch (IOException e) {System.err.println(e.toString());}
+        catch (IOException e) {System.err.println(e.toString()+"test");}
     }
 
 
