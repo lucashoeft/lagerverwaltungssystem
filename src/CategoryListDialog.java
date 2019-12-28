@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +30,7 @@ public class CategoryListDialog extends JDialog {
      * column titles
      */
     String[] columnNames =  {
-            "Kategorie", "Anzahl der Artikel"
+            "Kategorie", "Anzahl der Artikel", ""
     };
 
     /**
@@ -46,6 +48,16 @@ public class CategoryListDialog extends JDialog {
             }
 
             return returnValue;
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            switch (columnIndex) {
+                case 2:
+                    return true;
+                default:
+                    return false;
+            }
         }
     };
 
@@ -70,9 +82,46 @@ public class CategoryListDialog extends JDialog {
         jtable = new JTable(categoryTableModel);
         jtable.setRowHeight(jtable.getRowHeight() + 6);
         jtable.setAutoCreateRowSorter(true);
+        jtable.setCellSelectionEnabled(false);
+
+        Action deleteAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                String categoryName = table.getModel().getValueAt(modelRow,0).toString();
+                
+                if (App.getInventory().getCategoryMap().get(categoryName).getCount() == 0) {
+                    final JDialog dialog = new JDialog();
+                    dialog.setAlwaysOnTop(true);
+                    if (JOptionPane.showConfirmDialog(dialog,"Wollen Sie die Kategorie \"" + categoryName +"\" wirklich löschen?", "Kategorie löschen", JOptionPane.YES_NO_OPTION) == 0) {
+                        App.getInventory().removeCategory(new Category(categoryName));
+
+                        while (categoryTableModel.getRowCount()>0) {
+                            categoryTableModel.removeRow(0);
+                        }
+
+                        for(Category cat : App.getInventory().getCategoryMap().values()){
+                            String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
+                            categoryTableModel.addRow(obj);
+                        }
+
+                        FileHandler fileHandler = new FileHandler();
+                        fileHandler.storeInventoryInCSV(App.getInventory());
+                    }
+                } else {
+                    final JDialog dialog = new JDialog();
+                    dialog.setAlwaysOnTop(true);
+                    JOptionPane.showMessageDialog(dialog,"Kategorie konnte nicht gelöscht werden!","Fehler beim Löschen einer Kategorie",JOptionPane.ERROR_MESSAGE);
+                }
+
+
+            }
+        };
+
+        new ButtonColumn(jtable, deleteAction, 2);
 
         for(Category cat : App.getInventory().getCategoryMap().values()){
-            String[] obj = { cat.getName(), String.valueOf(cat.getCount()) };
+            String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
             categoryTableModel.addRow(obj);
         }
 
@@ -97,7 +146,7 @@ public class CategoryListDialog extends JDialog {
                     }
 
                     for(Category cat : App.getInventory().getCategoryMap().values()){
-                        String[] obj = { cat.getName(), String.valueOf(cat.getCount()) };
+                        String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
                         categoryTableModel.addRow(obj);
                     }
 
