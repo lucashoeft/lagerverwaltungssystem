@@ -115,6 +115,20 @@ public class Main extends JFrame {
         table.setFillsViewportHeight(true);
         table.getColumnModel().getColumn(4).setCellRenderer(new WeightTableCellRenderer());
         table.getColumnModel().getColumn(5).setCellRenderer(new PriceTableCellRenderer());
+        table.setCellSelectionEnabled(false);
+
+        Action manageAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
+                System.out.println(itemDescription);
+
+                // TODO: Open filled out JDialog
+            }
+        };
+
+        new ButtonColumn(table, manageAction, 6);
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
