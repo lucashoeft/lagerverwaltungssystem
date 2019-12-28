@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -89,7 +91,30 @@ public class CategoryListDialog extends JDialog {
                 String categoryName = table.getModel().getValueAt(modelRow,0).toString();
                 System.out.println(categoryName);
 
-                // TODO: Open filled out JDialog
+                if (App.getInventory().getCategoryMap().get(categoryName).getCount() == 0) {
+                    final JDialog dialog = new JDialog();
+                    dialog.setAlwaysOnTop(true);
+                    if (JOptionPane.showConfirmDialog(dialog,"Wollen Sie die Kategorie \"" + categoryName +"\" wirklich löschen?", "Kategorie löschen", JOptionPane.YES_NO_OPTION) == 0) {
+                        App.getInventory().removeCategory(new Category(categoryName));
+
+                        while (categoryTableModel.getRowCount()>0) {
+                            categoryTableModel.removeRow(0);
+                        }
+
+                        for(Category cat : App.getInventory().getCategoryMap().values()){
+                            String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
+                            categoryTableModel.addRow(obj);
+                        }
+
+                        FileHandler fileHandler = new FileHandler();
+                        fileHandler.storeInventoryInCSV(App.getInventory());
+                    }
+                } else {
+                    final JDialog dialog = new JDialog();
+                    dialog.setAlwaysOnTop(true);
+                    JOptionPane.showMessageDialog(dialog,"Kategorie konnte nicht gelöscht werden!","Fehler beim Löschen einer Kategorie",JOptionPane.ERROR_MESSAGE);
+                }
+
 
             }
         };
