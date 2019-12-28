@@ -212,7 +212,7 @@ public class Inventory {
             }
             else{
                 // create new shelf, ignore if to heavy/invalid
-                if(item.getWeight() * item.getStock() < 100000000){     // 10t = 10 000kg = 10 000 000g = 100 000 000
+                if(item.getWeight() * item.getStock() <= 100000000){     // 10t = 10 000kg = 10 000 000g = 100 000 000
                     shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
                 }
             }
@@ -252,7 +252,7 @@ public class Inventory {
         }
         else{
             // create new shelf with items
-            if(item.getWeight() * item.getStock() < 100000000) {
+            if(item.getWeight() * item.getStock() <= 100000000) {
                 shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * count));
                 //item.setStock(item.getStock() + count);
                 return true;

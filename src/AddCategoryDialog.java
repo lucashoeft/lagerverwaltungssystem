@@ -81,33 +81,37 @@ public class AddCategoryDialog extends JDialog {
 
             if (e.getSource() == acceptButton) {
                 if (isValidInput()) {
-                    // TODO: Check if description and location are unique
-
-                    // TODO: If every case above is true, add category to category list
-
-                    acceptButtonClicked = true;
-                    dispose();
+                    if (App.getInventory().addCategory(new Category(getCategoryName()))) {
+                        acceptButtonClicked = true;
+                        dispose();
+                    } else {
+                        showErrorOptionPane();
+                    }
                 } else {
-                    System.out.println("Input not valid!");
-                    /* final JDialog dialog = new JDialog();
-                    dialog.setAlwaysOnTop(true);
-                    JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft oder nicht vorhanden. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen einer Kategorie",JOptionPane.ERROR_MESSAGE);
-                    */
+                    showErrorOptionPane();
                 }
             }
         }
+    }
+
+    private String getCategoryName() {
+        return categoryNameTextField.getText();
     }
 
     /**
      * @return is the entered name a valid category name?
      */
     private Boolean isValidInput() {
-        String stringValue = categoryNameTextField.getText();
-
-        if (stringValue.matches("[a-zA-ZöäüÖÄÜß0-9]{1,256}")) {
+        if (getCategoryName().matches("[a-zA-ZöäüÖÄÜß0-9]{1,256}")) {
             return true;
         }
         return false;
 
+    }
+
+    private void showErrorOptionPane() {
+        final JDialog dialog = new JDialog();
+        dialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }
