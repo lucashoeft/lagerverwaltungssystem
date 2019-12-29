@@ -117,18 +117,89 @@ public class Main extends JFrame {
         table.getColumnModel().getColumn(5).setCellRenderer(new PriceTableCellRenderer());
         table.setCellSelectionEnabled(false);
 
+        Action addAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
+
+                final JDialog dialog = new JDialog();
+                dialog.setAlwaysOnTop(true);
+                String add = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll zum aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).stock + ") addiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
+
+                if (add != null) {
+                    try {
+                        Integer numValue = Integer.parseInt(add);
+                        if (numValue >= 0) {
+                            if (App.getInventory().increaseStockBy(itemDescription,numValue)) {
+                                inventoryTableModel.setData(App.getInventory());
+                                fileHandler.storeInventoryInCSV(App.getInventory());
+                            } else {
+                                showErrorOptionPane();
+                            }
+                        } else {
+                            showErrorOptionPane();
+                        }
+                    } catch (Exception err) {
+                        showErrorOptionPane();
+                    }
+                }
+            }
+        };
+
+        Action subAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
+
+                final JDialog dialog = new JDialog();
+                dialog.setAlwaysOnTop(true);
+                String sub = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll vom aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).stock + ") subtrahiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
+
+                if (sub != null) {
+                    try {
+                        Integer numValue = Integer.parseInt(sub);
+                        if (numValue >= 0) {
+                            if (App.getInventory().decreaseStockBy(itemDescription,numValue)) {
+                                inventoryTableModel.setData(App.getInventory());
+                                fileHandler.storeInventoryInCSV(App.getInventory());
+                            } else {
+                                showErrorOptionPane();
+                            }
+                        } else {
+                            showErrorOptionPane();
+                        }
+                    } catch (Exception err) {
+                        showErrorOptionPane();
+                    }
+                }
+            }
+        };
+
         Action manageAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 JTable table = (JTable)e.getSource();
                 int modelRow = Integer.valueOf(e.getActionCommand());
                 String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
-                System.out.println(itemDescription);
 
-                // TODO: Open filled out JDialog
+                ViewInventoryItemDialog viewInventoryItemDialog = new ViewInventoryItemDialog(App.getInventory().getItem(itemDescription));
+                viewInventoryItemDialog.setSize(340,260);
+                viewInventoryItemDialog.setLocationRelativeTo(null);
+                viewInventoryItemDialog.setModal(true);
+                viewInventoryItemDialog.setVisible(true);
+
+                if (viewInventoryItemDialog.inventoryUpdated) {
+                    inventoryTableModel.setData(App.getInventory());
+                    fileHandler.storeInventoryInCSV(App.getInventory());
+                }
             }
         };
 
-        new ButtonColumn(table, manageAction, 6);
+        new ButtonColumn(table, addAction, 6);
+        new ButtonColumn(table, subAction, 7);
+        new ButtonColumn(table, manageAction, 8);
+
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
@@ -150,8 +221,6 @@ public class Main extends JFrame {
      * been clicked and then decides what method to run
      */
     private class ListenForButton implements ActionListener {
-
-        // Wird aufgerufen wenn ein Button gedrückt wird
 
         /**
          *
@@ -196,13 +265,13 @@ public class Main extends JFrame {
             // action for createInventroyItemButton
             // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
-                InventoryItemDialog inventoryItemDialog = new InventoryItemDialog();
-                inventoryItemDialog.setSize(340,260);
-                inventoryItemDialog.setLocationRelativeTo(null);
-                inventoryItemDialog.setModal(true);
-                inventoryItemDialog.setVisible(true);
+                AddInventoryItemDialog addInventoryItemDialog = new AddInventoryItemDialog();
+                addInventoryItemDialog.setSize(340,260);
+                addInventoryItemDialog.setLocationRelativeTo(null);
+                addInventoryItemDialog.setModal(true);
+                addInventoryItemDialog.setVisible(true);
 
-                if (inventoryItemDialog.acceptButtonClicked) {
+                if (addInventoryItemDialog.acceptButtonClicked) {
                     inventoryTableModel.setData(App.getInventory());
                     fileHandler.storeInventoryInCSV(App.getInventory());
                 }
@@ -250,6 +319,12 @@ public class Main extends JFrame {
             }
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
+    }
+
+    private void showErrorOptionPane() {
+        final JDialog dialog = new JDialog();
+        dialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(dialog,"Eingegebener Werte ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
 
 }
