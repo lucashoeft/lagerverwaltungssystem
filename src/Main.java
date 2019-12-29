@@ -122,9 +122,17 @@ public class Main extends JFrame {
                 JTable table = (JTable)e.getSource();
                 int modelRow = Integer.valueOf(e.getActionCommand());
                 String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
-                System.out.println(itemDescription);
 
-                // TODO: Open filled out JDialog
+                ViewInventoryItemDialog viewInventoryItemDialog = new ViewInventoryItemDialog(App.getInventory().getItem(itemDescription));
+                viewInventoryItemDialog.setSize(340,260);
+                viewInventoryItemDialog.setLocationRelativeTo(null);
+                viewInventoryItemDialog.setModal(true);
+                viewInventoryItemDialog.setVisible(true);
+
+                if (viewInventoryItemDialog.inventoryUpdated) {
+                    inventoryTableModel.setData(App.getInventory());
+                    fileHandler.storeInventoryInCSV(App.getInventory());
+                }
             }
         };
 
