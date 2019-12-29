@@ -206,7 +206,9 @@ public class Main extends JFrame {
             App.getInventory().loadData();
             App.getInventory().initStorage();
             App.getInventory().initCategories();
-            inventoryTableModel.setData(App.getInventory());
+            if (App.getInventory().getItemMap().size() > 0) {
+                inventoryTableModel.setData(App.getInventory());
+            }
         }
 
         // Scrollable area which contains the table
