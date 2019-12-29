@@ -31,11 +31,6 @@ public class Main extends JFrame {
     JFileChooser filechooser = new JFileChooser();
 
     /**
-     * Button to open a new .CSV file
-     */
-    JButton openButton = new JButton("Datei öffnen");
-
-    /**
      * search Button
      */
     JButton searchButton = new JButton("Suchen");
@@ -89,11 +84,7 @@ public class Main extends JFrame {
         // Decides what happens after button press
         ListenForButton listenForButton = new ListenForButton();
 
-        // Button for opening a .CSV file
-        openButton.addActionListener(listenForButton);
-
         // adding of components to the window
-        topPanel.add(openButton);
         topPanel.add(textField1);
         topPanel.add(searchButton);
         topPanel.add(createInventoryItemButton);
@@ -243,27 +234,6 @@ public class Main extends JFrame {
                 }
             }
 
-            // Action for openButton
-            // open Filechooser, set new Path of .CSV file to selected file, update table
-            if (e.getSource() == openButton) {
-                filechooser.setCurrentDirectory(new java.io.File("."));
-                filechooser.setDialogTitle("Datei öffnen");
-                filechooser.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
-
-                if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    File file = filechooser.getSelectedFile();
-                    // update config file and data path
-                    App.setConfigFile(App.getConfigPath(), file.getPath());
-                    App.getInventory().setPath(file.getPath());
-
-                    App.getInventory().loadData();
-                    App.getInventory().initStorage();
-                    App.getInventory().initCategories();
-                    inventoryTableModel.setData(App.getInventory());
-
-                    System.out.println(filechooser.getSelectedFile().toString());
-                }
-            }
             // action for createInventroyItemButton
             // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
