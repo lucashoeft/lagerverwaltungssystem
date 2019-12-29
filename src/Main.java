@@ -196,13 +196,13 @@ public class Main extends JFrame {
             // action for createInventroyItemButton
             // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
-                InventoryItemDialog inventoryItemDialog = new InventoryItemDialog();
-                inventoryItemDialog.setSize(340,260);
-                inventoryItemDialog.setLocationRelativeTo(null);
-                inventoryItemDialog.setModal(true);
-                inventoryItemDialog.setVisible(true);
+                AddInventoryItemDialog addInventoryItemDialog = new AddInventoryItemDialog();
+                addInventoryItemDialog.setSize(340,260);
+                addInventoryItemDialog.setLocationRelativeTo(null);
+                addInventoryItemDialog.setModal(true);
+                addInventoryItemDialog.setVisible(true);
 
-                if (inventoryItemDialog.acceptButtonClicked) {
+                if (addInventoryItemDialog.acceptButtonClicked) {
                     inventoryTableModel.setData(App.getInventory());
                     fileHandler.storeInventoryInCSV(App.getInventory());
                 }
