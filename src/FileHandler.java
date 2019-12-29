@@ -38,7 +38,7 @@ public class FileHandler {
                 // each line of
                 // the file, using a comma as the delimiter
                 String[] attributes = line.split(",");
-                
+
                 InventoryItem inventoryItem = createInventoryItem(attributes);
 
                 // adding inventoryItem into itemMap
@@ -92,9 +92,13 @@ public class FileHandler {
     public void storeInventoryInCSV(Inventory inventory) {
         try {
             String path = inventory.getPath();
-            Path file = Paths.get(path);
-            String backup = file.getParent().toString() + "/backup.csv";
+            boolean check = false;
+            //Path file = Paths.get(path);
+            //String backup = file.getParent().toString() + "/backup.csv";
             if (!path.equals("")) {
+                Path file = Paths.get(path);
+                String backup = file.getParent().toString() + "/backup.csv";
+                check = true;
                 // delete old backup
                 if (Files.exists(Paths.get(backup))) {
                     Files.delete(Paths.get(backup));
@@ -121,8 +125,8 @@ public class FileHandler {
 
             System.out.println("Data saved");
             // delete backup
-            if (Files.exists(Paths.get(backup))) {
-                Files.delete(Paths.get(backup));
+            if (check) {
+                Files.delete(Paths.get(Paths.get(path).getParent().toString() + "/backup.csv"));
                 System.out.println("Backup deleted");
             }
         }
