@@ -177,9 +177,11 @@ public class Inventory {
      */
     public boolean decreaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
-            if (removeItemFromStorage(itemMap.get(name), count)){
-                itemMap.get(name).setStock(itemMap.get(name).getStock() - count);
-                return true;
+            if (itemMap.get(name).getStock() - count >= 0) {
+                if (removeItemFromStorage(itemMap.get(name), count)) {
+                    itemMap.get(name).setStock(itemMap.get(name).getStock() - count);
+                    return true;
+                }
             }
         }
         return false;
