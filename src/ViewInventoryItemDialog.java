@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class ViewInventoryItemDialog extends JDialog {
 
+    private FileHandler fileHandler = new FileHandler();
+
     private InventoryItem inventoryItem;
 
     Boolean inventoryUpdated = false;
@@ -73,9 +75,16 @@ public class ViewInventoryItemDialog extends JDialog {
                     final JDialog dialog = new JDialog();
                     dialog.setAlwaysOnTop(true);
                     if (JOptionPane.showConfirmDialog(dialog,"Wollen Sie den Artikel wirklich löschen?", "Artikel löschen", JOptionPane.YES_NO_OPTION) == 0) {
-                        App.getInventory().deleteItem(inventoryItem.description);
-                        inventoryUpdated = true;
-                        dispose();                    }
+                        if (App.getInventory().deleteItem(inventoryItem.description)) {
+                            fileHandler.storeInventoryInCSV(App.getInventory());
+                            inventoryUpdated = true;
+                            dispose();
+                        } else {
+                            final JDialog errorDialog = new JDialog();
+                            errorDialog.setAlwaysOnTop(true);
+                            JOptionPane.showMessageDialog(errorDialog,"Der Artikel konnte nicht gelöscht werden!","Fehler beim Löschen eines Artikels",JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 } else if (rightButton.getText() == "Speichern") {
                     try {
                         if (isValidInput()) {
@@ -96,6 +105,7 @@ public class ViewInventoryItemDialog extends JDialog {
                                     inputPanel.setIsEnabled(false);
                                     leftButton.setText("Bearbeiten");
                                     rightButton.setText("Löschen");
+                                    fileHandler.storeInventoryInCSV(App.getInventory());
                                 } else {
                                     App.getInventory().addNewItem(inventoryItem);
                                     showErrorOptionPane();
