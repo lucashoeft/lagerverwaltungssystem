@@ -77,35 +77,39 @@ public class ViewInventoryItemDialog extends JDialog {
                         inventoryUpdated = true;
                         dispose();                    }
                 } else if (rightButton.getText() == "Speichern") {
-                    App.getInventory().deleteItem(inventoryItem.description);
-
-                    if (isValidInput()) {
-                        try {
-                            InventoryItem item = new InventoryItem(
-                                    inputPanel.getDescription(),
-                                    inputPanel.getCategory(),
-                                    inputPanel.getStock(),
-                                    inputPanel.getItemLocation(),
-                                    inputPanel.getWeight(),
-                                    inputPanel.getPrice()
-                            );
-                            if (App.getInventory().addNewItem(item)) {
-                                setTitle("Artikel anzeigen");
-                                inventoryItem = item;
-                                inventoryUpdated = true;
-                                inputPanel.setIsEnabled(false);
-                                leftButton.setText("Bearbeiten");
-                                rightButton.setText("Löschen");
-                            } else {
+                    try {
+                        if (isValidInput()) {
+                            try {
+                                InventoryItem item = new InventoryItem(
+                                        inputPanel.getDescription(),
+                                        inputPanel.getCategory(),
+                                        inputPanel.getStock(),
+                                        inputPanel.getItemLocation(),
+                                        inputPanel.getWeight(),
+                                        inputPanel.getPrice()
+                                );
+                                App.getInventory().deleteItem(inventoryItem.description);
+                                if (App.getInventory().addNewItem(item)) {
+                                    setTitle("Artikel anzeigen");
+                                    inventoryItem = item;
+                                    inventoryUpdated = true;
+                                    inputPanel.setIsEnabled(false);
+                                    leftButton.setText("Bearbeiten");
+                                    rightButton.setText("Löschen");
+                                } else {
+                                    App.getInventory().addNewItem(inventoryItem);
+                                    showErrorOptionPane();
+                                }
+                            } catch (NumberFormatException err) {
                                 showErrorOptionPane();
                             }
-                        } catch (Exception err){
+                        } else {
                             showErrorOptionPane();
                         }
-                    } else {
+
+                    } catch (NumberFormatException err) {
                         showErrorOptionPane();
                     }
-
                 }
             }
         }

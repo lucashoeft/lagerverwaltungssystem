@@ -102,23 +102,17 @@ public class InventoryItemInputPanel extends JPanel {
         return categoryComboBox.getSelectedItem().toString();
     }
 
-    public Integer getStock() throws Exception {
-        // Bestand
+    public Integer getStock() throws NumberFormatException {
         String stringValue = stockTextField.getText();
-
-        try {
-            Integer stockValue = Integer.parseInt(stringValue);
-            return stockValue;
-        } catch (Exception e) {
-            throw new Exception();
-        }
+        Integer stockValue = Integer.parseInt(stringValue);
+        return stockValue;
     }
 
     public String getItemLocation() {
         return locationTextField.getText();
     }
 
-    public Integer getWeight() {
+    public Integer getWeight() throws NumberFormatException {
         String stringValue = weightTextField.getText().replace(".","");
 
         if (stringValue.contains(",")) {
@@ -131,7 +125,7 @@ public class InventoryItemInputPanel extends JPanel {
                 Integer decigramValue = Integer.parseInt(value);
                 return decigramValue;
             } else {
-                return null;
+                throw new NumberFormatException();
             }
         } else {
             Integer decigramValue = Integer.parseInt(stringValue) * 10;
@@ -139,7 +133,7 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
-    public Integer getPrice() {
+    public Integer getPrice() throws NumberFormatException {
         String stringValue = priceTextField.getText().replace(".","");
 
         if (stringValue.contains(",")) {
@@ -156,7 +150,7 @@ public class InventoryItemInputPanel extends JPanel {
                 Integer centValue = Integer.parseInt(value);
                 return centValue;
             } else {
-                return null;
+                throw new NumberFormatException();
             }
         } else {
             Integer centValue = Integer.parseInt(stringValue) * 100;
@@ -185,8 +179,6 @@ public class InventoryItemInputPanel extends JPanel {
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
         nf.setMinimumFractionDigits(1);
         this.weightTextField.setText(nf.format(str));
-
-        // TODO: Formatting
     }
 
     public void setPrice(Integer text) {
