@@ -26,7 +26,7 @@ public class AddInventoryItemDialog extends JDialog {
      */
     public Boolean acceptButtonClicked = false;
 
-    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel();
+    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
 
     /**
      * Button to close dialog without any changes to the item

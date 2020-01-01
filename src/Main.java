@@ -187,8 +187,8 @@ public class Main extends JFrame {
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
-            HashMap<String, InventoryItem> itemMap = fileHandler.readInventoryFromCSV(Paths.get(App.getInventory().getPath()));
-            App.getInventory().setItemMap(itemMap);
+            Inventory inventory = fileHandler.readInventoryFromCSV(Paths.get(App.getInventory().getPath()));
+            App.setInventory(inventory);
 
             if (App.getInventory().getItemMap().size() > 0) {
                 inventoryTableModel.setData(App.getInventory());

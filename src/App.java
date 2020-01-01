@@ -118,6 +118,10 @@ public class App {
         return inventory;
     }
 
+    public static void setInventory(Inventory newInventory) {
+        inventory = newInventory;
+    }
+
     /**
      * @return path of the configuration file
      */

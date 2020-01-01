@@ -10,7 +10,7 @@ public class ViewInventoryItemDialog extends JDialog {
     private InventoryItem inventoryItem;
 
     Boolean inventoryUpdated = false;
-    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel();
+    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
     private JButton leftButton = new JButton("Bearbeiten");
     private JButton rightButton = new JButton("Löschen");
 

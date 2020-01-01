@@ -41,7 +41,7 @@ class InventoryTest {
              // load the database file
             Inventory myInventory = new Inventory();
             myInventory.setPath(fileName);
-            HashMap<String, InventoryItem> itemMap = fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath()));
+            HashMap<String, InventoryItem> itemMap = fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath())).getItemMap();
             myInventory.setItemMap(itemMap);
             HashMap<String, InventoryItem> items = myInventory.getItemMap();
             Assertions.assertEquals(2, items.size());
@@ -63,7 +63,7 @@ class InventoryTest {
             // store the database database
 
             fileHandler.storeInventoryInCSV(myInventory);
-            myInventory.setItemMap(fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath()))); // ... reload t
+            myInventory.setItemMap(fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath())).getItemMap()); // ... reload t
             items = myInventory.getItemMap(); // and check its content
             Assertions.assertEquals(2, items.size());
             Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
