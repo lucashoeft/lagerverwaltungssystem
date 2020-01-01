@@ -1,14 +1,13 @@
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -24,11 +23,6 @@ public class Main extends JFrame {
      * FileHandler for loading and saving of the database
      */
     FileHandler fileHandler = new FileHandler();
-
-    /**
-     * FileChooser to choose a .CSV file
-     */
-    JFileChooser filechooser = new JFileChooser();
 
     /**
      * search Button
@@ -193,9 +187,9 @@ public class Main extends JFrame {
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
-            App.getInventory().loadData();
-            App.getInventory().initStorage();
-            App.getInventory().initCategories();
+            HashMap<String, InventoryItem> itemMap = fileHandler.readInventoryFromCSV(Paths.get(App.getInventory().getPath()));
+            App.getInventory().setItemMap(itemMap);
+
             if (App.getInventory().getItemMap().size() > 0) {
                 inventoryTableModel.setData(App.getInventory());
             }

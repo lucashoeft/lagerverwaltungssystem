@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -29,50 +30,48 @@ class InventoryTest {
     @Test
     void loadAndStore() {
         assertDoesNotThrow(() -> {
+            FileHandler fileHandler = new FileHandler();
+
             // generate a database file
             String content =
-                "\"Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"010012\",692,475\n" +
-                "\"Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065\",\"Füllfederhalter & Kugelschreiber\",8,\"010001\",116,1571\n"; // from example
+                "STABILO-Dreikant-Buntstift,Stifte,21,010012,692,475\n" +
+                "Lamy-Safari-Füllhalter,Füllfederhalter,8,010001,116,1571\n"; // from example
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
 
-            // load the database file
+             // load the database file
             Inventory myInventory = new Inventory();
             myInventory.setPath(fileName);
-            myInventory.loadData();
+            HashMap<String, InventoryItem> itemMap = fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath()));
+            myInventory.setItemMap(itemMap);
             HashMap<String, InventoryItem> items = myInventory.getItemMap();
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").description);
-            Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").category);
-            Assertions.assertEquals(8, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").stock);
-            Assertions.assertEquals("010001", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").location);
-            Assertions.assertEquals(116, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").weight);
-            Assertions.assertEquals(1571, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
 
-            Assertions.assertEquals(0, myInventory.getShelfMap().size());
-            Assertions.assertEquals(0, myInventory.getCategoryMap().size());
-
-            myInventory.initStorage();
             Assertions.assertEquals(1, myInventory.getShelfMap().size());
             Assertions.assertEquals(10, myInventory.getShelfMap().get(10).getId());
             Assertions.assertEquals(21*692+8*116, myInventory.getShelfMap().get(10).getWeight());
 
-            myInventory.initCategories();
             Assertions.assertEquals(2, myInventory.getCategoryMap().size());
             Assertions.assertEquals(1, myInventory.getCategoryMap().get("Stifte").getCount());
-            Assertions.assertEquals(1, myInventory.getCategoryMap().get("Füllfederhalter & Kugelschreiber").getCount());
+            Assertions.assertEquals(1, myInventory.getCategoryMap().get("Füllfederhalter").getCount());
 
             // store the database database
-            FileHandler myFileHandler = new FileHandler();
-            myFileHandler.storeInventoryInCSV(myInventory);
-            myInventory.loadData(); // ... reload t
+
+            fileHandler.storeInventoryInCSV(myInventory);
+            myInventory.setItemMap(fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath()))); // ... reload t
             items = myInventory.getItemMap(); // and check its content
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").description);
-            Assertions.assertEquals("Füllfederhalter & Kugelschreiber", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").category);
-            Assertions.assertEquals(8, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").stock);
-            Assertions.assertEquals("010001", items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").location);
-            Assertions.assertEquals(116, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").weight);
-            Assertions.assertEquals(1571, items.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
 
             // cleanup used file
             TestHelpers.deleteTmpFile(fileName);
