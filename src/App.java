@@ -34,9 +34,8 @@ public class App {
      */
     public static void main(String[] args) throws IOException {
 
-
         readConfigFile(configPath);
-        GUI.run();
+        new Main();
 
         //print to check for correct path of .csv file
         System.out.println(inventory.getPath());
@@ -116,6 +115,10 @@ public class App {
      */
     public static Inventory getInventory(){
         return inventory;
+    }
+
+    public static void setInventory(Inventory newInventory) {
+        inventory = newInventory;
     }
 
     /**

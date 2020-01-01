@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class InventoryItemInputPanel extends JPanel {
@@ -66,7 +67,7 @@ public class InventoryItemInputPanel extends JPanel {
      */
     private JTextField priceTextField = new JTextField(15);
 
-    InventoryItemInputPanel() {
+    InventoryItemInputPanel(HashMap<String, Category> categoryMap) {
         this.setBorder(new EmptyBorder(10,10,10,10));
         this.setLayout(new GridLayout(0,2,6,3));
 
@@ -76,7 +77,7 @@ public class InventoryItemInputPanel extends JPanel {
         this.add(categoryLabel);
         this.add(categoryComboBox);
 
-        for(Category cat : App.getInventory().getCategoryMap().values()){
+        for(Category cat : categoryMap.values()){
             categoryComboBox.addItem(cat.getName());
         }
 

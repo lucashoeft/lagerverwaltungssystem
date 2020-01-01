@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 
 /**
@@ -20,8 +18,10 @@ public class FileHandler {
      * @param pathName the path where the file is used from
      * @return Inventory object
      */
-    public HashMap<String, InventoryItem> readInventoryFromCSV(Path pathName) {
+    public Inventory readInventoryFromCSV(Path pathName) {
+        Inventory inventory = new Inventory();
         HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
+        inventory.setPath(pathName.toString());
 
         // create an instance of BufferedReader
         // using try with resource, Java 7 feature to close resources
@@ -45,10 +45,12 @@ public class FileHandler {
                 if (inventoryItem.isValid()) {
                     itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
                 }
+
+
                 // if Category found
                 // add Category into categoryMap
                 if (inventoryItem.isCategory()) {
-                    App.getInventory().addCategory(new Category(inventoryItem.getCategory()));
+                    inventory.addCategory(new Category(inventoryItem.getCategory()));
                 }
 
                 // read next line before looping
@@ -60,7 +62,8 @@ public class FileHandler {
             //ioe.printStackTrace();
         }
 
-        return itemMap;
+        inventory.setItemMap(itemMap);
+        return inventory;
     }
 
     /**

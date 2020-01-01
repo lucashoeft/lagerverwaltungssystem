@@ -1,4 +1,3 @@
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 /**
@@ -65,9 +64,10 @@ public class Inventory {
     /**
      * read file, parse file to object and save locally
      */
-    public void loadData() {
-        FileHandler fileHandler = new FileHandler();
-        itemMap = fileHandler.readInventoryFromCSV(Paths.get(path));
+    public void setItemMap(HashMap<String, InventoryItem> itemMap) {
+        this.itemMap = itemMap;
+        this.initStorage();
+        this.initCategories();
     }
 
     /**
@@ -206,7 +206,7 @@ public class Inventory {
     /**
      * initialize storage with all valid shelves
      */
-    public void initStorage(){
+    private void initStorage(){
         // get all used shelves
         for(InventoryItem item : getItemMap().values()){
             // if shelf already exists
@@ -336,7 +336,7 @@ public class Inventory {
     /**
      * Find all categories in itemMap and set categoryMap to all used categories
      */
-    public void initCategories(){
+    private void initCategories(){
         // get all used categories
         for(InventoryItem item : getItemMap().values()){
             // if category already exists

@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * @author ...
  * @version 1.0
  */
-public class CategoryListDialog extends JDialog {
+public class CategoryList {
 
     /**
      * Button to open the AddCategoryDialog window
@@ -59,14 +59,18 @@ public class CategoryListDialog extends JDialog {
         }
     };
 
+    JDialog dialog;
+
     /**
      * Constructor for a new CategoryListDialog
      */
-    public CategoryListDialog() {
-        this.setResizable(false);
-        this.setTitle("Kategorien verwalten");
-
-        // TODO get list of all existing categories and update table
+    public CategoryList() {
+        dialog = new JDialog();
+        dialog.setResizable(false);
+        dialog.setTitle("Kategorien verwalten");
+        dialog.setSize(600,400);
+        dialog.setLocationRelativeTo(null);
+        dialog.setModal(true);
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
@@ -125,20 +129,14 @@ public class CategoryListDialog extends JDialog {
 
         JScrollPane scrollPane = new JScrollPane(jtable);
         inputPanel.add(scrollPane, BorderLayout.CENTER);
-        this.add(buttonPanel, BorderLayout.NORTH);
-        this.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.NORTH);
+        dialog.add(inputPanel, BorderLayout.CENTER);
 
         addCategoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddCategoryDialog addCategoryDialog = new AddCategoryDialog();
-                addCategoryDialog.setLocationRelativeTo(null);
-                addCategoryDialog.setModal(true);
-                addCategoryDialog.setSize(340,120);
-                addCategoryDialog.setAlwaysOnTop(true);
-                addCategoryDialog.setVisible(true);
-
-                if (addCategoryDialog.acceptButtonClicked) {
+                AddCategory addCategory = new AddCategory();
+                if (addCategory.acceptButtonClicked) {
                     while (categoryTableModel.getRowCount()>0) {
                         categoryTableModel.removeRow(0);
                     }
@@ -155,5 +153,6 @@ public class CategoryListDialog extends JDialog {
                 }
             }
         });
+        dialog.setVisible(true);
     }
 }

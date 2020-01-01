@@ -3,22 +3,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ViewInventoryItemDialog extends JDialog {
+public class ViewInventoryItem {
 
     private FileHandler fileHandler = new FileHandler();
 
     private InventoryItem inventoryItem;
 
     Boolean inventoryUpdated = false;
-    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel();
+    private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
     private JButton leftButton = new JButton("Bearbeiten");
     private JButton rightButton = new JButton("Löschen");
 
-    public ViewInventoryItemDialog(InventoryItem inventoryItem) {
+    JDialog dialog;
+
+    public ViewInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItem = inventoryItem;
 
-        this.setResizable(false);
-        this.setTitle("Artikel anzeigen");
+        dialog = new JDialog();
+        dialog.setResizable(false);
+        dialog.setTitle("Artikel anzeigen");
+        dialog.setSize(340,260);
+        dialog.setLocationRelativeTo(null);
+        dialog.setModal(true);
 
         JPanel buttonPanel = new JPanel();
 
@@ -37,12 +43,10 @@ public class ViewInventoryItemDialog extends JDialog {
         inputPanel.setPrice(this.inventoryItem.price);
 
         inputPanel.setIsEnabled(false);
-        this.add(inputPanel, BorderLayout.CENTER);
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
-
-        this.pack();
-
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     class ButtonListener implements ActionListener {
@@ -50,13 +54,13 @@ public class ViewInventoryItemDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == leftButton) {
                 if (leftButton.getText() == "Bearbeiten") {
-                    setTitle("Artikel bearbeiten");
+                    dialog.setTitle("Artikel bearbeiten");
 
                     inputPanel.setIsEnabled(true);
                     leftButton.setText("Abbrechen");
                     rightButton.setText("Speichern");
                 } else if (leftButton.getText() == "Abbrechen") {
-                    setTitle("Artikel anzeigen");
+                    dialog.setTitle("Artikel anzeigen");
 
                     inputPanel.setDescription(inventoryItem.description);
                     inputPanel.setCategory(inventoryItem.category);
@@ -78,7 +82,7 @@ public class ViewInventoryItemDialog extends JDialog {
                         if (App.getInventory().deleteItem(inventoryItem.description)) {
                             fileHandler.storeInventoryInCSV(App.getInventory());
                             inventoryUpdated = true;
-                            dispose();
+                            dialog.dispose();
                         } else {
                             final JDialog errorDialog = new JDialog();
                             errorDialog.setAlwaysOnTop(true);
@@ -99,7 +103,7 @@ public class ViewInventoryItemDialog extends JDialog {
                                 );
                                 App.getInventory().deleteItem(inventoryItem.description);
                                 if (App.getInventory().addNewItem(item)) {
-                                    setTitle("Artikel anzeigen");
+                                    dialog.setTitle("Artikel anzeigen");
                                     inventoryItem = item;
                                     inventoryUpdated = true;
                                     inputPanel.setIsEnabled(false);

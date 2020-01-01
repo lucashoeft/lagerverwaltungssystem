@@ -11,7 +11,7 @@ class FileHandlerTest {
     @Test
     void readInventoryFromNotExistingFile() {
         FileHandler myParser = new FileHandler();
-        Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get("not_existing_file.csv")).size());
+        Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get("not_existing_file.csv")).getItemMap().size());
     }
 
     @Test
@@ -19,7 +19,7 @@ class FileHandlerTest {
         assertDoesNotThrow(() -> {
             FileHandler myParser = new FileHandler();
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", "");
-            Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get(fileName)).size());
+            Assertions.assertEquals(0, myParser.readInventoryFromCSV(Paths.get(fileName)).getItemMap().size());
             TestHelpers.deleteTmpFile(fileName);
         });
     }
@@ -38,15 +38,15 @@ class FileHandlerTest {
                     // TODO "\"GirlZone Geschenke für Mädchen - \"Gelstifte Set für Mädchen\"\",Füllfederhalter & Kugelschreiber,24,000026,432,1299\n" + // description with embedded " -> ignore
                     "Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben\",\"Stifte\",21,\"000012\",692,475\n";
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
-            HashMap<String, InventoryItem> myItems = myParser.readInventoryFromCSV(Paths.get(fileName));
-            Assertions.assertEquals(3, myItems.size());
+            Inventory myInventory = myParser.readInventoryFromCSV(Paths.get(fileName));
+            Assertions.assertEquals(3, myInventory.getItemMap().size());
 
             // check content of items
-            Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", myItems.get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").getDescription());
-            Assertions.assertEquals(24, myItems.get("GirlZone Geschenke für Mädchen - Gelstifte Set für Mädchen").getStock());
-            Assertions.assertEquals("000012", myItems.get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getLocation());
-            Assertions.assertEquals(0, myItems.get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getShelf());
-            Assertions.assertEquals(692, myItems.get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getWeight());
+            Assertions.assertEquals("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065", myInventory.getItemMap().get("Lamy Safari Füllhalter Kunststoff Umbra Feder M 1203065").getDescription());
+            Assertions.assertEquals(24, myInventory.getItemMap().get("GirlZone Geschenke für Mädchen - Gelstifte Set für Mädchen").getStock());
+            Assertions.assertEquals("000012", myInventory.getItemMap().get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getLocation());
+            Assertions.assertEquals(0, myInventory.getItemMap().get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getShelf());
+            Assertions.assertEquals(692, myInventory.getItemMap().get("Dreikant-Buntstift - STABILO Trio dick kurz - 12er Pack - mit 12 verschiedenen Farben").getWeight());
 
             TestHelpers.deleteTmpFile(fileName);
         });
