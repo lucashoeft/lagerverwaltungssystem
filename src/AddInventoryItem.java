@@ -19,7 +19,7 @@ import java.util.Iterator;
  * @author ...
  * @version 1.0
  */
-public class AddInventoryItemDialog extends JDialog {
+public class AddInventoryItem {
 
     /**
      * is true when acceptButton has been clicked
@@ -38,12 +38,19 @@ public class AddInventoryItemDialog extends JDialog {
      */
     private JButton acceptButton = new JButton("Erstellen");
 
+    JDialog dialog;
+
     /**
      * Constructor for the InventoryItemDialog
      */
-    public AddInventoryItemDialog() {
-        this.setResizable(false);
-        this.setTitle("Artikel erstellen");
+    public AddInventoryItem() {
+        dialog = new JDialog();
+        dialog.setResizable(false);
+        dialog.setTitle("Artikel erstellen");
+        dialog.setSize(340,260);
+        dialog.setLocationRelativeTo(null);
+        dialog.setModal(true);
+
 
         JPanel buttonPanel = new JPanel();
 
@@ -54,11 +61,10 @@ public class AddInventoryItemDialog extends JDialog {
         buttonPanel.add(dismissButton);
         buttonPanel.add(acceptButton);
 
-        this.add(inputPanel, BorderLayout.CENTER);
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
-
-        this.pack();
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     /**
@@ -69,7 +75,7 @@ public class AddInventoryItemDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == dismissButton) {
                 acceptButtonClicked = false;
-                dispose();
+                dialog.dispose();
             }
 
             if (e.getSource() == acceptButton) {
@@ -85,7 +91,7 @@ public class AddInventoryItemDialog extends JDialog {
                         );
                         if (App.getInventory().addNewItem(item)) {
                             acceptButtonClicked = true;
-                            dispose();
+                            dialog.dispose();
                         } else {
                             showErrorOptionPane();
                         }

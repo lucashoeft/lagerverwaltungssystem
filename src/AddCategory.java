@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * @author ...
  * @version 1.0
  */
-public class AddCategoryDialog extends JDialog {
+public class AddCategory{
 
     /**
      * acceptButtonClicked is true when the acceptButton is pressed
@@ -37,13 +37,20 @@ public class AddCategoryDialog extends JDialog {
      */
     JButton acceptButton = new JButton("Erstellen");
 
+    JDialog dialog;
+
     /**
      * Constructor for a new AddCategoryDialog
      */
-    AddCategoryDialog() {
-        this.setTitle("Kategorie hinzufügen");
-        this.setLayout(new GridLayout(2,1));
-        this.setResizable(false);
+    AddCategory() {
+        dialog = new JDialog();
+        dialog.setTitle("Kategorie hinzufügen");
+        dialog.setLayout(new GridLayout(2,1));
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
+        dialog.setModal(true);
+        dialog.setSize(340,120);
+        dialog.setAlwaysOnTop(true);
 
         JPanel inputPanel = new JPanel();
         inputPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -61,11 +68,10 @@ public class AddCategoryDialog extends JDialog {
         buttonPanel.add(dismissButton);
         buttonPanel.add(acceptButton);
 
-        this.add(inputPanel, BorderLayout.CENTER);
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
-
-        this.pack();
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     /**
@@ -76,14 +82,14 @@ public class AddCategoryDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == dismissButton) {
                 acceptButtonClicked = false;
-                dispose();
+                dialog.dispose();
             }
 
             if (e.getSource() == acceptButton) {
                 if (isValidInput()) {
                     if (App.getInventory().addCategory(new Category(getCategoryName()))) {
                         acceptButtonClicked = true;
-                        dispose();
+                        dialog.dispose();
                     } else {
                         showErrorOptionPane();
                     }

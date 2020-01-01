@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -17,7 +16,7 @@ import java.util.Locale;
  * @author ...
  * @version 1.0
  */
-public class Main extends JFrame {
+public class Main {
 
     /**
      * FileHandler for loading and saving of the database
@@ -54,22 +53,23 @@ public class Main extends JFrame {
      */
     InventoryTableModel inventoryTableModel = new InventoryTableModel();
 
+    JFrame frame;
+
     /**
      * Constructor for the main window of this Software
      */
     public Main() {
+        frame = new JFrame("Lagerverwaltungssystem");
 
         // minimum window size : 620x420
-        this.setMinimumSize(new Dimension(620, 420));
+        frame.setMinimumSize(new Dimension(620, 420));
 
-        this.setSize(800, 600);
+        frame.setSize(800, 600);
 
         // window centered on screen
-        this.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.setTitle("Lagerverwaltungssystem");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // area above table as Panel
         JPanel topPanel = new JPanel();
@@ -90,7 +90,7 @@ public class Main extends JFrame {
         createInventoryItemButton.addActionListener(listenForButton);
         searchButton.addActionListener(listenForButton);
 
-        this.add(topPanel, BorderLayout.NORTH);
+        frame.add(topPanel, BorderLayout.NORTH);
 
         // table creation
         // data is stored in InvetoryTableModel
@@ -168,13 +168,9 @@ public class Main extends JFrame {
                 int modelRow = Integer.valueOf(e.getActionCommand());
                 String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-                ViewInventoryItemDialog viewInventoryItemDialog = new ViewInventoryItemDialog(App.getInventory().getItem(itemDescription));
-                viewInventoryItemDialog.setSize(340,260);
-                viewInventoryItemDialog.setLocationRelativeTo(null);
-                viewInventoryItemDialog.setModal(true);
-                viewInventoryItemDialog.setVisible(true);
+                ViewInventoryItem viewInventoryItem = new ViewInventoryItem(App.getInventory().getItem(itemDescription));
 
-                if (viewInventoryItemDialog.inventoryUpdated) {
+                if (viewInventoryItem.inventoryUpdated) {
                     inventoryTableModel.setData(App.getInventory());
                 }
             }
@@ -197,9 +193,9 @@ public class Main extends JFrame {
 
         // Scrollable area which contains the table
         JScrollPane scrollPane = new JScrollPane(table);
-        this.add(scrollPane, BorderLayout.CENTER);
+        frame.add(scrollPane, BorderLayout.CENTER);
 
-        this.setVisible(true);
+        frame.setVisible(true);
     }
 
     /**
@@ -230,24 +226,15 @@ public class Main extends JFrame {
             // action for createInventroyItemButton
             // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
-                AddInventoryItemDialog addInventoryItemDialog = new AddInventoryItemDialog();
-                addInventoryItemDialog.setSize(340,260);
-                addInventoryItemDialog.setLocationRelativeTo(null);
-                addInventoryItemDialog.setModal(true);
-                addInventoryItemDialog.setVisible(true);
-
-                if (addInventoryItemDialog.acceptButtonClicked) {
+                AddInventoryItem addInventoryItem = new AddInventoryItem();
+                if (addInventoryItem.acceptButtonClicked) {
                     inventoryTableModel.setData(App.getInventory());
                     fileHandler.storeInventoryInCSV(App.getInventory());
                 }
             }
 
             if (e.getSource() == manageCategoryButton) {
-                CategoryListDialog categoryDialog = new CategoryListDialog();
-                categoryDialog.setSize(600,400);
-                categoryDialog.setLocationRelativeTo(null);
-                categoryDialog.setModal(true);
-                categoryDialog.setVisible(true);
+                new CategoryList();
             }
         }
     }
