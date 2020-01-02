@@ -215,11 +215,15 @@ public class Main {
             if (e.getSource() == searchButton) {
                 String text = textField1.getText();
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+                sorter.setSortable(6, false);
+                sorter.setSortable(7, false);
+                sorter.setSortable(8, false);
                 table.setRowSorter(sorter);
                 if (text.length() == 0) {
                     sorter.setRowFilter(null);
                 } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".","")));
+                    int[] indices = {0, 1, 2, 3, 4, 5};
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".",""),indices));
                 }
             }
 
