@@ -23,20 +23,13 @@ public class FileHandler {
         HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
         inventory.setPath(pathName.toString());
 
-        // create an instance of BufferedReader
-        // using try with resource, Java 7 feature to close resources
         try (BufferedReader br = Files.newBufferedReader(pathName,
                 StandardCharsets.UTF_8)) {
 
-            // read the first line from the text file
             String line = br.readLine();
 
             // loop until all lines are read
             while (line != null) {
-
-                // use string.split to load a string array with the values from
-                // each line of
-                // the file, using a comma as the delimiter
                 String[] attributes = line.split(",");
 
                 InventoryItem inventoryItem = createInventoryItem(attributes);
@@ -46,15 +39,11 @@ public class FileHandler {
                     itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
                 }
 
-
-                // if Category found
-                // add Category into categoryMap
+                // if Category found, add Category into categoryMap
                 if (inventoryItem.isCategory()) {
                     inventory.addCategory(new Category(inventoryItem.getCategory()));
                 }
 
-                // read next line before looping
-                // if end of file reached, line would be null
                 line = br.readLine();
             }
 

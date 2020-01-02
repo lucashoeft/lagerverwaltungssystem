@@ -120,7 +120,7 @@ public class CategoryList {
             }
         };
 
-        new ButtonColumn(jtable, deleteAction, 2);
+        new ButtonCellEditor(jtable, deleteAction, 2);
 
         for(Category cat : App.getInventory().getCategoryMap().values()){
             String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
