@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class ButtonColumn extends AbstractCellEditor
+public class ButtonCellEditor extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 
     private JTable table;
@@ -13,7 +13,7 @@ public class ButtonColumn extends AbstractCellEditor
     private Object editorValue;
     private boolean isButtonColumnEditor;
 
-    public ButtonColumn(JTable table, Action action, int column) {
+    public ButtonCellEditor(JTable table, Action action, int column) {
         this.table = table;
         this.action = action;
 
@@ -30,23 +30,16 @@ public class ButtonColumn extends AbstractCellEditor
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        if (value == null) {
-            editButton.setText("");
-            editButton.setIcon(null);
-        } else if (value instanceof Icon) {
-            editButton.setText("");
-            editButton.setIcon((Icon)value);
-        } else {
-            editButton.setText(value.toString());
-            editButton.setIcon(null);
-        }
+        editButton.setText(value.toString());
+        editButton.setIcon(null);
+
         this.editorValue = value;
+
         return editButton;
     }
 
     @Override
-    public Object getCellEditorValue()
-    {
+    public Object getCellEditorValue() {
         return editorValue;
     }
 
@@ -60,16 +53,9 @@ public class ButtonColumn extends AbstractCellEditor
             renderButton.setBackground(UIManager.getColor("Button.background"));
         }
 
-        if (value == null) {
-            renderButton.setText("");
-            renderButton.setIcon(null);
-        } else if (value instanceof Icon) {
-            renderButton.setText("");
-            renderButton.setIcon((Icon)value);
-        } else {
-            renderButton.setText(value.toString());
-            renderButton.setIcon(null);
-        }
+        renderButton.setText(value.toString());
+        renderButton.setIcon(null);
+
         return renderButton;
     }
 

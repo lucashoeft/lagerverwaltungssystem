@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.io.IOException;
@@ -35,7 +36,9 @@ public class App {
     public static void main(String[] args) throws IOException {
 
         readConfigFile(configPath);
-        new Main();
+        SwingUtilities.invokeLater(() -> {
+            new Main();
+        });
 
         //print to check for correct path of .csv file
         System.out.println(inventory.getPath());

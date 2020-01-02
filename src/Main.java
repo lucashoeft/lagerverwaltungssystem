@@ -176,9 +176,9 @@ public class Main {
             }
         };
 
-        new ButtonColumn(table, addAction, 6);
-        new ButtonColumn(table, subAction, 7);
-        new ButtonColumn(table, manageAction, 8);
+        new ButtonCellEditor(table, addAction, 6);
+        new ButtonCellEditor(table, subAction, 7);
+        new ButtonCellEditor(table, manageAction, 8);
 
 
         // If .CSV file exists load it into table

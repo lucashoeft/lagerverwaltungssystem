@@ -71,6 +71,41 @@ public class InventoryItemInputPanel extends JPanel {
         this.setBorder(new EmptyBorder(10,10,10,10));
         this.setLayout(new GridLayout(0,2,6,3));
 
+        descriptionTextField.setToolTipText(
+                "<html>" +
+                        "• Muss eindeutig sein" + "<br>" +
+                        "• Maximal 256 Zeichen" + "<br>" +
+                        "• Erlaubte Zeichen: Buchstaben, Bindestrich, " + "<br>" +
+                        "Ausrufe- und Fragezeichen, Punkt," + "<br>" +
+                        "Klammer auf, Klammer zu" + "<br>" +
+                        "• Erlaubte Zeichen Zusatz: Zahlen" +
+                "</html>");
+        categoryComboBox.setToolTipText(
+                "Sollte keine Kategorie zur Auswahl stehen, muss erst eine Kategorie erstellt werden");
+        stockTextField.setToolTipText(
+                "<html>" +
+                        "• Minimal: 0 Stück" + "<br>" +
+                        "• Maximal: 100.000.000 Stück" + "<br>" +
+                "</html>");
+        locationTextField.setToolTipText(
+                "<html>" +
+                        "• Muss eindeutig sein" + "<br>" +
+                        "• Minimal: 000000" + "<br>" +
+                        "• Maximal: 999999" + "<br>" +
+                        "• Immer 6 Zeichen angeben" + "<br>" +
+                "</html>");
+        weightTextField.setToolTipText(
+                "<html>" +
+                        "• Angabe des Stückgewichts" + "<br>" +
+                        "• Minimal: 0,1 g" + "<br>" +
+                        "• Maximal: 10.000.000,0 g" + "<br>" +
+                "</html>");
+        priceTextField.setToolTipText(
+                "<html>" +
+                        "• Minimal: 0,01 €" + "<br>" +
+                        "• Maximal: 99.999,00 €" + "<br>" +
+                        "</html>");
+
         this.add(descriptionLabel);
         this.add(descriptionTextField);
 
