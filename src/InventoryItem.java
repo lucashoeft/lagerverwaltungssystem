@@ -11,17 +11,17 @@ public class InventoryItem {
     /**
      * Short description of the item
      */
-    String description;
+    private String description;
 
     /**
      * Category of the item
      */
-    String category;
+    private String category;
 
     /**
      * Amount of items of this type on stock
      */
-    Integer stock;
+    private Integer stock;
 
     /**
      * location in the Warehouse which holds this item
@@ -32,17 +32,17 @@ public class InventoryItem {
      * DDD = location number on shelf
      * This results in a maximum of 1.000.000 different items in the System
      */
-    String location;
+    private String location;
 
     /**
      * weight of an item in 0.1 gram
      */
-    Integer weight;
+    private Integer weight;
 
     /**
      * price of an item in cents
      */
-    Integer price;
+    private Integer price;
 
     /**
      * @param description Short description of the item

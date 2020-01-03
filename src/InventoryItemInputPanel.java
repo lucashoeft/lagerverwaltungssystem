@@ -252,12 +252,12 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     public void setInventoryItem(InventoryItem inventoryItem) {
-        setDescription(inventoryItem.description);
-        setCategory(inventoryItem.category);
-        setStock(inventoryItem.stock);
-        setItemLocation(inventoryItem.location);
-        setWeight(inventoryItem.weight);
-        setPrice(inventoryItem.price);
+        setDescription(inventoryItem.getDescription());
+        setCategory(inventoryItem.getCategory());
+        setStock(inventoryItem.getStock());
+        setItemLocation(inventoryItem.getLocation());
+        setWeight(inventoryItem.getWeight());
+        setPrice(inventoryItem.getPrice());
     }
 
     private void setDescription(String text) {

@@ -69,7 +69,7 @@ public class ViewInventoryItem {
                     final JDialog dialog = new JDialog();
                     dialog.setAlwaysOnTop(true);
                     if (JOptionPane.showConfirmDialog(dialog, "Wollen Sie den Artikel wirklich löschen?", "Artikel löschen", JOptionPane.YES_NO_OPTION) == 0) {
-                        if (App.getInventory().deleteItem(inventoryItem.description)) {
+                        if (App.getInventory().deleteItem(inventoryItem.getDescription())) {
                             fileHandler.storeInventoryInCSV(App.getInventory());
                             inventoryUpdated = true;
                             dialog.dispose();
@@ -89,7 +89,7 @@ public class ViewInventoryItem {
                                 inputPanel.getWeight(),
                                 inputPanel.getPrice()
                         );
-                        App.getInventory().deleteItem(inventoryItem.description);
+                        App.getInventory().deleteItem(inventoryItem.getDescription());
                         if (App.getInventory().addNewItem(item)) {
                             dialog.setTitle("Artikel anzeigen");
                             inventoryItem = item;

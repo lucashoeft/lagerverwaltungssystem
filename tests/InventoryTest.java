@@ -45,12 +45,12 @@ class InventoryTest {
             myInventory.setItemMap(itemMap);
             HashMap<String, InventoryItem> items = myInventory.getItemMap();
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
-            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
-            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
-            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
-            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
-            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").getDescription());
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").getCategory());
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").getStock());
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").getLocation());
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").getWeight());
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").getPrice());
 
             Assertions.assertEquals(1, myInventory.getShelfMap().size());
             Assertions.assertEquals(10, myInventory.getShelfMap().get(10).getId());
@@ -66,12 +66,12 @@ class InventoryTest {
             myInventory.setItemMap(fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath())).getItemMap()); // ... reload t
             items = myInventory.getItemMap(); // and check its content
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
-            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
-            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
-            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
-            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
-            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").getDescription());
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").getCategory());
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").getStock());
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").getLocation());
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").getWeight());
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").getPrice());
 
             // cleanup used file
             TestHelpers.deleteTmpFile(fileName);
