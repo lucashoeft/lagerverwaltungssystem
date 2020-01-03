@@ -96,7 +96,7 @@ class InventoryTest {
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199)));
         Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item13", "cat1", 1300, "001001", 10, 199))); // location already in use -> ignore
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199)));
-        Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
+        Assertions.assertThrows(IllegalArgumentException.class, () -> myInventory.addNewItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
 
         Assertions.assertEquals(2, myInventory.getShelfMap().size());
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());

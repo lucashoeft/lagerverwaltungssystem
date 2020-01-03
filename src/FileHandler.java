@@ -32,16 +32,15 @@ public class FileHandler {
             while (line != null) {
                 String[] attributes = line.split(",");
 
-                InventoryItem inventoryItem = createInventoryItem(attributes);
-
-                // adding inventoryItem into itemMap
-                if (inventoryItem.isValid()) {
-                    itemMap.put(inventoryItem.getDescription(), inventoryItem); // only add valid items to inventory
-                }
-
-                // if Category found, add Category into categoryMap
-                if (inventoryItem.isCategory()) {
-                    inventory.addCategory(new Category(inventoryItem.getCategory()));
+                if (attributes[2].equals("-1")) {
+                    inventory.addCategory(new Category(attributes[1]));
+                } else {
+                    try {
+                        InventoryItem inventoryItem = createInventoryItem(attributes);
+                        itemMap.put(inventoryItem.getDescription(), inventoryItem);
+                    } catch (Exception err) {
+                        // err.printStackTrace();
+                    }
                 }
 
                 line = br.readLine();
@@ -60,21 +59,19 @@ public class FileHandler {
      * @param metadata String Array with all needed attributes of an InventoryItem object
      * @return new InventoryItem containing metadata
      */
-    private InventoryItem createInventoryItem(String[] metadata) {
-        InventoryItem inventoryItem = new InventoryItem(null, null, null, null, null, null);
+    private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
         try {
-            inventoryItem.description = metadata[0].replaceAll("^\"|\"$", "");
-            inventoryItem.category = metadata[1].replaceAll("^\"|\"$", "");
-            inventoryItem.stock = Integer.parseInt(metadata[2]);
-            inventoryItem.location = metadata[3].replaceAll("^\"|\"$", "");
-            inventoryItem.weight = Integer.parseInt(metadata[4]);
-            inventoryItem.price = Integer.parseInt(metadata[5]);
-        } catch (Exception e) {
-            //e.printStackTrace();
+            return new InventoryItem(
+                    metadata[0].replaceAll("^\"|\"$", ""),
+                    metadata[1].replaceAll("^\"|\"$", ""),
+                    Integer.parseInt(metadata[2]),
+                    metadata[3].replaceAll("^\"|\"$", ""),
+                    Integer.parseInt(metadata[4]),
+                    Integer.parseInt(metadata[5])
+            );
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-
-        // create and return book of this metadata
-        return inventoryItem;
     }
 
     /**

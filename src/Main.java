@@ -280,7 +280,7 @@ public class Main {
     private void showErrorOptionPane() {
         final JDialog dialog = new JDialog();
         dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,"Eingegebener Werte ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(dialog,"Eingegebener Wert ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
 
 }

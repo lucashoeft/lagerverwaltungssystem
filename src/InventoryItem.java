@@ -52,13 +52,59 @@ public class InventoryItem {
      * @param weight weight of an item in 0.1 gram
      * @param price price of an item in cents
      */
-    public InventoryItem(String description, String category, Integer stock, String location, Integer weight, Integer price) {
-        this.description = description;
+    public InventoryItem(String description, String category, Integer stock, String location, Integer weight, Integer price) throws IllegalArgumentException {
+        if (isValidDescription(description)) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Fehlerhafte Produktbezeichnung.\n" +
+                    "• Muss eindeutig sein\n" +
+                    "• Maximal 256 Zeichen\n" +
+                    "• Erlaubte Zeichen: Buchstaben, Bindestrich,\n" +
+                    "Ausrufe- und Fragezeichen, Punkt,\n" +
+                    "Klammer auf, Klammer zu, Zahlen\n" +
+                    "• Beispiel: Blauer-Stift-123");
+        }
+
         this.category = category;
-        this.stock = stock;
-        this.location = location;
-        this.weight = weight;
-        this.price = price;
+
+        if (isValidStock(stock)) {
+            this.stock = stock;
+        } else {
+            throw new IllegalArgumentException("Fehlerhafter Lagerbestand.\n" +
+                    "• Minimal: 0 Stück\n" +
+                    "• Maximal: 100.000.000 Stück\n" +
+                    "• Beispiel: 45");
+        }
+
+        if (isValidLocation(location)) {
+            this.location = location;
+        } else {
+            throw new IllegalArgumentException("Fehlerhafter Lagerort.\n" +
+                    "• Muss eindeutig sein\n" +
+                    "• Minimal: 000000\n" +
+                    "• Maximal: 999999\n" +
+                    "• Immer 6 Zeichen angeben\n" +
+                    "• Beispiel: 000043");
+        }
+
+        if (isValidWeight(weight)) {
+            this.weight = weight;
+        } else {
+            throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
+                    "• Angabe des Stückgewichts\n" +
+                    "• Minimal: 0,1 g\n" +
+                    "• Maximal: 10.000.000,0 g\n" +
+                    "• Beispiel: 68,4");
+        }
+
+        if (isValidPrice(price)) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                    "• Minimal: 0,01 €\n" +
+                    "• Maximal: 99.999,00 €\n" +
+                    "• Beispiel: 6,99");
+        }
     }
 
     /**
@@ -66,25 +112,58 @@ public class InventoryItem {
      * @return csv-compatible string representation of an InventoryItem
      */
     public String toStringCSV() {
-        String csv = "";
-        // no further checks like for embedded comma, correct location encoding, ... (has to be done by caller)
-        try {
-            csv = description+","+category+","+stock.toString()+","+location+","+weight.toString()+","+price.toString();
-        }
-        catch (Exception ignored) { } // don't export invalid items
-        return csv;
+        return description + "," + category + "," + stock.toString() + "," + location + "," + weight.toString() + "," + price.toString();
     }
 
     /**
-     * @return true if inventory is valid
+     * @return true if description is entered without error else false
      */
-    public boolean isValid() {
-        if ((description == null) || (description.indexOf(',') >= 0)) return false;
-        if ((category == null) || (category.indexOf(',') >= 0)) return false;
-        if ((location == null) || (!location.matches("^[0-9]{6}$"))) return false;
-        if ((stock == null) || (stock < 0)) return false;
-        if ((weight == null) || (weight <= 0)) return false;
-        return (price != null) && (price >= 0);
+    private Boolean isValidDescription(String description) {
+        if (description.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if stock is entered without error else false
+     */
+    private Boolean isValidStock(Integer stock) {
+        if (stock >= 0 && stock <= 100_000_000) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if location is entered without error else false
+     */
+    private Boolean isValidLocation(String location) {
+        if (location.matches("[0-9]{6}")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if weight is entered without error else false
+     */
+    private Boolean isValidWeight(Integer weight) {
+        if (weight >= 1 && weight <= 100000000) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if price is entered without error else false
+     */
+    private Boolean isValidPrice(Integer price) {
+        if (price >= 1 && price <= 99_99_900) {
+            return true;
+        }
+        return false;
+
     }
 
     public String getDescription() {
