@@ -33,7 +33,7 @@ public class App {
      * @param args arguments which could be given over to this main method
      * @throws IOException ?
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         readConfigFile(configPath);
         SwingUtilities.invokeLater(() -> {
@@ -71,8 +71,7 @@ public class App {
                 Files.createFile(cfgFile);
                 System.out.println("new Config file created");
             }
-        }
-        catch (IOException e) {System.err.println(e);}
+        } catch (IOException e) {System.err.println(e);}
     }
 
     /**
@@ -94,8 +93,7 @@ public class App {
                 System.out.println("Config file not found");
                 // File not found Exception
             }
-        }
-        catch (IOException e) {System.err.println(e);}
+        } catch (IOException e) {System.err.println(e);}
     }
 
     /**

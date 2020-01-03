@@ -9,12 +9,12 @@ public class ViewInventoryItem {
 
     private InventoryItem inventoryItem;
 
-    Boolean inventoryUpdated = false;
+    private Boolean inventoryUpdated = false;
     private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
     private JButton leftButton = new JButton("Bearbeiten");
     private JButton rightButton = new JButton("Löschen");
 
-    JDialog dialog;
+    private JDialog dialog;
 
     public ViewInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItem = inventoryItem;
@@ -48,7 +48,7 @@ public class ViewInventoryItem {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == leftButton) {
-                if (leftButton.getText() == "Bearbeiten") {
+                if (leftButton.getText().equals("Bearbeiten")) {
                     dialog.setTitle("Artikel bearbeiten");
 
                     inputPanel.setIsEnabled(true);
@@ -65,7 +65,7 @@ public class ViewInventoryItem {
                 }
             }
             if (e.getSource() == rightButton) {
-                if (rightButton.getText() == "Löschen") {
+                if (rightButton.getText().equals("Löschen")) {
                     final JDialog dialog = new JDialog();
                     dialog.setAlwaysOnTop(true);
                     if (JOptionPane.showConfirmDialog(dialog, "Wollen Sie den Artikel wirklich löschen?", "Artikel löschen", JOptionPane.YES_NO_OPTION) == 0) {
@@ -79,7 +79,7 @@ public class ViewInventoryItem {
                             JOptionPane.showMessageDialog(errorDialog, "Der Artikel konnte nicht gelöscht werden!", "Fehler beim Löschen eines Artikels", JOptionPane.ERROR_MESSAGE);
                         }
                     }
-                } else if (rightButton.getText() == "Speichern") {
+                } else if (rightButton.getText().equals("Speichern")) {
                     try {
                         InventoryItem item = new InventoryItem(
                                 inputPanel.getDescription(),
@@ -108,6 +108,10 @@ public class ViewInventoryItem {
                 }
             }
         }
+    }
+
+    public Boolean isInventoryUpdated() {
+        return this.inventoryUpdated;
     }
 
     private void showErrorOptionPane(String message) {

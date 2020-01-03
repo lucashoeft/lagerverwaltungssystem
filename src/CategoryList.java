@@ -3,7 +3,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * CategoryListDialog is the window which shows all categories in a table. From here it is possible to create and
@@ -17,24 +16,24 @@ public class CategoryList {
     /**
      * Button to open the AddCategoryDialog window
      */
-    JButton addCategoryButton = new JButton("Kategorie hinzufügen");
+    private JButton addCategoryButton = new JButton("Kategorie hinzufügen");
 
     /**
      * Table which holds all categories
      */
-    JTable jtable;
+    private JTable jtable;
 
     /**
      * column titles
      */
-    String[] columnNames =  {
+    private String[] columnNames =  {
             "Kategorie", "Anzahl der Artikel", ""
     };
 
     /**
      * categoryTableModel of the table which is the DefaultTableModel with an overwriten getColumnClass Method
      */
-    DefaultTableModel categoryTableModel = new DefaultTableModel(null, columnNames) {
+    private DefaultTableModel categoryTableModel = new DefaultTableModel(null, columnNames) {
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             Class returnValue;
@@ -59,7 +58,7 @@ public class CategoryList {
         }
     };
 
-    JDialog dialog;
+    private JDialog dialog;
 
     /**
      * Constructor for a new CategoryListDialog
@@ -132,25 +131,20 @@ public class CategoryList {
         dialog.add(buttonPanel, BorderLayout.NORTH);
         dialog.add(inputPanel, BorderLayout.CENTER);
 
-        addCategoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AddCategory addCategory = new AddCategory();
-                if (addCategory.acceptButtonClicked) {
-                    while (categoryTableModel.getRowCount()>0) {
-                        categoryTableModel.removeRow(0);
-                    }
-
-                    for(Category cat : App.getInventory().getCategoryMap().values()){
-                        String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
-                        categoryTableModel.addRow(obj);
-                    }
-
-                    //write Categories
-                    FileHandler fw = new FileHandler();
-                    fw.storeInventoryInCSV(App.getInventory());
-
+        addCategoryButton.addActionListener((ActionEvent e) -> {
+            AddCategory addCategory = new AddCategory();
+            if (addCategory.isAcceptButtonClicked()) {
+                while (categoryTableModel.getRowCount()>0) {
+                    categoryTableModel.removeRow(0);
                 }
+
+                for(Category cat : App.getInventory().getCategoryMap().values()){
+                    String[] obj = { cat.getName(), String.valueOf(cat.getCount()), "Löschen" };
+                    categoryTableModel.addRow(obj);
+                }
+
+                FileHandler fw = new FileHandler();
+                fw.storeInventoryInCSV(App.getInventory());
             }
         });
         dialog.setVisible(true);

@@ -139,13 +139,16 @@ public class InventoryItemInputPanel extends JPanel {
 
     public Integer getStock() throws IllegalArgumentException {
         String stringValue = stockTextField.getText();
+
+        String exceptionText = "Fehlerhafter Lagerbestand.\n" +
+                "• Minimal: 0 Stück\n" +
+                "• Maximal: 100.000.000 Stück\n" +
+                "• Beispiel: 45";
+
         try {
             return Integer.parseInt(stringValue);
         } catch (IllegalArgumentException iae) {
-            throw new IllegalArgumentException("Fehlerhafter Lagerbestand.\n" +
-                    "• Minimal: 0 Stück\n" +
-                    "• Maximal: 100.000.000 Stück\n" +
-                    "• Beispiel: 45");
+            throw new IllegalArgumentException(exceptionText);
         }
     }
 
@@ -156,45 +159,35 @@ public class InventoryItemInputPanel extends JPanel {
     public Integer getWeight() throws IllegalArgumentException {
         String stringValue = weightTextField.getText().replace(".","");
 
+        String exceptionText = "Fehlerhaftes Gewicht.\n" +
+                "• Angabe des Stückgewichts\n" +
+                "• Minimal: 0,1 g\n" +
+                "• Maximal: 10.000.000,0 g\n" +
+                "• Beispiel: 68,4";
+
         if (stringValue.contains(",")) {
             if (stringValue.matches(".*,")) {
                 String value = stringValue.replace(",","");
                 try {
                     return Integer.parseInt(value) * 10;
                 } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
-                            "• Angabe des Stückgewichts\n" +
-                            "• Minimal: 0,1 g\n" +
-                            "• Maximal: 10.000.000,0 g\n" +
-                            "• Beispiel: 68,4");
+                    throw new IllegalArgumentException(exceptionText);
                 }
             } else if (stringValue.matches(".*,[0-9]")) {
                 String value = stringValue.replace(",","");
                 try {
                     return Integer.parseInt(value);
                 } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
-                            "• Angabe des Stückgewichts\n" +
-                            "• Minimal: 0,1 g\n" +
-                            "• Maximal: 10.000.000,0 g\n" +
-                            "• Beispiel: 68,4");
+                    throw new IllegalArgumentException(exceptionText);
                 }
             } else {
-                throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
-                        "• Angabe des Stückgewichts\n" +
-                        "• Minimal: 0,1 g\n" +
-                        "• Maximal: 10.000.000,0 g\n" +
-                        "• Beispiel: 68,4");
+                throw new IllegalArgumentException(exceptionText);
             }
         } else {
             try {
                 return Integer.parseInt(stringValue) * 10;
             } catch (IllegalArgumentException iae) {
-                throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
-                        "• Angabe des Stückgewichts\n" +
-                        "• Minimal: 0,1 g\n" +
-                        "• Maximal: 10.000.000,0 g\n" +
-                        "• Beispiel: 68,4");
+                throw new IllegalArgumentException(exceptionText);
             }
         }
     }
@@ -202,51 +195,41 @@ public class InventoryItemInputPanel extends JPanel {
     public Integer getPrice() throws IllegalArgumentException {
         String stringValue = priceTextField.getText().replace(".","");
 
+        String exceptionText = "Fehlerhafter Preis\n" +
+                "• Minimal: 0,01 €\n" +
+                "• Maximal: 99.999,00 €\n" +
+                "• Beispiel: 6,99";
+
         if (stringValue.contains(",")) {
             if (stringValue.matches(".*,")) {
                 String value = stringValue.replace(",", "");
                 try {
                     return Integer.parseInt(value) * 100;
                 } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
-                            "• Minimal: 0,01 €\n" +
-                            "• Maximal: 99.999,00 €\n" +
-                            "• Beispiel: 6,99");
+                    throw new IllegalArgumentException(exceptionText);
                 }
             } else if (stringValue.matches(".*,[0-9]")) {
                 String value = stringValue.replace(",", "");
                 try {
                     return Integer.parseInt(value) * 10;
                 } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
-                            "• Minimal: 0,01 €\n" +
-                            "• Maximal: 99.999,00 €\n" +
-                            "• Beispiel: 6,99");
+                    throw new IllegalArgumentException(exceptionText);
                 }
             } else if (stringValue.matches(".*,[0-9][0-9]")) {
                 String value = stringValue.replace(",", "");
                 try {
                     return Integer.parseInt(value);
                 } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
-                            "• Minimal: 0,01 €\n" +
-                            "• Maximal: 99.999,00 €\n" +
-                            "• Beispiel: 6,99");
+                    throw new IllegalArgumentException(exceptionText);
                 }
             } else {
-                throw new IllegalArgumentException("Fehlerhafter Preis\n" +
-                        "• Minimal: 0,01 €\n" +
-                        "• Maximal: 99.999,00 €\n" +
-                        "• Beispiel: 6,99");
+                throw new IllegalArgumentException(exceptionText);
             }
         } else {
             try {
                 return Integer.parseInt(stringValue) * 100;
             } catch (IllegalArgumentException iae) {
-                throw new IllegalArgumentException("Fehlerhafter Preis\n" +
-                        "• Minimal: 0,01 €\n" +
-                        "• Maximal: 99.999,00 €\n" +
-                        "• Beispiel: 6,99");
+                throw new IllegalArgumentException(exceptionText);
             }
         }
     }
@@ -258,6 +241,25 @@ public class InventoryItemInputPanel extends JPanel {
         setItemLocation(inventoryItem.getLocation());
         setWeight(inventoryItem.getWeight());
         setPrice(inventoryItem.getPrice());
+    }
+
+
+    public void setIsEnabled(Boolean isEnabled) {
+        if (isEnabled) {
+            this.descriptionTextField.setEditable(true);
+            this.categoryComboBox.setEnabled(true);
+            this.stockTextField.setEditable(true);
+            this.locationTextField.setEditable(true);
+            this.weightTextField.setEditable(true);
+            this.priceTextField.setEditable(true);
+        } else {
+            this.descriptionTextField.setEditable(false);
+            this.categoryComboBox.setEnabled(false);
+            this.stockTextField.setEditable(false);
+            this.locationTextField.setEditable(false);
+            this.weightTextField.setEditable(false);
+            this.priceTextField.setEditable(false);
+        }
     }
 
     private void setDescription(String text) {
@@ -288,23 +290,5 @@ public class InventoryItemInputPanel extends JPanel {
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
         nf.setMinimumFractionDigits(2);
         this.priceTextField.setText(nf.format(str));
-    }
-
-    public void setIsEnabled(Boolean isEnabled) {
-        if (isEnabled) {
-            this.descriptionTextField.setEditable(true);
-            this.categoryComboBox.setEnabled(true);
-            this.stockTextField.setEditable(true);
-            this.locationTextField.setEditable(true);
-            this.weightTextField.setEditable(true);
-            this.priceTextField.setEditable(true);
-        } else {
-            this.descriptionTextField.setEditable(false);
-            this.categoryComboBox.setEnabled(false);
-            this.stockTextField.setEditable(false);
-            this.locationTextField.setEditable(false);
-            this.weightTextField.setEditable(false);
-            this.priceTextField.setEditable(false);
-        }
     }
 }

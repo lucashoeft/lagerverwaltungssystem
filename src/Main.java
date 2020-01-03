@@ -21,39 +21,39 @@ public class Main {
     /**
      * FileHandler for loading and saving of the database
      */
-    FileHandler fileHandler = new FileHandler();
+    private FileHandler fileHandler = new FileHandler();
 
     /**
      * search Button
      */
-    JButton searchButton = new JButton("Suchen");
+    private JButton searchButton = new JButton("Suchen");
 
     /**
      * create item button
       */
-    JButton createInventoryItemButton = new JButton("Artikel erstellen");
+    private JButton createInventoryItemButton = new JButton("Artikel erstellen");
 
     /**
      * manage Categories Button
      */
-    JButton manageCategoryButton = new JButton("Kategorien verwalten");
+    private JButton manageCategoryButton = new JButton("Kategorien verwalten");
 
     /**
      * search Field
      */
-    JTextField textField1 = new JTextField("", 15);
+    private JTextField searchTextField = new JTextField("", 15);
 
     /**
      * table to show item data
      */
-    JTable table;
+    private JTable table;
 
     /**
      * data model which holds data for the table
      */
-    InventoryTableModel inventoryTableModel = new InventoryTableModel();
+    private InventoryTableModel inventoryTableModel = new InventoryTableModel();
 
-    JFrame frame;
+    private JFrame frame;
 
     /**
      * Constructor for the main window of this Software
@@ -79,7 +79,7 @@ public class Main {
         ListenForButton listenForButton = new ListenForButton();
 
         // adding of components to the window
-        topPanel.add(textField1);
+        topPanel.add(searchTextField);
         topPanel.add(searchButton);
         topPanel.add(createInventoryItemButton);
 
@@ -93,7 +93,7 @@ public class Main {
         frame.add(topPanel, BorderLayout.NORTH);
 
         // table creation
-        // data is stored in InvetoryTableModel
+        // data is stored in InventoryTableModel
         table = new JTable(inventoryTableModel);
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
@@ -170,7 +170,7 @@ public class Main {
 
                 ViewInventoryItem viewInventoryItem = new ViewInventoryItem(App.getInventory().getItem(itemDescription));
 
-                if (viewInventoryItem.inventoryUpdated) {
+                if (viewInventoryItem.isInventoryUpdated()) {
                     inventoryTableModel.setData(App.getInventory());
                 }
             }
@@ -213,7 +213,7 @@ public class Main {
             // action for searchButton
             // Search table for string in textField1
             if (e.getSource() == searchButton) {
-                String text = textField1.getText();
+                String text = searchTextField.getText();
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
                 sorter.setSortable(6, false);
                 sorter.setSortable(7, false);
@@ -231,7 +231,7 @@ public class Main {
             // open new InventoryItemDialog window
             if (e.getSource() == createInventoryItemButton) {
                 AddInventoryItem addInventoryItem = new AddInventoryItem();
-                if (addInventoryItem.acceptButtonClicked) {
+                if (addInventoryItem.isAcceptButtonClicked()) {
                     inventoryTableModel.setData(App.getInventory());
                     fileHandler.storeInventoryInCSV(App.getInventory());
                 }

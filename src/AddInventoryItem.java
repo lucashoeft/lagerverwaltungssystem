@@ -1,20 +1,11 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/**
- *
- * This Dialog class is opened when a user wants to create a new InventoryItem.
- *
- * @author ...
- * @version 1.0
- */
-import java.util.Iterator;
 
 /**
  *
- * InventoryItemDialog is the window which is used to create new items
+ * This Dialog class is opened when a user wants to create a new InventoryItem.
  *
  * @author ...
  * @version 1.0
@@ -24,7 +15,7 @@ public class AddInventoryItem {
     /**
      * is true when acceptButton has been clicked
      */
-    public Boolean acceptButtonClicked = false;
+    private Boolean acceptButtonClicked = false;
 
     private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
 
@@ -38,7 +29,7 @@ public class AddInventoryItem {
      */
     private JButton acceptButton = new JButton("Erstellen");
 
-    JDialog dialog;
+    private JDialog dialog;
 
     /**
      * Constructor for the InventoryItemDialog
@@ -65,6 +56,10 @@ public class AddInventoryItem {
         dialog.add(buttonPanel, BorderLayout.SOUTH);
         dialog.pack();
         dialog.setVisible(true);
+    }
+
+    public Boolean isAcceptButtonClicked() {
+        return this.acceptButtonClicked;
     }
 
     /**

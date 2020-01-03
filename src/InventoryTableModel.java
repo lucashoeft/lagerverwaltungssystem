@@ -1,5 +1,4 @@
 import javax.swing.table.AbstractTableModel;
-import java.util.HashMap;
 /**
  *
  * The InventoryTableModel class contains all Methods and data needed to construct a meaningful table in Main.java

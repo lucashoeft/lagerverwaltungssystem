@@ -10,12 +10,12 @@ import java.awt.event.ActionListener;
  * @author ...
  * @version 1.0
  */
-public class AddCategory{
+public class AddCategory {
 
     /**
      * acceptButtonClicked is true when the acceptButton is pressed
      */
-    public Boolean acceptButtonClicked = false;
+    private Boolean acceptButtonClicked = false;
 
     /**
      * Label that holds tite for categoryNameTextField
@@ -30,14 +30,14 @@ public class AddCategory{
     /**
      * button to close dialog and cancel creating category
      */
-    JButton dismissButton = new JButton("Abbrechen");
+    private JButton dismissButton = new JButton("Abbrechen");
 
     /**
      * button to confirm input and create new category
      */
-    JButton acceptButton = new JButton("Erstellen");
+    private JButton acceptButton = new JButton("Erstellen");
 
-    JDialog dialog;
+    private JDialog dialog;
 
     /**
      * Constructor for a new AddCategoryDialog
@@ -107,6 +107,10 @@ public class AddCategory{
         }
     }
 
+    public Boolean isAcceptButtonClicked() {
+        return this.acceptButtonClicked;
+    }
+
     private String getCategoryName() {
         return categoryNameTextField.getText();
     }
@@ -119,7 +123,6 @@ public class AddCategory{
             return true;
         }
         return false;
-
     }
 
     private void showErrorOptionPane() {

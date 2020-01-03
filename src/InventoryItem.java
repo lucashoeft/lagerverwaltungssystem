@@ -115,57 +115,6 @@ public class InventoryItem {
         return description + "," + category + "," + stock.toString() + "," + location + "," + weight.toString() + "," + price.toString();
     }
 
-    /**
-     * @return true if description is entered without error else false
-     */
-    private Boolean isValidDescription(String description) {
-        if (description.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if stock is entered without error else false
-     */
-    private Boolean isValidStock(Integer stock) {
-        if (stock >= 0 && stock <= 100_000_000) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if location is entered without error else false
-     */
-    private Boolean isValidLocation(String location) {
-        if (location.matches("[0-9]{6}")) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if weight is entered without error else false
-     */
-    private Boolean isValidWeight(Integer weight) {
-        if (weight >= 1 && weight <= 100000000) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if price is entered without error else false
-     */
-    private Boolean isValidPrice(Integer price) {
-        if (price >= 1 && price <= 99_99_900) {
-            return true;
-        }
-        return false;
-
-    }
-
     public String getDescription() {
         return description;
     }
@@ -213,5 +162,40 @@ public class InventoryItem {
 
     public boolean checkUsage(InventoryItem item){
         return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
+    }
+
+    /**
+     * @return true if description is entered without error else false
+     */
+    private Boolean isValidDescription(String description) {
+        return (description.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}"));
+    }
+
+    /**
+     * @return true if stock is entered without error else false
+     */
+    private Boolean isValidStock(Integer stock) {
+        return (stock >= 0 && stock <= 100_000_000);
+    }
+
+    /**
+     * @return true if location is entered without error else false
+     */
+    private Boolean isValidLocation(String location) {
+        return (location.matches("[0-9]{6}"));
+    }
+
+    /**
+     * @return true if weight is entered without error else false
+     */
+    private Boolean isValidWeight(Integer weight) {
+        return (weight >= 1 && weight <= 100000000);
+    }
+
+    /**
+     * @return true if price is entered without error else false
+     */
+    private Boolean isValidPrice(Integer price) {
+        return (price >= 1 && price <= 99_99_900);
     }
 }
