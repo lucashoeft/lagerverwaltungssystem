@@ -110,7 +110,7 @@ public class Main {
 
                 final JDialog dialog = new JDialog();
                 dialog.setAlwaysOnTop(true);
-                String add = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll zum aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).stock + ") addiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
+                String add = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll zum aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") addiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
 
                 if (add != null) {
                     try {
@@ -140,7 +140,7 @@ public class Main {
 
                 final JDialog dialog = new JDialog();
                 dialog.setAlwaysOnTop(true);
-                String sub = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll vom aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).stock + ") subtrahiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
+                String sub = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll vom aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") subtrahiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
 
                 if (sub != null) {
                     try {
@@ -280,7 +280,7 @@ public class Main {
     private void showErrorOptionPane() {
         final JDialog dialog = new JDialog();
         dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,"Eingegebener Werte ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(dialog,"Eingegebener Wert ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
 
 }

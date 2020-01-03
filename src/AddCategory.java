@@ -56,6 +56,13 @@ public class AddCategory{
         inputPanel.setBorder(new EmptyBorder(10,10,10,10));
         inputPanel.setLayout(new GridLayout(0,2,6,3));
 
+        categoryNameTextField.setToolTipText(
+                "<html>" +
+                        "• Muss eindeutig sein" + "<br>" +
+                        "• Maximal 256 Zeichen" + "<br>" +
+                        "• Erlaubte Zeichen: Buchstaben, Zahlen" +
+                "</html>");
+
         inputPanel.add(categoryNameLabel);
         inputPanel.add(categoryNameTextField);
 

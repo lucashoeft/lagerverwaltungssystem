@@ -77,8 +77,7 @@ public class InventoryItemInputPanel extends JPanel {
                         "• Maximal 256 Zeichen" + "<br>" +
                         "• Erlaubte Zeichen: Buchstaben, Bindestrich, " + "<br>" +
                         "Ausrufe- und Fragezeichen, Punkt," + "<br>" +
-                        "Klammer auf, Klammer zu" + "<br>" +
-                        "• Erlaubte Zeichen Zusatz: Zahlen" +
+                        "Klammer auf, Klammer zu, Zahlen" +
                 "</html>");
         categoryComboBox.setToolTipText(
                 "Sollte keine Kategorie zur Auswahl stehen, muss erst eine Kategorie erstellt werden");
@@ -134,90 +133,157 @@ public class InventoryItemInputPanel extends JPanel {
         return descriptionTextField.getText();
     }
 
-    public String getCategory() {
+    public String getCategory() throws NullPointerException {
         return categoryComboBox.getSelectedItem().toString();
     }
 
-    public Integer getStock() throws NumberFormatException {
+    public Integer getStock() throws IllegalArgumentException {
         String stringValue = stockTextField.getText();
-        Integer stockValue = Integer.parseInt(stringValue);
-        return stockValue;
+        try {
+            return Integer.parseInt(stringValue);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Fehlerhafter Lagerbestand.\n" +
+                    "• Minimal: 0 Stück\n" +
+                    "• Maximal: 100.000.000 Stück\n" +
+                    "• Beispiel: 45");
+        }
     }
 
     public String getItemLocation() {
         return locationTextField.getText();
     }
 
-    public Integer getWeight() throws NumberFormatException {
+    public Integer getWeight() throws IllegalArgumentException {
         String stringValue = weightTextField.getText().replace(".","");
 
         if (stringValue.contains(",")) {
             if (stringValue.matches(".*,")) {
                 String value = stringValue.replace(",","");
-                Integer decigramValue = Integer.parseInt(value) * 10;
-                return decigramValue;
+                try {
+                    return Integer.parseInt(value) * 10;
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
+                            "• Angabe des Stückgewichts\n" +
+                            "• Minimal: 0,1 g\n" +
+                            "• Maximal: 10.000.000,0 g\n" +
+                            "• Beispiel: 68,4");
+                }
             } else if (stringValue.matches(".*,[0-9]")) {
                 String value = stringValue.replace(",","");
-                Integer decigramValue = Integer.parseInt(value);
-                return decigramValue;
+                try {
+                    return Integer.parseInt(value);
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
+                            "• Angabe des Stückgewichts\n" +
+                            "• Minimal: 0,1 g\n" +
+                            "• Maximal: 10.000.000,0 g\n" +
+                            "• Beispiel: 68,4");
+                }
             } else {
-                throw new NumberFormatException();
+                throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
+                        "• Angabe des Stückgewichts\n" +
+                        "• Minimal: 0,1 g\n" +
+                        "• Maximal: 10.000.000,0 g\n" +
+                        "• Beispiel: 68,4");
             }
         } else {
-            Integer decigramValue = Integer.parseInt(stringValue) * 10;
-            return decigramValue;
+            try {
+                return Integer.parseInt(stringValue) * 10;
+            } catch (IllegalArgumentException iae) {
+                throw new IllegalArgumentException("Fehlerhaftes Gewicht.\n" +
+                        "• Angabe des Stückgewichts\n" +
+                        "• Minimal: 0,1 g\n" +
+                        "• Maximal: 10.000.000,0 g\n" +
+                        "• Beispiel: 68,4");
+            }
         }
     }
 
-    public Integer getPrice() throws NumberFormatException {
+    public Integer getPrice() throws IllegalArgumentException {
         String stringValue = priceTextField.getText().replace(".","");
 
         if (stringValue.contains(",")) {
             if (stringValue.matches(".*,")) {
                 String value = stringValue.replace(",", "");
-                Integer centValue = Integer.parseInt(value) * 100;
-                return centValue;
+                try {
+                    return Integer.parseInt(value) * 100;
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                            "• Minimal: 0,01 €\n" +
+                            "• Maximal: 99.999,00 €\n" +
+                            "• Beispiel: 6,99");
+                }
             } else if (stringValue.matches(".*,[0-9]")) {
                 String value = stringValue.replace(",", "");
-                Integer centValue = Integer.parseInt(value) * 10;
-                return centValue;
+                try {
+                    return Integer.parseInt(value) * 10;
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                            "• Minimal: 0,01 €\n" +
+                            "• Maximal: 99.999,00 €\n" +
+                            "• Beispiel: 6,99");
+                }
             } else if (stringValue.matches(".*,[0-9][0-9]")) {
                 String value = stringValue.replace(",", "");
-                Integer centValue = Integer.parseInt(value);
-                return centValue;
+                try {
+                    return Integer.parseInt(value);
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                            "• Minimal: 0,01 €\n" +
+                            "• Maximal: 99.999,00 €\n" +
+                            "• Beispiel: 6,99");
+                }
             } else {
-                throw new NumberFormatException();
+                throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                        "• Minimal: 0,01 €\n" +
+                        "• Maximal: 99.999,00 €\n" +
+                        "• Beispiel: 6,99");
             }
         } else {
-            Integer centValue = Integer.parseInt(stringValue) * 100;
-            return centValue;
+            try {
+                return Integer.parseInt(stringValue) * 100;
+            } catch (IllegalArgumentException iae) {
+                throw new IllegalArgumentException("Fehlerhafter Preis\n" +
+                        "• Minimal: 0,01 €\n" +
+                        "• Maximal: 99.999,00 €\n" +
+                        "• Beispiel: 6,99");
+            }
         }
     }
 
-    public void setDescription(String text) {
+    public void setInventoryItem(InventoryItem inventoryItem) {
+        setDescription(inventoryItem.getDescription());
+        setCategory(inventoryItem.getCategory());
+        setStock(inventoryItem.getStock());
+        setItemLocation(inventoryItem.getLocation());
+        setWeight(inventoryItem.getWeight());
+        setPrice(inventoryItem.getPrice());
+    }
+
+    private void setDescription(String text) {
         this.descriptionTextField.setText(text);
     }
 
-    public void setCategory(String text) {
+    private void setCategory(String text) {
         this.categoryComboBox.setSelectedItem(text);
     }
 
-    public void setStock(Integer text) {
+    private void setStock(Integer text) {
         this.stockTextField.setText(text.toString());
     }
 
-    public void setItemLocation(String text) {
+    private void setItemLocation(String text) {
         this.locationTextField.setText(text);
     }
 
-    public void setWeight(Integer text) {
+    private void setWeight(Integer text) {
         Double str = text.doubleValue() / 10.0;
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
         nf.setMinimumFractionDigits(1);
         this.weightTextField.setText(nf.format(str));
     }
 
-    public void setPrice(Integer text) {
+    private void setPrice(Integer text) {
         Double str = text.doubleValue() / 100.0;
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
         nf.setMinimumFractionDigits(2);

@@ -45,12 +45,12 @@ class InventoryTest {
             myInventory.setItemMap(itemMap);
             HashMap<String, InventoryItem> items = myInventory.getItemMap();
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
-            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
-            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
-            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
-            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
-            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").getDescription());
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").getCategory());
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").getStock());
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").getLocation());
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").getWeight());
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").getPrice());
 
             Assertions.assertEquals(1, myInventory.getShelfMap().size());
             Assertions.assertEquals(10, myInventory.getShelfMap().get(10).getId());
@@ -66,12 +66,12 @@ class InventoryTest {
             myInventory.setItemMap(fileHandler.readInventoryFromCSV(Paths.get(myInventory.getPath())).getItemMap()); // ... reload t
             items = myInventory.getItemMap(); // and check its content
             Assertions.assertEquals(2, items.size());
-            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").description);
-            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").category);
-            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").stock);
-            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").location);
-            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").weight);
-            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").price);
+            Assertions.assertEquals("Lamy-Safari-Füllhalter", items.get("Lamy-Safari-Füllhalter").getDescription());
+            Assertions.assertEquals("Füllfederhalter", items.get("Lamy-Safari-Füllhalter").getCategory());
+            Assertions.assertEquals(8, items.get("Lamy-Safari-Füllhalter").getStock());
+            Assertions.assertEquals("010001", items.get("Lamy-Safari-Füllhalter").getLocation());
+            Assertions.assertEquals(116, items.get("Lamy-Safari-Füllhalter").getWeight());
+            Assertions.assertEquals(1571, items.get("Lamy-Safari-Füllhalter").getPrice());
 
             // cleanup used file
             TestHelpers.deleteTmpFile(fileName);
@@ -96,7 +96,7 @@ class InventoryTest {
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item12", "cat1", 1200, "001002", 10, 199)));
         Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item13", "cat1", 1300, "001001", 10, 199))); // location already in use -> ignore
         Assertions.assertTrue(myInventory.addNewItem(new InventoryItem("item21", "cat1", 2, "002001", (1000 * 1000) / 2, 199)));
-        Assertions.assertFalse(myInventory.addNewItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
+        Assertions.assertThrows(IllegalArgumentException.class, () -> myInventory.addNewItem(new InventoryItem("item31", "cat1", 1, "003001", (1000 * 1000 * 10 * 10) + 1, 199))); // to heavy item -> ignore in init()
 
         Assertions.assertEquals(2, myInventory.getShelfMap().size());
         Assertions.assertEquals(2, myInventory.getCategoryMap().size());

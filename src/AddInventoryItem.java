@@ -79,101 +79,33 @@ public class AddInventoryItem {
             }
 
             if (e.getSource() == acceptButton) {
-                if (isValidInput()) {
-                    try {
-                        InventoryItem item = new InventoryItem(
-                                inputPanel.getDescription(),
-                                inputPanel.getCategory(),
-                                inputPanel.getStock(),
-                                inputPanel.getItemLocation(),
-                                inputPanel.getWeight(),
-                                inputPanel.getPrice()
-                        );
-                        if (App.getInventory().addNewItem(item)) {
-                            acceptButtonClicked = true;
-                            dialog.dispose();
-                        } else {
-                            showErrorOptionPane();
-                        }
-                    } catch (Exception err){
-                        showErrorOptionPane();
+                try {
+                    InventoryItem item = new InventoryItem(
+                            inputPanel.getDescription(),
+                            inputPanel.getCategory(),
+                            inputPanel.getStock(),
+                            inputPanel.getItemLocation(),
+                            inputPanel.getWeight(),
+                            inputPanel.getPrice()
+                    );
+                    if (App.getInventory().addNewItem(item)) {
+                        acceptButtonClicked = true;
+                        dialog.dispose();
+                    } else {
+                        showErrorOptionPane("Der Artikel konnte dem Lagerbestand nicht hinzugefügt werden. Die Produktbezeichnung und der Lagerort müssen eindeutig sein.");
                     }
-                } else {
-                    showErrorOptionPane();
+                } catch (IllegalArgumentException iae){
+                    showErrorOptionPane(iae.getMessage());
+                } catch (NullPointerException npe) {
+                    showErrorOptionPane("Es muss erst eine Kategorie erstellt werden, bevor ein Artikel erstellt werden kann.");
                 }
             }
         }
     }
 
-    /**
-     * @return true if all Fields are entered without error else false
-     */
-    private Boolean isValidInput() {
-        if (isValidDescription() && isValidStock() && isValidLocation() && isValidWeight() && isValidPrice()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if description is entered without error else false
-     */
-    private Boolean isValidDescription() {
-        if (inputPanel.getDescription().matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}") ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if stock is entered without error else false
-     */
-    private Boolean isValidStock() {
-        try {
-            if (inputPanel.getStock() >= 0 && inputPanel.getStock() <= 100_000_000) {
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * @return true if location is entered without error else false
-     */
-    private Boolean isValidLocation() {
-        if (inputPanel.getItemLocation().matches("[0-9]{6}")) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if weight is entered without error else false
-     */
-    private Boolean isValidWeight() {
-        if (inputPanel.getWeight() >= 1 && inputPanel.getWeight() <= 100000000) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @return true if price is entered without error else false
-     */
-    private Boolean isValidPrice() {
-        if (inputPanel.getPrice() >= 1 && inputPanel.getPrice() <= 99_99_900) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void showErrorOptionPane() {
+    private void showErrorOptionPane(String message) {
         final JDialog dialog = new JDialog();
         dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }
