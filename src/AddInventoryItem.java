@@ -96,6 +96,8 @@ public class AddInventoryItem {
                     }
                 } catch (IllegalArgumentException iae){
                     showErrorOptionPane(iae.getMessage());
+                } catch (NullPointerException npe) {
+                    showErrorOptionPane("Es muss erst eine Kategorie erstellt werden, bevor ein Artikel erstellt werden kann.");
                 }
             }
         }

@@ -133,7 +133,7 @@ public class InventoryItemInputPanel extends JPanel {
         return descriptionTextField.getText();
     }
 
-    public String getCategory() {
+    public String getCategory() throws NullPointerException {
         return categoryComboBox.getSelectedItem().toString();
     }
 
