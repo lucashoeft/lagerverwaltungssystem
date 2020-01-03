@@ -214,15 +214,4 @@ public class InventoryItem {
     public boolean checkUsage(InventoryItem item){
         return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
     }
-
-    public boolean isCategory() {
-        if (!description.equals("-1")) return false;
-        if ((category.equals("-1")) || (category.indexOf(',') >= 0)) return false;
-        if (!location.equals("-1")) return false;
-        if (!stock.equals(-1)) return false;
-        if (!weight.equals(-1)) return false;
-        return (price.equals(-1));
-    }
-
-
 }

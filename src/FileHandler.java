@@ -32,7 +32,7 @@ public class FileHandler {
             while (line != null) {
                 String[] attributes = line.split(",");
 
-                if (attributes[2].equals("-1")) {
+                if (isCategory(attributes)) {
                     inventory.addCategory(new Category(attributes[1]));
                 } else {
                     try {
@@ -52,6 +52,15 @@ public class FileHandler {
 
         inventory.setItemMap(itemMap);
         return inventory;
+    }
+
+    private Boolean isCategory(String[] attributes) {
+        if (!attributes[0].equals("-1")) return false;
+        if ((attributes[1].equals("-1")) || (attributes[1].indexOf(',') >= 0)) return false;
+        if (!attributes[2].equals("-1")) return false;
+        if (!attributes[3].equals("-1")) return false;
+        if (!attributes[4].equals("-1")) return false;
+        return (attributes[5].equals("-1"));
     }
 
     /**
