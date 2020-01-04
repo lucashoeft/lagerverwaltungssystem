@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The File Handler manages all actions concerning reading and writing the database
@@ -13,6 +15,9 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class FileHandler {
+
+    private static final Logger logger = Logger.getLogger(FileHandler.class.getName());
+
     /**
      * create Inventory object from a .CSV file at pathName
      * @param pathName the path where the file is used from
@@ -23,8 +28,7 @@ public class FileHandler {
         HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
         inventory.setPath(pathName.toString());
 
-        try (BufferedReader br = Files.newBufferedReader(pathName,
-                StandardCharsets.UTF_8)) {
+        try (BufferedReader br = Files.newBufferedReader(pathName, StandardCharsets.UTF_8)) {
 
             String line = br.readLine();
 
@@ -38,8 +42,8 @@ public class FileHandler {
                     try {
                         InventoryItem inventoryItem = createInventoryItem(attributes);
                         itemMap.put(inventoryItem.getDescription(), inventoryItem);
-                    } catch (Exception err) {
-                        // err.printStackTrace();
+                    } catch (IllegalArgumentException iae) {
+                        logger.log(Level.WARNING, iae.getMessage());
                     }
                 }
 
@@ -47,7 +51,7 @@ public class FileHandler {
             }
 
         } catch (IOException ioe) {
-            //ioe.printStackTrace();
+            logger.log(Level.WARNING, ioe.getMessage());
         }
 
         inventory.setItemMap(itemMap);
@@ -62,8 +66,7 @@ public class FileHandler {
         try {
             String path = inventory.getPath();
             boolean check = false;
-            //Path file = Paths.get(path);
-            //String backup = file.getParent().toString() + "/backup.csv";
+
             if (!path.equals("")) {
                 Path file = Paths.get(path);
                 String backup = file.getParent().toString() + "/backup.csv";
@@ -71,14 +74,14 @@ public class FileHandler {
                 // delete old backup
                 if (Files.exists(Paths.get(backup))) {
                     Files.delete(Paths.get(backup));
-                    System.out.println("old backup deleted");
+                    logger.log(Level.INFO,"Old backup deleted");
                 }
                 // create backup if old file exists
                 if (Files.exists(file)) {
                     Files.move(file, Paths.get(backup));
-                    System.out.println("Backup created");
+                    logger.log(Level.INFO,"Backup created");
                 } else {
-                    System.out.println("New File created");
+                    logger.log(Level.INFO,"New File created");
                 }
             }
 
@@ -92,14 +95,16 @@ public class FileHandler {
             fw.write(inventory.toStringCSV());
             fw.close();
 
-            System.out.println("Data saved");
+            logger.log(Level.INFO,"Data saved");
+
             // delete backup
             if (check) {
                 Files.delete(Paths.get(Paths.get(path).getParent().toString() + "/backup.csv"));
-                System.out.println("Backup deleted");
+                logger.log(Level.INFO,"Backup deleted");
             }
+        } catch (IOException e) {
+            logger.log(Level.WARNING, e.getMessage());
         }
-        catch (IOException e) {System.err.println(e.toString()+"test");}
     }
 
     private Boolean isCategory(String[] attributes) {

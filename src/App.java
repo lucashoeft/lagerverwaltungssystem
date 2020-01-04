@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.io.FileWriter;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +28,8 @@ public class App {
      */
     private static String configPath = System.getProperty("user.dir") + "/Data/config.cfg";
 
+    private static final Logger logger = Logger.getLogger(App.class.getName());
+
     /**
      * This main method is called the start the Software.
      * 1. read Config
@@ -40,10 +44,8 @@ public class App {
             new Main();
         });
 
-        //print to check for correct path of .csv file
-        System.out.println(inventory.getPath());
-        System.out.println(configPath);
-
+        logger.log(Level.INFO,"Config Path: " + configPath);
+        logger.log(Level.INFO,"Inventory Path: " + inventory.getPath());
     }
 
     /**
@@ -55,23 +57,25 @@ public class App {
         try {
             Path cfgFile = Paths.get(path);
             if (Files.exists(cfgFile)) {
-                System.out.println("Config file found");
+                logger.log(Level.INFO,"Config file found");
                 if(clearConfigFile(path) == 0) {
                     Scanner scan = new Scanner(cfgFile);
                     inventory.setPath(scan.nextLine());
-                    System.out.println("Config file loaded");
+                    logger.log(Level.INFO,"Config file loaded");
                 }
                 else {
                     readConfigFile(path);
                 }
             }
             else {
-                System.out.println("Config file not found");
+                logger.log(Level.INFO,"Config file not found");
                 Files.createDirectories(cfgFile.getParent());
                 Files.createFile(cfgFile);
-                System.out.println("new Config file created");
+                logger.log(Level.INFO,"new Config file created");
             }
-        } catch (IOException e) {System.err.println(e);}
+        } catch (IOException e) {
+            logger.log(Level.WARNING,e.getMessage());
+        };
     }
 
     /**
@@ -83,17 +87,17 @@ public class App {
         try {
             Path cfgFile = Paths.get(config_path);
             if (Files.exists(cfgFile)) {
-                System.out.println("Config file found");
+                logger.log(Level.INFO,"Config file found");
                 FileWriter fw = new FileWriter(config_path);
                 fw.write(new_path);
                 fw.close();
-                System.out.println("Config file updated");
+                logger.log(Level.INFO,"Config file updated");
+            } else {
+                logger.log(Level.INFO,"Config file not found");
             }
-            else {
-                System.out.println("Config file not found");
-                // File not found Exception
-            }
-        } catch (IOException e) {System.err.println(e);}
+        } catch (IOException e) {
+            logger.log(Level.WARNING,e.getMessage());
+        }
     }
 
     /**
@@ -105,7 +109,7 @@ public class App {
         File cfgFile = new File(path);
         if (cfgFile.length() == 0) {
             cfgFile.delete();
-            System.out.println("empty config file deleted");
+            logger.log(Level.INFO,"Empty config file deleted");
             return 1;
         }
         return 0;
