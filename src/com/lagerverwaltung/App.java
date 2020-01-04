@@ -67,7 +67,7 @@ public class App {
                 logger.log(Level.INFO,"Config file not found");
                 Files.createDirectories(cfgFile.getParent());
                 Files.createFile(cfgFile);
-                logger.log(Level.INFO,"new Config file created");
+                logger.log(Level.INFO,"New Config file created");
             }
         } catch (IOException e) {
             logger.log(Level.WARNING,e.getMessage());

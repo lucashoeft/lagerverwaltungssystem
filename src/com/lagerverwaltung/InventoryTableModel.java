@@ -7,7 +7,6 @@ import javax.swing.table.AbstractTableModel;
  */
 public class InventoryTableModel extends AbstractTableModel {
 
-    // TODO Gewicht und Preis vom dg und cent in g und euro umrechenen
     /**
      * column title array
      */
@@ -18,8 +17,8 @@ public class InventoryTableModel extends AbstractTableModel {
             "Lagerort",
             "Gewicht in g",
             "Preis in €",
-            "Addieren",
-            "Subtrahieren",
+            "Lagerbestand erhöhen",
+            "Lagerbestand verringern",
             ""
     };
 

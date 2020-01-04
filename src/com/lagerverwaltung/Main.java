@@ -59,37 +59,14 @@ public class Main {
      */
     public Main() {
         frame = new JFrame("Lagerverwaltungssystem");
-
-        // minimum window size : 620x420
         frame.setMinimumSize(new Dimension(620, 420));
-
         frame.setSize(800, 600);
-
-        // window centered on screen
         frame.setLocationRelativeTo(null);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // area above table as Panel
-        JPanel topPanel = new JPanel();
-
-        // Button Listener
-        // Decides what happens after button press
-        ListenForButton listenForButton = new ListenForButton();
-
-        // adding of components to the window
-        topPanel.add(searchTextField);
-        topPanel.add(searchButton);
-        topPanel.add(createInventoryItemButton);
-
-        manageCategoryButton.addActionListener(listenForButton);
-        topPanel.add(manageCategoryButton);
-
-        // Adding of Button Listener to buttons
-        createInventoryItemButton.addActionListener(listenForButton);
-        searchButton.addActionListener(listenForButton);
-
-        frame.add(topPanel, BorderLayout.NORTH);
+        manageCategoryButton.addActionListener(new ManageCategoryListener());
+        createInventoryItemButton.addActionListener(new CreateInventoryListener());
+        searchButton.addActionListener(new SearchListener());
 
         // table creation
         // data is stored in InventoryTableModel
@@ -101,84 +78,9 @@ public class Main {
         table.getColumnModel().getColumn(5).setCellRenderer(new PriceTableCellRenderer());
         table.setCellSelectionEnabled(false);
 
-        Action addAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                JTable table = (JTable)e.getSource();
-                int modelRow = Integer.valueOf(e.getActionCommand());
-                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
-
-                final JDialog dialog = new JDialog();
-                dialog.setAlwaysOnTop(true);
-                String add = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll zum aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") addiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
-
-                if (add != null) {
-                    try {
-                        Integer numValue = Integer.parseInt(add);
-                        if (numValue >= 0) {
-                            if (App.getInventory().increaseStockBy(itemDescription,numValue)) {
-                                inventoryTableModel.setData(App.getInventory());
-                                fileHandler.storeInventoryInCSV(App.getInventory());
-                            } else {
-                                showErrorOptionPane();
-                            }
-                        } else {
-                            showErrorOptionPane();
-                        }
-                    } catch (Exception err) {
-                        showErrorOptionPane();
-                    }
-                }
-            }
-        };
-
-        Action subAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                JTable table = (JTable)e.getSource();
-                int modelRow = Integer.valueOf(e.getActionCommand());
-                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
-
-                final JDialog dialog = new JDialog();
-                dialog.setAlwaysOnTop(true);
-                String sub = JOptionPane.showInputDialog(dialog,"Welcher Betrag soll vom aktuellen Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") subtrahiert werden?","Lagerbestand anpassen",JOptionPane.OK_CANCEL_OPTION);
-
-                if (sub != null) {
-                    try {
-                        Integer numValue = Integer.parseInt(sub);
-                        if (numValue >= 0) {
-                            if (App.getInventory().decreaseStockBy(itemDescription,numValue)) {
-                                inventoryTableModel.setData(App.getInventory());
-                                fileHandler.storeInventoryInCSV(App.getInventory());
-                            } else {
-                                showErrorOptionPane();
-                            }
-                        } else {
-                            showErrorOptionPane();
-                        }
-                    } catch (Exception err) {
-                        showErrorOptionPane();
-                    }
-                }
-            }
-        };
-
-        Action manageAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                JTable table = (JTable)e.getSource();
-                int modelRow = Integer.valueOf(e.getActionCommand());
-                String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
-
-                ViewInventoryItem viewInventoryItem = new ViewInventoryItem(App.getInventory().getItem(itemDescription));
-
-                if (viewInventoryItem.isInventoryUpdated()) {
-                    inventoryTableModel.setData(App.getInventory());
-                }
-            }
-        };
-
-        new ButtonCellEditor(table, addAction, 6);
-        new ButtonCellEditor(table, subAction, 7);
-        new ButtonCellEditor(table, manageAction, 8);
-
+        new ButtonCellEditor(table, new AddAction(), 6);
+        new ButtonCellEditor(table, new SubAction(), 7);
+        new ButtonCellEditor(table, new ManageAction(), 8);
 
         // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
@@ -190,55 +92,134 @@ public class Main {
             }
         }
 
+        // area above table as Panel
+        JPanel topPanel = new JPanel();
+        // adding of components to the window
+        topPanel.add(searchTextField);
+        topPanel.add(searchButton);
+        topPanel.add(createInventoryItemButton);
+        topPanel.add(manageCategoryButton);
+
         // Scrollable area which contains the table
         JScrollPane scrollPane = new JScrollPane(table);
+
+        frame.add(topPanel, BorderLayout.NORTH);
         frame.add(scrollPane, BorderLayout.CENTER);
 
         frame.setVisible(true);
     }
 
-    /**
-     * Listener class for Button clicks. When a button is clicked the ListenForButton class checks which button has
-     * been clicked and then decides what method to run
-     */
-    private class ListenForButton implements ActionListener {
-
-        /**
-         *
-         * @param e Contains information of the button press
-         */
+    private class AddAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable)e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-            // action for searchButton
-            // Search table for string in textField1
-            if (e.getSource() == searchButton) {
-                String text = searchTextField.getText();
-                TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-                sorter.setSortable(6, false);
-                sorter.setSortable(7, false);
-                sorter.setSortable(8, false);
-                table.setRowSorter(sorter);
+            final JDialog dialog = new JDialog();
+            dialog.setAlwaysOnTop(true);
+            String add = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") erhöht werden?","Lagerbestand erhöhen",JOptionPane.OK_CANCEL_OPTION);
+
+            if (add != null) {
+                try {
+                    Integer numValue = Integer.parseInt(add);
+                    if (numValue >= 0) {
+                        if (App.getInventory().increaseStockBy(itemDescription,numValue)) {
+                            inventoryTableModel.setData(App.getInventory());
+                            fileHandler.storeInventoryInCSV(App.getInventory());
+                        } else {
+                            showErrorOptionPane();
+                        }
+                    } else {
+                        showErrorOptionPane();
+                    }
+                } catch (Exception err) {
+                    showErrorOptionPane();
+                }
+            }
+        }
+    }
+
+    private class SubAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable)e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
+
+            final JDialog dialog = new JDialog();
+            dialog.setAlwaysOnTop(true);
+            String sub = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") verringert werden?","Lagerbestand verringern",JOptionPane.OK_CANCEL_OPTION);
+
+            if (sub != null) {
+                try {
+                    Integer numValue = Integer.parseInt(sub);
+                    if (numValue >= 0) {
+                        if (App.getInventory().decreaseStockBy(itemDescription,numValue)) {
+                            inventoryTableModel.setData(App.getInventory());
+                            fileHandler.storeInventoryInCSV(App.getInventory());
+                        } else {
+                            showErrorOptionPane();
+                        }
+                    } else {
+                        showErrorOptionPane();
+                    }
+                } catch (Exception err) {
+                    showErrorOptionPane();
+                }
+            }
+        }
+    }
+
+    private class ManageAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable)e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
+
+            ViewInventoryItem viewInventoryItem = new ViewInventoryItem(App.getInventory().getItem(itemDescription));
+
+            if (viewInventoryItem.isInventoryUpdated()) {
+                inventoryTableModel.setData(App.getInventory());
+            }
+        }
+    }
+
+    private class SearchListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String text = searchTextField.getText();
+            TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+            sorter.setSortable(6, false);
+            sorter.setSortable(7, false);
+            sorter.setSortable(8, false);
+            table.setRowSorter(sorter);
                 if (text.length() == 0) {
                     sorter.setRowFilter(null);
                 } else {
-                    int[] indices = {0, 1, 2, 3, 4, 5};
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".",""),indices));
+                    if (table.getRowCount() > 0) {
+                        int[] indices = {0, 1, 2, 3, 4, 5};
+                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".",""),indices));
+                    }
                 }
-            }
+        }
+    }
 
-            // action for createInventroyItemButton
-            // open new InventoryItemDialog window
-            if (e.getSource() == createInventoryItemButton) {
-                AddInventoryItem addInventoryItem = new AddInventoryItem();
-                if (addInventoryItem.isAcceptButtonClicked()) {
-                    inventoryTableModel.setData(App.getInventory());
-                    fileHandler.storeInventoryInCSV(App.getInventory());
-                }
+    private class CreateInventoryListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            AddInventoryItem addInventoryItem = new AddInventoryItem();
+            if (addInventoryItem.isAcceptButtonClicked()) {
+                inventoryTableModel.setData(App.getInventory());
+                fileHandler.storeInventoryInCSV(App.getInventory());
             }
+        }
+    }
 
-            if (e.getSource() == manageCategoryButton) {
-                new CategoryList();
-            }
+    private class ManageCategoryListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new CategoryList();
         }
     }
 
