@@ -8,9 +8,6 @@ import java.awt.event.ActionListener;
 
 /**
  * The AddCategoryDialog is the window used to create new categories
- *
- * @author ...
- * @version 1.0
  */
 public class AddCategory {
 

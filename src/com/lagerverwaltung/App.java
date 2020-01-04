@@ -11,12 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * The App Class contains the a runable main method and manages all actions before opening the main window and after
- * closing
- *
- * @author ...
- * @version 1.0
  */
 public class App {
 
@@ -33,11 +28,10 @@ public class App {
     private static final Logger logger = Logger.getLogger(App.class.getName());
 
     /**
-     * This main method is called the start the Software.
+     * Starts the software
      * 1. read Config
      * 2. start GUI
      * @param args arguments which could be given over to this main method
-     * @throws IOException ?
      */
     public static void main(String[] args) {
 

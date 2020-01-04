@@ -14,9 +14,6 @@ import java.util.Locale;
 /**
  * This is the main Window of the Storage-Management-System.
  * It contains a filterable table with all items on stock.
- *
- * @author ...
- * @version 1.0
  */
 public class Main {
 

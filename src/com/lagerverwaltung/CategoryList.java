@@ -9,9 +9,6 @@ import java.awt.event.ActionEvent;
 /**
  * CategoryListDialog is the window which shows all categories in a table. From here it is possible to create and
  * delete categories
- *
- * @author ...
- * @version 1.0
  */
 public class CategoryList {
 

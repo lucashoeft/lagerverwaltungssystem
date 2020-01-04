@@ -2,9 +2,6 @@ package com.lagerverwaltung;
 
 /**
  * Category is an attribute of an item.
- *
- * @author ...
- * @version 1.0
  */
 public class Category {
 

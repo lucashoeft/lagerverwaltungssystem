@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 
 /**
  * The File Handler manages all actions concerning reading and writing the database
- * @author ...
- * @version 1.0
  */
 public class FileHandler {
 
@@ -24,6 +22,7 @@ public class FileHandler {
      * create Inventory object from a .CSV file at pathName
      * @param pathName the path where the file is used from
      * @return Inventory object
+     * @see Inventory
      */
     public Inventory readInventoryFromCSV(Path pathName) {
         Inventory inventory = new Inventory();

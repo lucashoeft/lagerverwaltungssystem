@@ -5,11 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * during runtime an Inventory object contains all items of the database
- *
- * @author ...
- * @version 1.0
  */
 public class Inventory {
 
@@ -69,6 +65,7 @@ public class Inventory {
 
     /**
      * read file, parse file to object and save locally
+     * @param itemMap HashMap
      */
     public void setItemMap(HashMap<String, InventoryItem> itemMap) {
         this.itemMap = itemMap;
