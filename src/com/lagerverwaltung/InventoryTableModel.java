@@ -1,3 +1,5 @@
+package com.lagerverwaltung;
+
 import javax.swing.table.AbstractTableModel;
 /**
  *

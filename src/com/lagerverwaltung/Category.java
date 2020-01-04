@@ -1,3 +1,5 @@
+package com.lagerverwaltung;
+
 /**
  * Category is an attribute of an item.
  *

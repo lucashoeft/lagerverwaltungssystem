@@ -1,3 +1,5 @@
+package com.lagerverwaltung;
+
 /**
  * A shelf is an attribute of an item.
  * Multiple items can be stored in the same shelf.

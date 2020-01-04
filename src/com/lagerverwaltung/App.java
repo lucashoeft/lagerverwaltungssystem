@@ -1,3 +1,5 @@
+package com.lagerverwaltung;
+
 import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;

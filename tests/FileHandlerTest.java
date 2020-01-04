@@ -1,8 +1,8 @@
+import com.lagerverwaltung.FileHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 

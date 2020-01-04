@@ -1,3 +1,5 @@
+import com.lagerverwaltung.*;
+import lagerverwaltung.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
