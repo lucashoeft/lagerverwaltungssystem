@@ -97,7 +97,7 @@ public class AddCategory {
                         acceptButtonClicked = true;
                         dialog.dispose();
                     } else {
-                        showErrorOptionPane("Die Kategore konnte nicht erstellt werden. Der Kategoriename muss eindeutig sein.");
+                        showErrorOptionPane("Die Kategorie konnte nicht erstellt werden. Der Kategoriename muss eindeutig sein.");
                     }
                 } else {
                     showErrorOptionPane("Fehlerhafter Kategoriename.\n" +
