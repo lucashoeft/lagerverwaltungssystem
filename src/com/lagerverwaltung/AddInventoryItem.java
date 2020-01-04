@@ -85,7 +85,9 @@ public class AddInventoryItem {
                         acceptButtonClicked = true;
                         dialog.dispose();
                     } else {
-                        showErrorOptionPane("Der Artikel konnte dem Lagerbestand nicht hinzugefügt werden. Die Produktbezeichnung und der Lagerort müssen eindeutig sein.");
+                        showErrorOptionPane("Der Artikel konnte dem Lagerbestand nicht hinzugefügt werden.\n" +
+                                "Die Produktbezeichnung und der Lagerort müssen eindeutig sein\n" +
+                                "und das Regalgewicht darf 10.000.000 g nicht überschreiten");
                     }
                 } catch (IllegalArgumentException iae){
                     showErrorOptionPane(iae.getMessage());

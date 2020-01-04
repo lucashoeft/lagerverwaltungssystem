@@ -120,7 +120,11 @@ public class CategoryList {
             } else {
                 final JDialog dialog = new JDialog();
                 dialog.setAlwaysOnTop(true);
-                JOptionPane.showMessageDialog(dialog,"Kategorie konnte nicht gelöscht werden!","Fehler beim Löschen einer Kategorie",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Die Kategorie kann erst gelöscht werden, wenn sie keine Artikel mehr enthält!",
+                        "Fehler beim Löschen einer Kategorie",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }

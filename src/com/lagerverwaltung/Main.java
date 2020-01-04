@@ -60,7 +60,7 @@ public class Main {
     public Main() {
         frame = new JFrame("Lagerverwaltungssystem");
         frame.setMinimumSize(new Dimension(620, 420));
-        frame.setSize(800, 600);
+        frame.setSize(1200, 800);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -74,6 +74,8 @@ public class Main {
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(2).setCellRenderer(new StockTableCellRenderer());
+        table.getColumnModel().getColumn(3).setCellRenderer(new LocationTableCellRenderer());
         table.getColumnModel().getColumn(4).setCellRenderer(new WeightTableCellRenderer());
         table.getColumnModel().getColumn(5).setCellRenderer(new PriceTableCellRenderer());
         table.setCellSelectionEnabled(false);
@@ -110,6 +112,9 @@ public class Main {
     }
 
     private class AddAction extends AbstractAction {
+
+        private String exceptionMessage = "Eingegebener Wert ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!";
+
         @Override
         public void actionPerformed(ActionEvent e) {
             JTable table = (JTable)e.getSource();
@@ -123,18 +128,18 @@ public class Main {
             if (add != null) {
                 try {
                     Integer numValue = Integer.parseInt(add);
-                    if (numValue >= 0) {
+                    if (numValue > 0) {
                         if (App.getInventory().increaseStockBy(itemDescription,numValue)) {
                             inventoryTableModel.setData(App.getInventory());
                             fileHandler.storeInventoryInCSV(App.getInventory());
                         } else {
-                            showErrorOptionPane();
+                            showErrorOptionPane("Das Regalgewicht darf 10.000.000 g nicht überschreiten.");
                         }
                     } else {
-                        showErrorOptionPane();
+                        showErrorOptionPane("Der eingegebene Wert muss größer als 0 sein.");
                     }
                 } catch (Exception err) {
-                    showErrorOptionPane();
+                    showErrorOptionPane("Es werden nur ganzzahlige Werte akzeptiert.");
                 }
             }
         }
@@ -154,18 +159,18 @@ public class Main {
             if (sub != null) {
                 try {
                     Integer numValue = Integer.parseInt(sub);
-                    if (numValue >= 0) {
+                    if (numValue > 0) {
                         if (App.getInventory().decreaseStockBy(itemDescription,numValue)) {
                             inventoryTableModel.setData(App.getInventory());
                             fileHandler.storeInventoryInCSV(App.getInventory());
                         } else {
-                            showErrorOptionPane();
+                            showErrorOptionPane("Der Lagerbestand darf nicht kleiner als 0 sein.");
                         }
                     } else {
-                        showErrorOptionPane();
+                        showErrorOptionPane("Der eingegebene Wert muss größer als 0 sein.");
                     }
                 } catch (Exception err) {
-                    showErrorOptionPane();
+                    showErrorOptionPane("Es werden nur ganzzahlige Werte akzeptiert.");
                 }
             }
         }
@@ -223,6 +228,28 @@ public class Main {
         }
     }
 
+    private class StockTableCellRenderer extends DefaultTableCellRenderer {
+
+        public StockTableCellRenderer() {
+            setHorizontalAlignment(JLabel.RIGHT);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (value instanceof Number) {
+                value = NumberFormat.getIntegerInstance(Locale.GERMANY).format(value);
+            }
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+    }
+
+    private class LocationTableCellRenderer extends DefaultTableCellRenderer {
+
+        public LocationTableCellRenderer() {
+            setHorizontalAlignment(JLabel.RIGHT);
+        }
+    }
+
     private class WeightTableCellRenderer extends DefaultTableCellRenderer {
 
         public WeightTableCellRenderer() {
@@ -257,10 +284,9 @@ public class Main {
         }
     }
 
-    private void showErrorOptionPane() {
+    private void showErrorOptionPane(String message) {
         final JDialog dialog = new JDialog();
         dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,"Eingegebener Wert ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
-
 }

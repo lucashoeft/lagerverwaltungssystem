@@ -111,6 +111,7 @@ public class InventoryItemInputPanel extends JPanel {
         this.add(descriptionTextField);
 
         this.add(categoryLabel);
+        categoryComboBox.setPrototypeDisplayValue("Category Name");
         this.add(categoryComboBox);
 
         for(Category cat : categoryMap.values()){
@@ -140,7 +141,7 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     public Integer getStock() throws IllegalArgumentException {
-        String stringValue = stockTextField.getText();
+        String stringValue = stockTextField.getText().replace(".","");
 
         String exceptionText = "Fehlerhafter Lagerbestand.\n" +
                 "• Minimal: 0 Stück\n" +

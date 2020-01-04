@@ -97,10 +97,14 @@ public class AddCategory {
                         acceptButtonClicked = true;
                         dialog.dispose();
                     } else {
-                        showErrorOptionPane();
+                        showErrorOptionPane("Die Kategore konnte nicht erstellt werden. Der Kategoriename muss eindeutig sein.");
                     }
                 } else {
-                    showErrorOptionPane();
+                    showErrorOptionPane("Fehlerhafter Kategoriename.\n" +
+                            "• Muss eindeutig sein\n" +
+                            "• Maximal 256 Zeichen\n" +
+                            "• Erlaubte Zeichen: Buchstaben, Zahlen\n" +
+                            "• Beispiel: Schreibwaren123");
                 }
             }
         }
@@ -124,9 +128,9 @@ public class AddCategory {
         return false;
     }
 
-    private void showErrorOptionPane() {
+    private void showErrorOptionPane(String message) {
         final JDialog dialog = new JDialog();
         dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,"Eingegebene Werte sind fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!","Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Erstellen einer Kategorie",JOptionPane.ERROR_MESSAGE);
     }
 }

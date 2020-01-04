@@ -102,7 +102,9 @@ public class ViewInventoryItem {
                             fileHandler.storeInventoryInCSV(App.getInventory());
                         } else {
                             App.getInventory().addNewItem(inventoryItem);
-                            showErrorOptionPane("Die Veränderung konnte nicht gespeichert werden. Die Produktbezeichnung und der Lagerort müssen eindeutig sein.");
+                            showErrorOptionPane("Die Veränderung konnte nicht gespeichert werden.\n" +
+                                    "Die Produktbezeichnung und der Lagerort müssen eindeutig sein\n" +
+                                    "und das Regalgewicht darf 10.000.000 g nicht überschreiten");
                         }
                     } catch (IllegalArgumentException iae) {
                         showErrorOptionPane(iae.getMessage());
