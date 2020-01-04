@@ -93,15 +93,6 @@ public class Category {
     }
 
     public String toStringCSV(){
-        String csv = "";
-        // no further checks like for embedded comma, correct location encoding, ... (has to be done by caller)
-        try {
-            csv = "-1," + name +",-1,-1,-1,-1";
-        }
-        catch (Exception ignored) { } // don't export invalid items
-        return csv;
+        return  "-1," + name + ",-1,-1,-1,-1";
     }
-
-
-
 }

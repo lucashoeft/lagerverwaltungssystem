@@ -130,8 +130,6 @@ public class Inventory {
         return itemMap;
     }
 
-    // return the item with the specified description or null
-
     /**
      * @param name name of an item
      * @return item object with name
@@ -166,8 +164,6 @@ public class Inventory {
         return false;
     }
 
-    // change item stock
-
     /**
      * decrease the stock of an item
      *
@@ -187,7 +183,6 @@ public class Inventory {
         return false;
     }
 
-
     /**
      * converting item list into csv-compatible string
      * @return csv-compatible string of the inventory
@@ -201,27 +196,6 @@ public class Inventory {
             string = string.concat(item.toStringCSV()+"\n");
         }
         return string;
-    }
-
-    /**
-     * initialize storage with all valid shelves
-     */
-    private void initStorage(){
-        // get all used shelves
-        for(InventoryItem item : getItemMap().values()){
-            // if shelf already exists
-            if (shelfMap.containsKey(item.getShelf())){
-                // add weight of new items
-                // ignored if to heavy/invalid
-                shelfMap.get(item.getShelf()).addToShelf(item, item.getStock());
-            }
-            else{
-                // create new shelf, ignore if to heavy/invalid
-                if(item.getWeight() * item.getStock() <= 100000000){     // 10t = 10 000kg = 10 000 000g = 100 000 000
-                    shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
-                }
-            }
-        }
     }
 
     /**
@@ -265,8 +239,6 @@ public class Inventory {
         }
         return false;
     }
-
-    //entfernt count Artikel aus Storage
 
     /**
      * remove count items from Storage
@@ -314,8 +286,6 @@ public class Inventory {
         }
     }
 
-    //public boolean addToCategory()
-
     /**
      * @param cat category which is to be removed
      * @return true if successful, else return false
@@ -330,6 +300,27 @@ public class Inventory {
         else {
             // category not found/removed
             return false;
+        }
+    }
+
+    /**
+     * initialize storage with all valid shelves
+     */
+    private void initStorage(){
+        // get all used shelves
+        for(InventoryItem item : getItemMap().values()){
+            // if shelf already exists
+            if (shelfMap.containsKey(item.getShelf())){
+                // add weight of new items
+                // ignored if to heavy/invalid
+                shelfMap.get(item.getShelf()).addToShelf(item, item.getStock());
+            }
+            else{
+                // create new shelf, ignore if to heavy/invalid
+                if(item.getWeight() * item.getStock() <= 100000000){     // 10t = 10 000kg = 10 000 000g = 100 000 000
+                    shelfMap.put(item.getShelf(), new Shelf(item.getShelf(), item.getWeight() * item.getStock()));
+                }
+            }
         }
     }
 

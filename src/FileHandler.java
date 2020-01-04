@@ -54,35 +54,6 @@ public class FileHandler {
         return inventory;
     }
 
-    private Boolean isCategory(String[] attributes) {
-        if (!attributes[0].equals("-1")) return false;
-        if ((attributes[1].equals("-1")) || (attributes[1].indexOf(',') >= 0)) return false;
-        if (!attributes[2].equals("-1")) return false;
-        if (!attributes[3].equals("-1")) return false;
-        if (!attributes[4].equals("-1")) return false;
-        return (attributes[5].equals("-1"));
-    }
-
-    /**
-     * Creates a InventoryItem object from an Array that has been read from a .CSV file
-     * @param metadata String Array with all needed attributes of an InventoryItem object
-     * @return new InventoryItem containing metadata
-     */
-    private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
-        try {
-            return new InventoryItem(
-                    metadata[0].replaceAll("^\"|\"$", ""),
-                    metadata[1].replaceAll("^\"|\"$", ""),
-                    Integer.parseInt(metadata[2]),
-                    metadata[3].replaceAll("^\"|\"$", ""),
-                    Integer.parseInt(metadata[4]),
-                    Integer.parseInt(metadata[5])
-            );
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
-    }
-
     /**
      * Takes an Inventory object and writes it to a .CSV file
      * @param inventory inventory which is to be saved
@@ -131,6 +102,27 @@ public class FileHandler {
         catch (IOException e) {System.err.println(e.toString()+"test");}
     }
 
+    private Boolean isCategory(String[] attributes) {
+        if (!attributes[0].equals("-1")) return false;
+        if ((attributes[1].equals("-1")) || (attributes[1].indexOf(',') >= 0)) return false;
+        if (!attributes[2].equals("-1")) return false;
+        if (!attributes[3].equals("-1")) return false;
+        if (!attributes[4].equals("-1")) return false;
+        return (attributes[5].equals("-1"));
+    }
 
+    /**
+     * Creates a InventoryItem object from an Array that has been read from a .CSV file
+     * @param metadata String Array with all needed attributes of an InventoryItem object
+     * @return new InventoryItem containing metadata
+     */
+    private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
+        return new InventoryItem(metadata[0],
+                    metadata[1],
+                    Integer.parseInt(metadata[2]),
+                    metadata[3],
+                    Integer.parseInt(metadata[4]),
+                    Integer.parseInt(metadata[5]));
+    }
 
 }
