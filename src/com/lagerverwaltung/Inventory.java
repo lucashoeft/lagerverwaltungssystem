@@ -193,14 +193,14 @@ public class Inventory {
      * @return csv-compatible string of the inventory
      */
     public String toStringCSV() {
-        String string = "";
+        StringBuilder string = new StringBuilder(itemMap.size() * 600 + categoryMap.size() * 300);
         for(Category cat : getCategoryMap().values()){
-            string = string.concat(cat.toStringCSV()+"\n");
+            string = string.append(cat.toStringCSV()+"\n");
         }
         for(InventoryItem item : getItemMap().values()){
-            string = string.concat(item.toStringCSV()+"\n");
+            string = string.append(item.toStringCSV()+"\n");
         }
-        return string;
+        return string.toString();
     }
 
     /**
