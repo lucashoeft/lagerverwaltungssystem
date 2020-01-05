@@ -20,8 +20,8 @@ public class InventoryTableModel extends AbstractTableModel {
             "Lagerort",
             "Gewicht in g",
             "Preis in €",
-            "Hinzufügen",
-            "Entfernen",
+            "Addieren",
+            "Subtrahieren",
             ""
     };
 
