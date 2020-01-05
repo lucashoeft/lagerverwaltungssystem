@@ -100,8 +100,15 @@ public class FileHandler {
                 path = System.getProperty("user.dir") + "/Data/Lagersystem.csv";
                 App.setConfigFile(App.getConfigPath(), path);
             }
+
             FileWriter fw = new FileWriter(path);
-            fw.write(inventory.toStringCSV());
+            for (Category cat : inventory.getCategoryMap().values()) {
+                fw.write(cat.toStringCSV() + "\n");
+            }
+            for (InventoryItem inventoryItem : inventory.getItemMap().values()) {
+                fw.write(inventoryItem.toStringCSV() + "\n");
+            }
+            fw.flush();
             fw.close();
 
             logger.log(Level.INFO,"Data saved");
