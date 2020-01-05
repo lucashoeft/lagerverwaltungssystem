@@ -1,3 +1,6 @@
+import com.lagerverwaltung.Inventory;
+import com.lagerverwaltung.InventoryItem;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

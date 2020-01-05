@@ -1,4 +1,5 @@
 
+import com.lagerverwaltung.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,11 @@
+package com.lagerverwaltung;
+
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * during runtime an Inventory object contains all items of the database
- *
- * @author ...
- * @version 1.0
  */
 public class Inventory {
 
@@ -28,6 +28,8 @@ public class Inventory {
      * categoryMap contains all categories at the key of their name
      */
     private HashMap<String, Category> categoryMap;
+
+    private static final Logger logger = Logger.getLogger(Inventory.class.getName());
 
     /**
      * Constructor for a new Inventory object
@@ -63,6 +65,7 @@ public class Inventory {
 
     /**
      * read file, parse file to object and save locally
+     * @param itemMap HashMap
      */
     public void setItemMap(HashMap<String, InventoryItem> itemMap) {
         this.itemMap = itemMap;
@@ -96,7 +99,7 @@ public class Inventory {
                 addCategory(new Category(item.getCategory()));
             }
             itemMap.put(item.getDescription(), item);
-            System.out.println("new InventoryItem created");
+            logger.log(Level.INFO,"New InventoryItem created");
             return true;
             }
 
@@ -116,7 +119,7 @@ public class Inventory {
                 // remove item
                 categoryMap.get(itemMap.get(name).getCategory()).decreaseCount();
                 itemMap.remove(name);
-                System.out.println("InventoryItem removed");
+                logger.log(Level.INFO,"InventoryItem removed");
                 return true;
             }
         }

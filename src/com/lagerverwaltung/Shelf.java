@@ -1,11 +1,10 @@
+package com.lagerverwaltung;
+
 /**
  * A shelf is an attribute of an item.
  * Multiple items can be stored in the same shelf.
  * The maximum weight of a shelf is 10 tons.
- * @author ...
- * @version 1.0
  */
-
 public class Shelf {
 
     /**

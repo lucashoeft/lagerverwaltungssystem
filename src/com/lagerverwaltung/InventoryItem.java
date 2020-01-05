@@ -1,11 +1,7 @@
+package com.lagerverwaltung;
 
 /**
- *
  * The InventoryItem Object is one type of item which is stored in the warehouse.
- *
- *
- * @author ...
- * @version 1.0
  */
 public class InventoryItem {
     /**
@@ -165,6 +161,7 @@ public class InventoryItem {
     }
 
     /**
+     * @param description description
      * @return true if description is entered without error else false
      */
     private Boolean isValidDescription(String description) {
@@ -172,6 +169,7 @@ public class InventoryItem {
     }
 
     /**
+     * @param stock stock
      * @return true if stock is entered without error else false
      */
     private Boolean isValidStock(Integer stock) {
@@ -179,6 +177,7 @@ public class InventoryItem {
     }
 
     /**
+     * @param location location
      * @return true if location is entered without error else false
      */
     private Boolean isValidLocation(String location) {
@@ -186,6 +185,7 @@ public class InventoryItem {
     }
 
     /**
+     * @param weight weight
      * @return true if weight is entered without error else false
      */
     private Boolean isValidWeight(Integer weight) {
@@ -193,6 +193,7 @@ public class InventoryItem {
     }
 
     /**
+     * @param price price
      * @return true if price is entered without error else false
      */
     private Boolean isValidPrice(Integer price) {
