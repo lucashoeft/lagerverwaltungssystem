@@ -188,22 +188,6 @@ public class Inventory {
     }
 
     /**
-     * Converts item list into csv-compatible string
-     *
-     * @return csv-compatible string of the inventory
-     */
-    public String toStringCSV() {
-        String string = "";
-        for(Category cat : getCategoryMap().values()){
-            string = string.concat(cat.toStringCSV()+"\n");
-        }
-        for(InventoryItem item : getItemMap().values()){
-            string = string.concat(item.toStringCSV()+"\n");
-        }
-        return string;
-    }
-
-    /**
      * @return all shelves Map
      */
     public HashMap<Integer, Shelf> getShelfMap() {
