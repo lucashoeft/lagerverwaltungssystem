@@ -193,7 +193,7 @@ public class Inventory {
      * @return csv-compatible string of the inventory
      */
     public String toStringCSV() {
-        StringBuilder string = new StringBuilder(itemMap.size() * 600 + categoryMap.size() * 300);
+        StringBuilder string = new StringBuilder(getItemMap().size() * 600 + getCategoryMap().size() * 300);
         for(Category cat : getCategoryMap().values()){
             string = string.append(cat.toStringCSV()+"\n");
         }
