@@ -6,12 +6,12 @@ package com.lagerverwaltung;
 public class Category {
 
     /**
-     * name of the category
+     * Name of the category
      */
     private String name;
 
     /**
-     * count of items inside this category
+     * Count of items inside this category
      */
     private Integer count;
 
@@ -27,6 +27,7 @@ public class Category {
 
     /**
      * Category Constructor
+     *
      * @param name name of new category
      * @param count amount of items inside this category
      */
@@ -64,22 +65,24 @@ public class Category {
     }
 
     /**
-     * increase the amount of items inside category by one
+     * Increase the amount of items inside category by one
      */
     public void increaseCount(){
         this.count ++;
     }
 
     /**
-     * decrease the amount of items inside category by one
+     * Decrease the amount of items inside category by one
      */
     public void decreaseCount(){
         this.count --;
     }
 
     /**
+     * Checks if given object equals this Category
+     *
      * @param o another object
-     * @return is the other object the same object as me?
+     * @return true if both objects are the same, else false
      */
     public boolean equals(Object o){
         if ((o == null) || (o.getClass() != this.getClass())){
@@ -90,6 +93,11 @@ public class Category {
         }
     }
 
+    /**
+     * Converts category into .csv compatible String
+     *
+     * @return .csv compatible String
+     */
     public String toStringCSV(){
         return  "-1," + name + ",-1,-1,-1,-1";
     }

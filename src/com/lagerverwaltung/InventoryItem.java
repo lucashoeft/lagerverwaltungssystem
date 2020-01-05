@@ -1,7 +1,11 @@
 package com.lagerverwaltung;
 
 /**
+ *
  * The InventoryItem Object is one type of item which is stored in the warehouse.
+ *
+ *
+ * @author ...
  */
 public class InventoryItem {
     /**
@@ -31,16 +35,18 @@ public class InventoryItem {
     private String location;
 
     /**
-     * weight of an item in 0.1 gram
+     * Weight of an item in 0.1 gram
      */
     private Integer weight;
 
     /**
-     * price of an item in cents
+     * Price of an item in cents
      */
     private Integer price;
 
     /**
+     * Constructor for a new InventoryItem object
+     *
      * @param description Short description of the item
      * @param category Category of the item
      * @param stock Amount of items of this type on stock
@@ -104,25 +110,38 @@ public class InventoryItem {
     }
 
     /**
-     * converting attributes of InventoryItem into csv-compatible string
+     * Converts attributes of InventoryItem into csv-compatible string
+     *
      * @return csv-compatible string representation of an InventoryItem
      */
     public String toStringCSV() {
         return description + "," + category + "," + stock.toString() + "," + location + "," + weight.toString() + "," + price.toString();
     }
 
+    /**
+     * @return item description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @return item category
+     */
     public String getCategory(){
         return category;
     }
 
+    /**
+     * @return item category as an category object
+     */
     public Category getCategoryObj(){
         return new Category(category, 1);
     }
 
+    /**
+     * @return item location
+     */
     public String getLocation() {
         return location;
     }
@@ -134,6 +153,9 @@ public class InventoryItem {
         return (Integer.parseInt(location.substring(0,3)));
     }
 
+    /**
+     * @return item weight
+     */
     public Integer getWeight(){
         return weight;
     }
@@ -152,40 +174,57 @@ public class InventoryItem {
         this.stock = stock;
     }
 
+    /**
+     * @return item price
+     */
     public int getPrice() {
         return price;
     }
 
+    /**
+     * Checks if an item is already in use, description and location have to be unique
+     *
+     * @param item item which needs to be checked if its already in use
+     * @return true if item is already used, else return false
+     */
     public boolean checkUsage(InventoryItem item){
         return (item.getDescription().equals(getDescription()) || item.getLocation().equals(getLocation()));
     }
 
     /**
-     * @param description description
-     * @return true if description is entered without error else false
+     * Checks if description is valid
+     *
+     * @param description description which needs to be checked
+     * @return true if description is entered without error, else false
      */
     private Boolean isValidDescription(String description) {
         return (description.matches("[a-zA-ZöäüÖÄÜß0-9()!?.\\-]{1,256}"));
     }
 
     /**
-     * @param stock stock
-     * @return true if stock is entered without error else false
+     * Checks if stock is valid
+     *
+     * @param stock stock which needs to be checked
+     * @return true if stock is entered without error, else false
      */
     private Boolean isValidStock(Integer stock) {
         return (stock >= 0 && stock <= 100_000_000);
     }
 
     /**
-     * @param location location
-     * @return true if location is entered without error else false
+     * Checks if location is valid
+     *
+     * @param location location which needs to be checked
+     * @return true if location is entered without error, else false
      */
     private Boolean isValidLocation(String location) {
         return (location.matches("[0-9]{6}"));
     }
 
     /**
-     * @param weight weight
+     * Checks if weight is valid
+     *
+     * @param weight weight which needs to be checked
      * @return true if weight is entered without error else false
      */
     private Boolean isValidWeight(Integer weight) {
@@ -193,7 +232,9 @@ public class InventoryItem {
     }
 
     /**
-     * @param price price
+     * Checks if price is valid
+     *
+     * @param price price which needs to be checked
      * @return true if price is entered without error else false
      */
     private Boolean isValidPrice(Integer price) {

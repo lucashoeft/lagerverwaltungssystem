@@ -4,16 +4,18 @@ package com.lagerverwaltung;
  * A shelf is an attribute of an item.
  * Multiple items can be stored in the same shelf.
  * The maximum weight of a shelf is 10 tons.
+ *
+ * @author ...
  */
 public class Shelf {
 
     /**
-     * shelf number
+     * Shelf number
      */
     private Integer id;
 
     /**
-     * total weight of shelf
+     * Total weight of shelf
      */
     private int weight;
 
@@ -29,7 +31,8 @@ public class Shelf {
     }
 
     /**
-     * compare function
+     * Compare function
+     *
      * @param o compared object
      * @return is the object a Shelf and has the same Shelf ID ?
      */
@@ -45,6 +48,7 @@ public class Shelf {
 
     /**
      * Getter for shelf identification number
+     *
      * @return shelf identification number
      */
     public int getId() {
@@ -53,6 +57,7 @@ public class Shelf {
 
     /**
      * Setter for shelf identification number
+     *
      * @param id new identification number
      */
     public void setId(int id) {
@@ -75,8 +80,8 @@ public class Shelf {
 
 
     /**
-     * try to add item to shelf
-     * fails if total weight is exceeded
+     * Try to add item to shelf, fails if total weight is exceeded
+     *
      * @param item item to be added to the shelf
      * @param count amount of items added to the shelf
      * @return true if adding is successful, else false
@@ -94,8 +99,8 @@ public class Shelf {
     }
 
     /**
-     * try to remove object from shelf
-     * fails if shelf does not contain enough items to remove
+     * Try to remove object from shelf, fails if there aren't enough items
+     *
      * @param item item to be removed from the shelf
      * @param count count of item to be removed from the shelf
      * @return true if removing was successful else false
@@ -108,9 +113,6 @@ public class Shelf {
         else{
             // removing item weight
             weight -= item.getWeight() * count;
-            /*if (weight == 0){
-                //remove shelf
-            }*/
             return true;
         }
     }

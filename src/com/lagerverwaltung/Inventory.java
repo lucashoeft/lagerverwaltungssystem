@@ -5,7 +5,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * during runtime an Inventory object contains all items of the database
+ *
+ * During runtime an Inventory object contains all items of the database
+ *
+ * @author ...
  */
 public class Inventory {
 
@@ -43,6 +46,7 @@ public class Inventory {
 
     /**
      * Constructor for a new Inventory object
+     *
      * @param path the path of the database .CSV file
      */
     public Inventory(String path){
@@ -64,8 +68,9 @@ public class Inventory {
     }
 
     /**
-     * read file, parse file to object and save locally
-     * @param itemMap HashMap
+     * Sets itemMap and initializes storage and categories
+     *
+     * @param itemMap HashMap which contains all items
      */
     public void setItemMap(HashMap<String, InventoryItem> itemMap) {
         this.itemMap = itemMap;
@@ -74,8 +79,10 @@ public class Inventory {
     }
 
     /**
-     * add a new item to itemMap.
+     * Add a new item to itemMap.
+     * <p>
      * is successful when item doesn't exist yet and won't make shelf too heavy
+     *</p>
      *
      * @param item item to be added
      * @return true if successful else return false
@@ -107,7 +114,7 @@ public class Inventory {
     }
 
     /**
-     * remove item from itemMap
+     * Remove item from itemMap
      *
      * @param name name of the item
      * @return true if item removed else return false
@@ -134,6 +141,8 @@ public class Inventory {
     }
 
     /**
+     * Returns specified item
+     *
      * @param name name of an item
      * @return item object with name
      */
@@ -143,15 +152,7 @@ public class Inventory {
     }
 
     /**
-     * @param searchMask String which needs to be in all found items
-     * @return all items fitting the search mask
-     */
-    public HashMap<String, InventoryItem> getItems(String searchMask) {
-        return itemMap;
-    }
-
-    /**
-     * increase the stock of an item
+     * Increase the stock of an item
      *
      * @param name name of the item
      * @param count new stock = old stock + count
@@ -168,7 +169,7 @@ public class Inventory {
     }
 
     /**
-     * decrease the stock of an item
+     * Decrease the stock of an item
      *
      * @param name name of the item
      * @param count new stock= old stock - count
@@ -187,7 +188,8 @@ public class Inventory {
     }
 
     /**
-     * converting item list into csv-compatible string
+     * Converts item list into csv-compatible string
+     *
      * @return csv-compatible string of the inventory
      */
     public String toStringCSV() {
@@ -216,7 +218,7 @@ public class Inventory {
     }
 
     /**
-     * add count new items to Storage if it doesn't make shelf too heavy
+     * Add count new items to Storage if it doesn't make shelf too heavy
      *
      * @param item item to be added
      * @param count amount of items
@@ -226,11 +228,8 @@ public class Inventory {
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
             // try to add Items
-            if (shelfMap.get(item.getShelf()).addToShelf(item, count)){
-                return true;
-            }
+            return shelfMap.get(item.getShelf()).addToShelf(item, count);
             // change to heavy
-            return false;
         }
         else{
             // create new shelf with items
@@ -244,7 +243,7 @@ public class Inventory {
     }
 
     /**
-     * remove count items from Storage
+     * Remove count items from Storage
      *
      * @param item item to be removed
      * @param count amount of items to be removed
@@ -254,11 +253,8 @@ public class Inventory {
         // if shelf exists
         if (shelfMap.containsKey(item.getShelf())){
             // try to remove items
-            if (shelfMap.get(item.getShelf()).removeFromShelf(item,  count)){
-                return true;
-            }
+            return shelfMap.get(item.getShelf()).removeFromShelf(item, count);
             // error in removal
-            return false;
         }
         else{
             // shelf doesnt exists
@@ -274,6 +270,8 @@ public class Inventory {
     }
 
     /**
+     * Add new category, if it doesn't exist already
+     *
      * @param cat new categorie which is added to categoryMap
      * @return true if successful, else return false
      */
@@ -290,6 +288,8 @@ public class Inventory {
     }
 
     /**
+     * Remove category, if it exists
+     *
      * @param cat category which is to be removed
      * @return true if successful, else return false
      */
@@ -307,7 +307,7 @@ public class Inventory {
     }
 
     /**
-     * initialize storage with all valid shelves
+     * Initialize storage with all valid shelves
      */
     private void initStorage(){
         // get all used shelves
