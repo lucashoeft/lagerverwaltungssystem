@@ -1,15 +1,12 @@
+package com.lagerverwaltung;
+
 import javax.swing.table.AbstractTableModel;
 /**
- *
  * The InventoryTableModel class contains all Methods and data needed to construct a meaningful table in Main.java
  * It holds all column titles and item information displayed in the table.
- *
- * @author ...
- * @version 1.0
  */
 public class InventoryTableModel extends AbstractTableModel {
 
-    // TODO Gewicht und Preis vom dg und cent in g und euro umrechenen
     /**
      * column title array
      */
@@ -20,8 +17,8 @@ public class InventoryTableModel extends AbstractTableModel {
             "Lagerort",
             "Gewicht in g",
             "Preis in €",
-            "Addieren",
-            "Subtrahieren",
+            "Lagerbestand erhöhen",
+            "Lagerbestand verringern",
             ""
     };
 

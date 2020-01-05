@@ -1,8 +1,7 @@
+package com.lagerverwaltung;
+
 /**
  * Category is an attribute of an item.
- *
- * @author ...
- * @version 1.0
  */
 public class Category {
 
@@ -85,8 +84,7 @@ public class Category {
     public boolean equals(Object o){
         if ((o == null) || (o.getClass() != this.getClass())){
             return false;
-        }
-        else {
+        } else {
             Category obj = (Category)o;
             return (obj.getName().equals(getName()));
         }
