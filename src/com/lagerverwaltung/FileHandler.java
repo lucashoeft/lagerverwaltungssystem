@@ -11,15 +11,20 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  * The File Handler manages all actions concerning reading and writing the database
+ *
+ * @author ...
+ * @version 1.0
  */
 public class FileHandler {
 
     private static final Logger logger = Logger.getLogger(FileHandler.class.getName());
 
     /**
-     * create Inventory object from a .CSV file at pathName
+     * Create Inventory object from a .CSV file at pathName
+     *
      * @param pathName the path where the file is used from
      * @return Inventory object
      * @see Inventory
@@ -61,6 +66,10 @@ public class FileHandler {
 
     /**
      * Takes an Inventory object and writes it to a .CSV file
+     * <p>
+     *  creates backup, writes new file and then deletes backup
+     * </p>
+     *
      * @param inventory inventory which is to be saved
      */
     public void storeInventoryInCSV(Inventory inventory) {
@@ -119,6 +128,7 @@ public class FileHandler {
 
     /**
      * Creates a InventoryItem object from an Array that has been read from a .CSV file
+     *
      * @param metadata String Array with all needed attributes of an InventoryItem object
      * @return new InventoryItem containing metadata
      */

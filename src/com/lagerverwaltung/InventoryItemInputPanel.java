@@ -7,6 +7,12 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 
+/**
+ * ...
+ *
+ *  @author ...
+ *  @version 1.0
+ */
 public class InventoryItemInputPanel extends JPanel {
 
     /**
@@ -15,7 +21,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel descriptionLabel = new JLabel("Produktbezeichnung");
 
     /**
-     * text field which holds the new description of the item
+     * Text field which holds the new description of the item
      */
     private JTextField descriptionTextField = new JTextField(15);
 
@@ -25,7 +31,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel categoryLabel = new JLabel("Kategorie");
 
     /**
-     * Dropdown menu so select category9
+     * Dropdown menu so select category
      */
     private JComboBox categoryComboBox = new JComboBox();
 
@@ -35,7 +41,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel stockLabel = new JLabel("Lagerbestand");
 
     /**
-     * text field which holds the new stock of the item
+     * Text field which holds the new stock of the item
      */
     private JTextField stockTextField = new JTextField(15);
 
@@ -45,7 +51,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel locationLabel = new JLabel("Lagerort");
 
     /**
-     * text field which holds the new location of the item
+     * Text field which holds the new location of the item
      */
     private JTextField locationTextField = new JTextField(15);
 
@@ -55,7 +61,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel weightLabel = new JLabel("Gewicht in g");
 
     /**
-     * text field which holds the new weight of the item in gram
+     * Text field which holds the new weight of the item in gram
      */
     private JTextField weightTextField = new JTextField(15);
 
@@ -65,10 +71,15 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel priceLabel = new JLabel("Preis in €");
 
     /**
-     * text field which holds the new price of the item
+     * Text field which holds the new price of the item
      */
     private JTextField priceTextField = new JTextField(15);
 
+    /**
+     * Constructor for a new InventoryItemInputPanel
+     *
+     * @param categoryMap categoryMap contains all categories needed for the categoryComboBox
+     */
     InventoryItemInputPanel(HashMap<String, Category> categoryMap) {
         this.setBorder(new EmptyBorder(10,10,10,10));
         this.setLayout(new GridLayout(0,2,6,3));
@@ -132,14 +143,24 @@ public class InventoryItemInputPanel extends JPanel {
 
     }
 
+    /**
+     * @return description input
+     */
     public String getDescription() {
         return descriptionTextField.getText();
     }
 
+    /**
+     * @return selected category
+     */
     public String getCategory() throws NullPointerException {
         return categoryComboBox.getSelectedItem().toString();
     }
 
+    /**
+     * @return stock input
+     * @throws IllegalArgumentException if input invalid
+     */
     public Integer getStock() throws IllegalArgumentException {
         String stringValue = stockTextField.getText().replace(".","");
 
@@ -155,10 +176,17 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
+    /**
+     * @return location input
+     */
     public String getItemLocation() {
         return locationTextField.getText();
     }
 
+    /**
+     * @return weight input in 0.1g without ","
+     * @throws IllegalArgumentException if input invalid
+     */
     public Integer getWeight() throws IllegalArgumentException {
         String stringValue = weightTextField.getText().replace(".","");
 
@@ -195,6 +223,10 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
+    /**
+     * @return price input in cents without ","
+     * @throws IllegalArgumentException if input invalid
+     */
     public Integer getPrice() throws IllegalArgumentException {
         String stringValue = priceTextField.getText().replace(".","");
 
@@ -246,7 +278,10 @@ public class InventoryItemInputPanel extends JPanel {
         setPrice(inventoryItem.getPrice());
     }
 
-
+    /**
+     * Switches if user can edit data or not
+     * @param isEnabled true or false
+     */
     public void setIsEnabled(Boolean isEnabled) {
         if (isEnabled) {
             this.descriptionTextField.setEditable(true);

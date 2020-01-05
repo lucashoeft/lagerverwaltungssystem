@@ -11,7 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The App Class contains the a runable main method and manages all actions before opening the main window and after
+ * The App Class contains the runnable main method and manages all actions before opening the main window and after
+ * closing
+ *
+ * @author ...
+ * @version 1.0
  */
 public class App {
 
@@ -21,7 +25,7 @@ public class App {
     private static Inventory inventory = new Inventory();
 
     /**
-     * The configPath contains the location of the config file which contains the path for the .CSV database
+     * The configPath contains the location of the config file which contains the path for the .csv database
      */
     private static String configPath = System.getProperty("user.dir") + "/Data/config.cfg";
 
@@ -29,8 +33,11 @@ public class App {
 
     /**
      * Starts the software
+     * <p>
      * 1. read Config
      * 2. start GUI
+     * </p>
+     *
      * @param args arguments which could be given over to this main method
      */
     public static void main(String[] args) {
@@ -45,8 +52,8 @@ public class App {
     }
 
     /**
-     * give .CSV database file over to inventory
-     * if config file does not exist create a new one
+     * Reads existing config file, if it doesn't exist, create one
+     *
      * @param path path of the config file
      */
     public static void readConfigFile(String path) {
@@ -71,11 +78,12 @@ public class App {
             }
         } catch (IOException e) {
             logger.log(Level.WARNING,e.getMessage());
-        };
+        }
     }
 
     /**
-     * rewrites the config file to contain new_path as a new path
+     * Rewrites the config file to contain new_path as a new path
+     *
      * @param config_path path of the config file
      * @param new_path new path inside the config file
      */
@@ -97,9 +105,10 @@ public class App {
     }
 
     /**
-     * deletes an empty config file at path
+     * Deletes an empty config file at path
+     *
      * @param path path of config file
-     * @return return 1 if config file at path is empty
+     * @return return 1 if config file at path was deleted
      */
     public static int clearConfigFile(String path){
         File cfgFile = new File(path);

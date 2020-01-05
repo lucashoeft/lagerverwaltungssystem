@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 public class InventoryTableModel extends AbstractTableModel {
 
     /**
-     * column title array
+     * Column title array
      */
     private static Object[] columns = {
             "Produktbezeichnung",
@@ -23,14 +23,14 @@ public class InventoryTableModel extends AbstractTableModel {
     };
 
     /**
-     * item table with one list per item
+     * Item table with one list per item
      */
     private static Object[][] data = { };
 
     /**
      *
-     * @param columnIndex tablecolumn to get the class of
-     * @return class of columnIndex; columnIndex=1 would be Category column with class String
+     * @param columnIndex
+     * @return
      */
     @Override
     public Class<?> getColumnClass(int columnIndex) {
@@ -43,6 +43,13 @@ public class InventoryTableModel extends AbstractTableModel {
         return returnValue;
     }
 
+    /**
+     * Checks if a cell is editable
+     *
+     * @param rowIndex row index of cell, which is going to be checked
+     * @param columnIndex column index of cell, which is going to be checked
+     * @return true if cell is editable, else return false
+     */
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
@@ -56,6 +63,8 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
+     * Sets new data and calls fireTableDataChanged to update the TableModel
+     *
      * @param inventory inventory from which data is adopted
      */
     public void setData(Inventory inventory) {
@@ -96,6 +105,8 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
+     * Converts an Inventory with its data into an Object[][]
+     *
      * @param inventory data to put onto the table
      * @return a Object list of the inventory
      */
