@@ -9,7 +9,6 @@ import java.util.logging.Logger;
  * During runtime an Inventory object contains all items of the database
  *
  * @author ...
- * @version 1.0
  */
 public class Inventory {
 

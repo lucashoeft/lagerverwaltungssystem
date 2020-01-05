@@ -6,7 +6,6 @@ package com.lagerverwaltung;
  * The maximum weight of a shelf is 10 tons.
  *
  * @author ...
- * @version 1.0
  */
 public class Shelf {
 

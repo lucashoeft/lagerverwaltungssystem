@@ -15,7 +15,6 @@ import java.util.logging.Logger;
  * closing
  *
  * @author ...
- * @version 1.0
  */
 public class App {
 

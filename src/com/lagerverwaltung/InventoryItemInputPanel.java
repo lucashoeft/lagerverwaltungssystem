@@ -11,7 +11,6 @@ import java.util.Locale;
  * ...
  *
  *  @author ...
- *  @version 1.0
  */
 public class InventoryItemInputPanel extends JPanel {
 
