@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public class FileHandler {
         Inventory inventory = new Inventory();
         HashMap<String, InventoryItem> itemMap = new HashMap<String, InventoryItem>();
         inventory.setPath(pathName.toString());
+        HashSet<String> checkSet = new HashSet<String>(1000000);
 
         try (BufferedReader br = Files.newBufferedReader(pathName, StandardCharsets.UTF_8)) {
 
@@ -46,12 +48,15 @@ public class FileHandler {
                 } else {
                     try {
                         InventoryItem inventoryItem = createInventoryItem(attributes);
-                        itemMap.put(inventoryItem.getDescription(), inventoryItem);
+                        if (!checkSet.add(inventoryItem.getLocation())) {
+                            logger.log(Level.WARNING, "invalid item: " + inventoryItem.getDescription());
+                        } else {
+                            itemMap.put(inventoryItem.getDescription(), inventoryItem);
+                        }
                     } catch (IllegalArgumentException iae) {
                         logger.log(Level.WARNING, iae.getMessage());
                     }
                 }
-
                 line = br.readLine();
             }
 
