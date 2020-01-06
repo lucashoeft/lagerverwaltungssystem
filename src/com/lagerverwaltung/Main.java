@@ -121,9 +121,9 @@ public class Main {
             int modelRow = Integer.valueOf(e.getActionCommand());
             String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-            final JDialog dialog = new JDialog();
-            dialog.setAlwaysOnTop(true);
-            String add = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") erhöht werden?","Lagerbestand erhöhen",JOptionPane.OK_CANCEL_OPTION);
+            final JDialog inputDialog = new JDialog();
+            inputDialog.setAlwaysOnTop(true);
+            String add = JOptionPane.showInputDialog(inputDialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") erhöht werden?","Lagerbestand erhöhen",JOptionPane.OK_CANCEL_OPTION);
 
             if (add != null) {
                 try {
@@ -152,9 +152,9 @@ public class Main {
             int modelRow = Integer.valueOf(e.getActionCommand());
             String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-            final JDialog dialog = new JDialog();
-            dialog.setAlwaysOnTop(true);
-            String sub = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") verringert werden?","Lagerbestand verringern",JOptionPane.OK_CANCEL_OPTION);
+            final JDialog inputDialog = new JDialog();
+            inputDialog.setAlwaysOnTop(true);
+            String sub = JOptionPane.showInputDialog(inputDialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") verringert werden?","Lagerbestand verringern",JOptionPane.OK_CANCEL_OPTION);
 
             if (sub != null) {
                 try {
@@ -285,8 +285,8 @@ public class Main {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
 }

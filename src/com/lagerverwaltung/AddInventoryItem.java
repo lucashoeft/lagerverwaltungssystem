@@ -99,8 +99,8 @@ public class AddInventoryItem {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }

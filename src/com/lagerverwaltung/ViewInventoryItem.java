@@ -68,9 +68,9 @@ public class ViewInventoryItem {
             }
             if (e.getSource() == rightButton) {
                 if (rightButton.getText().equals("Löschen")) {
-                    final JDialog dialog = new JDialog();
-                    dialog.setAlwaysOnTop(true);
-                    if (JOptionPane.showConfirmDialog(dialog, "Wollen Sie den Artikel wirklich löschen?", "Artikel löschen", JOptionPane.YES_NO_OPTION) == 0) {
+                    final JDialog inputDialog = new JDialog();
+                    inputDialog.setAlwaysOnTop(true);
+                    if (JOptionPane.showConfirmDialog(inputDialog, "Wollen Sie den Artikel wirklich löschen?", "Artikel löschen", JOptionPane.YES_NO_OPTION) == 0) {
                         if (App.getInventory().deleteItem(inventoryItem.getDescription())) {
                             fileHandler.storeInventoryInCSV(App.getInventory());
                             inventoryUpdated = true;
@@ -119,8 +119,8 @@ public class ViewInventoryItem {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Bearbeiten eines Artikels",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Bearbeiten eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }
