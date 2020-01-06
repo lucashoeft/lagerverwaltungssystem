@@ -18,12 +18,12 @@ import java.util.Locale;
 public class Main {
 
     /**
-     * FileHandler for loading and saving of the database
+     * A FileHandler for loading and saving of the database
      */
     private FileHandler fileHandler = new FileHandler();
 
     /**
-     * search Button
+     * A search Button
      */
     private JButton searchButton = new JButton("Suchen");
 

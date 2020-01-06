@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This Dialog class is opened when a user wants to create a new InventoryItem.
+ * The Dialog class is opened when a user wants to create a new InventoryItem.
  */
 public class AddInventoryItem {
 

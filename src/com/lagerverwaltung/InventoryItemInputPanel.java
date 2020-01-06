@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 /**
- * ...
- *
- *  @author ...
+ * Panel that shows the input fields the user can interact with.
  */
 public class InventoryItemInputPanel extends JPanel {
 
@@ -30,7 +28,7 @@ public class InventoryItemInputPanel extends JPanel {
     private JLabel categoryLabel = new JLabel("Kategorie");
 
     /**
-     * Dropdown menu so select category
+     * Dropdown menu so select the category
      */
     private JComboBox categoryComboBox = new JComboBox();
 
@@ -143,22 +141,26 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * @return description input
+     * @return the description
      */
     public String getDescription() {
         return descriptionTextField.getText();
     }
 
     /**
-     * @return selected category
+     * @return the category that is currently chosen
+     * @throws NullPointerException if no category was available
      */
     public String getCategory() throws NullPointerException {
         return categoryComboBox.getSelectedItem().toString();
     }
 
     /**
-     * @return stock input
-     * @throws IllegalArgumentException if input invalid
+     * Returns the stock value that was entered into the text field. This method remove dots which were used for better
+     * readability.
+     *
+     * @return the stock value
+     * @throws IllegalArgumentException if input is not a number
      */
     public Integer getStock() throws IllegalArgumentException {
         String stringValue = stockTextField.getText().replace(".","");
@@ -175,16 +177,18 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
-    /**
-     * @return location input
-     */
     public String getItemLocation() {
         return locationTextField.getText();
     }
 
     /**
-     * @return weight input in 0.1g without ","
-     * @throws IllegalArgumentException if input invalid
+     * Converts the input to decigram and returns the value. This method removes all dots that were used for better
+     * readability and then check based how many decimal places are after the comma and then converts the gram value
+     * to its decigram value. Zero to one decimal places are allowed. If the input is not a number or does not conform
+     * to the comma representation that is used in Germany, it throws a IllegalArgumentException.
+     *
+     * @return the weight value in decigram
+     * @throws IllegalArgumentException if input is not a number or does not conform to the comma representation
      */
     public Integer getWeight() throws IllegalArgumentException {
         String stringValue = weightTextField.getText().replace(".","");
@@ -223,8 +227,13 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * @return price input in cents without ","
-     * @throws IllegalArgumentException if input invalid
+     * Converts the input to cent and returns the value. This method removes all dots that were used for better
+     * readability and then checks based how many decimal places are after the comma and then converts the euro value
+     * to its cent value. Zero to two decimal places are allowed. If the input is not a number or does not conform to
+     * the comma representation that is used in Germany, it throws a IllegalArgumentException.
+     *
+     * @return the price value converted to cent
+     * @throws IllegalArgumentException if input is not a number or does not conform to the comma representation
      */
     public Integer getPrice() throws IllegalArgumentException {
         String stringValue = priceTextField.getText().replace(".","");
@@ -268,6 +277,11 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets attributes of the inventory item to the text fields.
+     *
+     * @param inventoryItem the inventory item to be shown.
+     */
     public void setInventoryItem(InventoryItem inventoryItem) {
         setDescription(inventoryItem.getDescription());
         setCategory(inventoryItem.getCategory());
@@ -278,8 +292,9 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * Switches if user can edit data or not
-     * @param isEnabled true or false
+     * Activates or deactivates the text fields and combo box depending on the parameter.
+     *
+     * @param isEnabled the boolean value if text fields are enabled.
      */
     public void setIsEnabled(Boolean isEnabled) {
         if (isEnabled) {
@@ -315,6 +330,11 @@ public class InventoryItemInputPanel extends JPanel {
         this.locationTextField.setText(text);
     }
 
+    /**
+     * Converts the decigram value to the gram value and puts it into the weight text field.
+     *
+     * @param text the weight in decigram
+     */
     private void setWeight(Integer text) {
         Double str = text.doubleValue() / 10.0;
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
@@ -322,6 +342,11 @@ public class InventoryItemInputPanel extends JPanel {
         this.weightTextField.setText(nf.format(str));
     }
 
+    /**
+     * Converts the cent value to the euro value and puts it into the price text field.
+     *
+     * @param text the price in cent
+     */
     private void setPrice(Integer text) {
         Double str = text.doubleValue() / 100.0;
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);

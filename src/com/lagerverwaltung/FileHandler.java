@@ -14,9 +14,7 @@ import java.util.logging.Logger;
 
 
 /**
- * The File Handler manages all actions concerning reading and writing the database
- *
- * @author ...
+ * The File Handler manages all actions concerning reading and writing the database.
  */
 public class FileHandler {
 

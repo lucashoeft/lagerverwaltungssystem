@@ -12,14 +12,12 @@ import java.util.logging.Logger;
 
 /**
  * The App Class contains the runnable main method and manages all actions before opening the main window and after
- * closing
- *
- * @author ...
+ * closing. The
  */
 public class App {
 
     /**
-     * inventory contains all items in the warehouse
+     * The inventory which represents the model and is manipulated by methods at runtime.
      */
     private static Inventory inventory = new Inventory();
 
@@ -35,7 +33,7 @@ public class App {
      * <p>
      * 1. read Config
      * 2. start GUI
-     * </p>
+     *
      *
      * @param args arguments which could be given over to this main method
      */
@@ -51,7 +49,7 @@ public class App {
     }
 
     /**
-     * Reads existing config file, if it doesn't exist, create one
+     * Reads existing config file, if it does not exist, create one
      *
      * @param path path of the config file
      */
