@@ -205,7 +205,9 @@ public class Main {
                 } else {
                     if (table.getRowCount() > 0) {
                         int[] indices = {0, 1, 2, 3, 4, 5};
-                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".",""),indices));
+                        String textWithoutDots = text.replace(",","").replace(".","");
+                        System.out.println(escapeRegexCharacters(text));
+                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + escapeRegexCharacters(text) + "|" + escapeRegexCharacters(textWithoutDots),indices));
                     }
                 }
         }
@@ -288,5 +290,16 @@ public class Main {
         final JDialog messageDialog = new JDialog();
         messageDialog.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+    }
+
+    private String escapeRegexCharacters(String text) {
+        final String[] regexCharacters = {"\\","^","$","{","}","[","]","(",")",".","*","+","?","|","<",">","-","&","%"};
+
+        for (String regexCharacter : regexCharacters) {
+            if (text.contains(regexCharacter)) {
+                text = text.replace(regexCharacter, "\\" + regexCharacter);
+            }
+        }
+        return text;
     }
 }
