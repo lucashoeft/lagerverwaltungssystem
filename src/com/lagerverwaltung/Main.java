@@ -96,6 +96,9 @@ public class Main {
             // backup recovery
             if (Files.exists(Paths.get(backupPath))) {
                 logger.log(Level.INFO, "Backup found");
+                if (Files.exists(Paths.get(App.getInventory().getPath()))) {
+                    Files.delete(Paths.get(App.getInventory().getPath()));
+                }
                 Files.move(Paths.get(backupPath), Paths.get(App.getInventory().getPath()));
                 logger.log(Level.INFO, "recovered from backup");
             }
