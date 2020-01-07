@@ -78,9 +78,8 @@ public class Inventory {
 
     /**
      * Add a new item to itemMap.
-     * <p>
-     * is successful when item doesn't exist yet and won't make shelf too heavy
-     *</p>
+     *
+     * <p>Is successful when item doesn't exist yet and won't make shelf too heavy.
      *
      * @param item item to be added
      * @return true if successful else return false
