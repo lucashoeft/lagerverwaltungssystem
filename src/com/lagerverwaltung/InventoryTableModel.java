@@ -47,8 +47,10 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
-     * Returns the boolean value if cell is editable based on the row index and the column index. This method allows
-     * column six, seven and eight to be editable. These columns are the columns containing the buttons.
+     * Returns the boolean value if cell is editable based on the row index and the column index.
+     *
+     * <p>This method allows column six, seven and eight to be editable. These columns are the columns containing the
+     * buttons.
      *
      * @param rowIndex the row whose value to be queried
      * @param columnIndex the column whose value to be queried

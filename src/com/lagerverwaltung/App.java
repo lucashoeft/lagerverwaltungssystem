@@ -30,9 +30,9 @@ public class App {
 
     /**
      * Starts the software
-     * <p>
-     * 1. read Config
-     * 2. start GUI
+     *
+     * <p>1. read Config
+     * <p>2. start GUI
      *
      *
      * @param args arguments which could be given over to this main method

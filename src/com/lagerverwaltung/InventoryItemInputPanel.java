@@ -156,8 +156,9 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * Returns the stock value that was entered into the text field. This method remove dots which were used for better
-     * readability.
+     * Returns the stock value that was entered into the text field.
+     *
+     * <p>This method remove dots which were used for better readability.
      *
      * @return the stock value
      * @throws IllegalArgumentException if input is not a number
@@ -182,7 +183,9 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * Converts the input to decigram and returns the value. This method removes all dots that were used for better
+     * Converts the input to decigram and returns the value.
+     *
+     * <p>This method removes all dots that were used for better
      * readability and then check based how many decimal places are after the comma and then converts the gram value
      * to its decigram value. Zero to one decimal places are allowed. If the input is not a number or does not conform
      * to the comma representation that is used in Germany, it throws a IllegalArgumentException.
@@ -227,10 +230,12 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * Converts the input to cent and returns the value. This method removes all dots that were used for better
-     * readability and then checks based how many decimal places are after the comma and then converts the euro value
-     * to its cent value. Zero to two decimal places are allowed. If the input is not a number or does not conform to
-     * the comma representation that is used in Germany, it throws a IllegalArgumentException.
+     * Converts the input to cent and returns the value.
+     *
+     * <p>This method removes all dots that were used for better readability and then checks based how many decimal
+     * places are after the comma and then converts the euro value to its cent value. Zero to two decimal places are
+     * allowed. If the input is not a number or does not conform to the comma representation that is used in Germany,
+     * it throws a IllegalArgumentException.
      *
      * @return the price value converted to cent
      * @throws IllegalArgumentException if input is not a number or does not conform to the comma representation
