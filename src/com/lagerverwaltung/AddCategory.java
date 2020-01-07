@@ -129,8 +129,8 @@ public class AddCategory {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Erstellen einer Kategorie",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Erstellen einer Kategorie",JOptionPane.ERROR_MESSAGE);
     }
 }

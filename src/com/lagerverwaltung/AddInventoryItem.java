@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This Dialog class is opened when a user wants to create a new InventoryItem.
+ * The Dialog class is opened when a user wants to create a new InventoryItem.
  */
 public class AddInventoryItem {
 
@@ -99,8 +99,8 @@ public class AddInventoryItem {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Erstellen eines Artikels",JOptionPane.ERROR_MESSAGE);
     }
 }

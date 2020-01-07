@@ -3,9 +3,6 @@ package com.lagerverwaltung;
 /**
  *
  * The InventoryItem Object is one type of item which is stored in the warehouse.
- *
- *
- * @author ...
  */
 public class InventoryItem {
     /**

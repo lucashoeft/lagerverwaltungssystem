@@ -107,9 +107,9 @@ public class CategoryList {
             String categoryName = table.getModel().getValueAt(modelRow,0).toString();
 
             if (App.getInventory().getCategoryMap().get(categoryName).getCount() == 0) {
-                final JDialog dialog = new JDialog();
-                dialog.setAlwaysOnTop(true);
-                if (JOptionPane.showConfirmDialog(dialog,"Wollen Sie die Kategorie \"" + categoryName +"\" wirklich löschen?", "Kategorie löschen", JOptionPane.YES_NO_OPTION) == 0) {
+                final JDialog errorDialog = new JDialog();
+                errorDialog.setAlwaysOnTop(true);
+                if (JOptionPane.showConfirmDialog(errorDialog,"Wollen Sie die Kategorie \"" + categoryName +"\" wirklich löschen?", "Kategorie löschen", JOptionPane.YES_NO_OPTION) == 0) {
                     App.getInventory().removeCategory(new Category(categoryName));
 
                     updateTableModel(App.getInventory().getCategoryMap());
@@ -118,10 +118,10 @@ public class CategoryList {
                     fileHandler.storeInventoryInCSV(App.getInventory());
                 }
             } else {
-                final JDialog dialog = new JDialog();
-                dialog.setAlwaysOnTop(true);
+                final JDialog errorDialog = new JDialog();
+                errorDialog.setAlwaysOnTop(true);
                 JOptionPane.showMessageDialog(
-                        dialog,
+                        errorDialog,
                         "Die Kategorie kann erst gelöscht werden, wenn sie keine Artikel mehr enthält!",
                         "Fehler beim Löschen einer Kategorie",
                         JOptionPane.ERROR_MESSAGE);

@@ -18,12 +18,12 @@ import java.util.Locale;
 public class Main {
 
     /**
-     * FileHandler for loading and saving of the database
+     * A FileHandler for loading and saving of the database
      */
     private FileHandler fileHandler = new FileHandler();
 
     /**
-     * search Button
+     * A search Button
      */
     private JButton searchButton = new JButton("Suchen");
 
@@ -121,9 +121,9 @@ public class Main {
             int modelRow = Integer.valueOf(e.getActionCommand());
             String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-            final JDialog dialog = new JDialog();
-            dialog.setAlwaysOnTop(true);
-            String add = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") erhöht werden?","Lagerbestand erhöhen",JOptionPane.OK_CANCEL_OPTION);
+            final JDialog inputDialog = new JDialog();
+            inputDialog.setAlwaysOnTop(true);
+            String add = JOptionPane.showInputDialog(inputDialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") erhöht werden?","Lagerbestand erhöhen",JOptionPane.OK_CANCEL_OPTION);
 
             if (add != null) {
                 try {
@@ -152,9 +152,9 @@ public class Main {
             int modelRow = Integer.valueOf(e.getActionCommand());
             String itemDescription = table.getModel().getValueAt(modelRow,0).toString();
 
-            final JDialog dialog = new JDialog();
-            dialog.setAlwaysOnTop(true);
-            String sub = JOptionPane.showInputDialog(dialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") verringert werden?","Lagerbestand verringern",JOptionPane.OK_CANCEL_OPTION);
+            final JDialog inputDialog = new JDialog();
+            inputDialog.setAlwaysOnTop(true);
+            String sub = JOptionPane.showInputDialog(inputDialog,"Um welchen Betrag soll der aktuelle Lagerbestand ("+ App.getInventory().getItem(itemDescription).getStock() + ") verringert werden?","Lagerbestand verringern",JOptionPane.OK_CANCEL_OPTION);
 
             if (sub != null) {
                 try {
@@ -205,7 +205,9 @@ public class Main {
                 } else {
                     if (table.getRowCount() > 0) {
                         int[] indices = {0, 1, 2, 3, 4, 5};
-                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text + "|" + text.replace(",","").replace(".",""),indices));
+                        String textWithoutDots = text.replace(",","").replace(".","");
+                        System.out.println(escapeRegexCharacters(text));
+                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + escapeRegexCharacters(text) + "|" + escapeRegexCharacters(textWithoutDots),indices));
                     }
                 }
         }
@@ -285,8 +287,19 @@ public class Main {
     }
 
     private void showErrorOptionPane(String message) {
-        final JDialog dialog = new JDialog();
-        dialog.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(dialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+        final JDialog messageDialog = new JDialog();
+        messageDialog.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
+    }
+
+    private String escapeRegexCharacters(String text) {
+        final String[] regexCharacters = {"\\","^","$","{","}","[","]","(",")",".","*","+","?","|","<",">","-","&","%"};
+
+        for (String regexCharacter : regexCharacters) {
+            if (text.contains(regexCharacter)) {
+                text = text.replace(regexCharacter, "\\" + regexCharacter);
+            }
+        }
+        return text;
     }
 }

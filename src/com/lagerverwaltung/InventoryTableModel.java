@@ -1,14 +1,16 @@
 package com.lagerverwaltung;
 
 import javax.swing.table.AbstractTableModel;
+
 /**
- * The InventoryTableModel class contains all Methods and data needed to construct a meaningful table in Main.java
- * It holds all column titles and item information displayed in the table.
+ * The InventoryTableModel extends the AbstractTableModel class by implementing its core methods and adding additional
+ * methods to better handle the inventory. It holds the names of the columns as the table model is used only for the
+ * purpose of showing the inventory.
  */
 public class InventoryTableModel extends AbstractTableModel {
 
     /**
-     * Column title array
+     * The array of the names of the columns that are shown to the user.
      */
     private static Object[] columns = {
             "Produktbezeichnung",
@@ -23,14 +25,15 @@ public class InventoryTableModel extends AbstractTableModel {
     };
 
     /**
-     * Item table with one list per item
+     * The two dimensional array that holds the data of the table.
      */
     private static Object[][] data = { };
 
     /**
+     * Returns the most specific superclass for all the cell values in the column.
      *
-     * @param columnIndex
-     * @return
+     * @param columnIndex the index of the column
+     * @return the class of the object values in the model
      */
     @Override
     public Class<?> getColumnClass(int columnIndex) {
@@ -44,11 +47,14 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
-     * Checks if a cell is editable
+     * Returns the boolean value if cell is editable based on the row index and the column index.
      *
-     * @param rowIndex row index of cell, which is going to be checked
-     * @param columnIndex column index of cell, which is going to be checked
-     * @return true if cell is editable, else return false
+     * <p>This method allows column six, seven and eight to be editable. These columns are the columns containing the
+     * buttons.
+     *
+     * @param rowIndex the row whose value to be queried
+     * @param columnIndex the column whose value to be queried
+     * @return true if the cell is editable
      */
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -63,9 +69,9 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
-     * Sets new data and calls fireTableDataChanged to update the TableModel
+     * Sets the inventory to the two dimensional data array and calls the method which redraws the content of the table.
      *
-     * @param inventory inventory from which data is adopted
+     * @param inventory the inventory that shall be shown
      */
     public void setData(Inventory inventory) {
         Object[][] newContent = convertToObject(inventory);
@@ -74,41 +80,45 @@ public class InventoryTableModel extends AbstractTableModel {
     }
 
     /**
-     * @return amount of rows
+     * @return the number of rows
      */
     public int getRowCount() {
         return data.length;
     }
 
     /**
-     * @return amount of columns
+     * @return the number of columns
      */
     public int getColumnCount() {
         return columns.length;
     }
 
     /**
-     * @param column a column in the table
-     * @return the title of the column
+     * Returns the column name as a string value.
+     *
+     * @param column the index of the column
+     * @return the name of the column
      */
     public String getColumnName(int column) {
         return columns[column].toString();
     }
 
     /**
-     * @param rowIndex a row in the table
-     * @param columnIndex a column in the table
-     * @return data at rowIndex in columnIndex
+     * Returns the value for the cell at columnIndex and rowIndex.
+     *
+     * @param rowIndex the row whose value is to be queried
+     * @param columnIndex the column whose value is to be queried
+     * @return the value Object at the specified cell
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
         return data[rowIndex][columnIndex];
     }
 
     /**
-     * Converts an Inventory with its data into an Object[][]
+     * Converts the items of an inventory into a two dimensional Object array.
      *
-     * @param inventory data to put onto the table
-     * @return a Object list of the inventory
+     * @param inventory the inventory
+     * @return the two dimensional array filled with inventory items
      */
     private Object[][] convertToObject(Inventory inventory) {
         Object[][] newContent = new Object[inventory.getItemMap().size()][9];
