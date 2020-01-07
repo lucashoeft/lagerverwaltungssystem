@@ -22,7 +22,7 @@ public class ViewInventoryItem {
     private InventoryItem inventoryItem;
 
     /**
-     * The boolean value which represents if the inventory item has been updated.
+     * The boolean value which shows if the inventory item has been updated.
      */
     private Boolean inventoryUpdated = false;
 
@@ -38,6 +38,9 @@ public class ViewInventoryItem {
     private JButton leftButton = new JButton("Bearbeiten");
     private JButton rightButton = new JButton("Löschen");
 
+    /**
+     * The dialog which holds all the components of the graphical user interface.
+     */
     private JDialog dialog;
 
     /**

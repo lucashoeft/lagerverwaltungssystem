@@ -5,35 +5,40 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * During runtime an Inventory object contains all items of the database
+ * The Inventory class holds all information about the inventory items, the shelfs and the categories.
  */
 public class Inventory {
 
     /**
-     * path stores the path where the .csv file of the database lies
+     * The path where the csv file of the inventory lies
      */
     private String path;
 
     /**
-     * itemMap contains all items at the key of their description
+     * The hash map contains all inventory items and are keyed by their description as this description has to be
+     * unqiue.
      */
     private HashMap<String, InventoryItem> itemMap;
 
     /**
-     * shelfMap contains all shelves at the key of their ID
+     * The hash map contains all shelves and are keyed by their number as this number has to be unique.
      */
     private HashMap<Integer, Shelf> shelfMap;
 
     /**
-     * categoryMap contains all categories at the key of their name
+     * The hash map  contains all categories and are keyed by their category name as this name has to be unique.
      */
     private HashMap<String, Category> categoryMap;
 
+    /**
+     * A logger to log messages
+     */
     private static final Logger logger = Logger.getLogger(Inventory.class.getName());
 
     /**
-     * Constructor for a new Inventory object
+     * The constructor of the Inventory class.
+     *
+     * <p>It initialises an empty path and the empty hash maps.
      */
     public Inventory(){
         path = "";
@@ -43,30 +48,34 @@ public class Inventory {
     }
 
     /**
-     * Constructor for a new Inventory object
+     * The constructor for the Inventory class, which initialises the path of the csv file.
      *
-     * @param path the path of the database .CSV file
+     * @param path the path of the csv file
      */
     public Inventory(String path){
         this.path = path;
     }
 
     /**
-     * @param path new .CSV database file path
+     * Updates the csv file path to a new file path.
+     *
+     * @param path new csv file path
      */
     public void setPath(String path){
         this.path = path;
     }
 
     /**
-     * @return .CSV database file path of this Inventory object
+     * Returns the current file path where the inventory lies.
+     *
+     * @return The path where the csv file of the inventory lies
      */
     public String getPath() {
         return path;
     }
 
     /**
-     * Sets itemMap and initializes storage and categories
+     * Sets the item map  and initialises the storage and the categories
      *
      * @param itemMap HashMap which contains all items
      */
@@ -77,12 +86,12 @@ public class Inventory {
     }
 
     /**
-     * Add a new item to itemMap.
+     * Tries to add a new inventory item to the item map.
      *
-     * <p>Is successful when item doesn't exist yet and won't make shelf too heavy.
+     * <p>This method succeeds if item does not exist yet with the description and will not make the shelf too heavy.
      *
-     * @param item item to be added
-     * @return true if successful else return false
+     * @param item the inventory item to be added
+     * @return true if successful
      */
     public boolean addNewItem(InventoryItem item) {
         // new item?
@@ -111,10 +120,10 @@ public class Inventory {
     }
 
     /**
-     * Remove item from itemMap
+     * Removes item from item map.
      *
-     * @param name name of the item
-     * @return true if item removed else return false
+     * @param name the description of the inventory item
+     * @return true if item was removed
      */
     public boolean deleteItem(String name) {
         // item exists?
@@ -131,17 +140,19 @@ public class Inventory {
     }
 
     /**
-     * @return all existing items
+     * Returns a hash map of all inventory items in the inventory.
+     *
+     * @return hash map of all inventory items
      */
     public HashMap<String, InventoryItem> getItemMap() {
         return itemMap;
     }
 
     /**
-     * Returns specified item
+     * Returns the inventory item with the matching description.
      *
-     * @param name name of an item
-     * @return item object with name
+     * @param name the description of the inventory item
+     * @return the inventory item
      */
     public InventoryItem getItem(String name)
     {
@@ -149,7 +160,7 @@ public class Inventory {
     }
 
     /**
-     * Increase the stock of an item
+     * Increases the stock of an inventory item.
      *
      * @param name name of the item
      * @param count new stock = old stock + count

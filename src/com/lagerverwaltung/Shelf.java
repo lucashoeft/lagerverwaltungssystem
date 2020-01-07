@@ -1,29 +1,26 @@
 package com.lagerverwaltung;
 
 /**
- * A shelf is an attribute of an item.
- * Multiple items can be stored in the same shelf.
- * The maximum weight of a shelf is 10 tons.
- *
- * @author ...
+ * The Shelf class is part of the inventory and holds the weight of the inventory items that are stored in the shelf.
+ * The maximum capacity is 100_000_000 decigram which are 10 tons.
  */
 public class Shelf {
 
     /**
-     * Shelf number
+     * The number of the shelf
      */
     private Integer id;
 
     /**
-     * Total weight of shelf
+     * The total weight of shelf
      */
     private int weight;
 
     /**
-     * Constructor for a new shelf
+     * The constructor of the Shelf class.
      *
-     * @param id shelf number of new shelf
-     * @param weight total weight of new shelf
+     * @param id the number of the new shelf
+     * @param weight the total weight of the new shelf
      */
     public Shelf(int id, int weight){
         this.id = id;
@@ -31,10 +28,10 @@ public class Shelf {
     }
 
     /**
-     * Compare function
+     * Checks if given object equals to this shelf.
      *
-     * @param o compared object
-     * @return is the object a Shelf and has the same Shelf ID ?
+     * @param o another object
+     * @return true if both objects are equal
      */
     public boolean equals(Object o){
         if ((o == null) || (o.getClass() != this.getClass())){
@@ -47,32 +44,36 @@ public class Shelf {
     }
 
     /**
-     * Getter for shelf identification number
+     * Returns the number of the shelf.
      *
-     * @return shelf identification number
+     * @return the number of the shelf
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Setter for shelf identification number
+     * Sets the number of this shelf to a new number.
      *
-     * @param id new identification number
+     * @param id the new number for the shelf
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @return weight of shelf
+     * Returns the total weight of the shelf.
+     *
+     * @return the weight of the shelf
      */
     public int getWeight() {
         return weight;
     }
 
     /**
-     * @param w new weight of shelf
+     * Sets the weight of this shelf to a new weight.
+     *
+     * @param w the new weight of the shelf
      */
     public void setWeight(int w) {
         this.weight = w;
@@ -80,11 +81,11 @@ public class Shelf {
 
 
     /**
-     * Try to add item to shelf, fails if total weight is exceeded
+     * Tries to add an inventory item to the shelf weight multiplied by the count.
      *
-     * @param item item to be added to the shelf
-     * @param count amount of items added to the shelf
-     * @return true if adding is successful, else false
+     * @param item the inventory item to be added to the shelf
+     * @param count the amount of inventory items added to the shelf
+     * @return true if adding was successful
       */
     public boolean addToShelf(InventoryItem item, int count){
         // if combined weight to heavy
@@ -99,11 +100,11 @@ public class Shelf {
     }
 
     /**
-     * Try to remove object from shelf, fails if there aren't enough items
+     * Tries to remove an inventory item from the shelf weight multiplied by the count.
      *
-     * @param item item to be removed from the shelf
-     * @param count count of item to be removed from the shelf
-     * @return true if removing was successful else false
+     * @param item the inventory item to be removed from the shelf
+     * @param count the amount of inventory items removed from the shelf
+     * @return true if removing was successful
       */
     public boolean removeFromShelf(InventoryItem item, int count){
         // if removing to much

@@ -12,20 +12,27 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
- * The File Handler manages all actions concerning reading and writing the database.
+ * The File Handler manages all actions concerning reading and writing to the csv file which is used for making the
+ * inventory persistent.
  */
 public class FileHandler {
 
+    /**
+     * A logger to log messages.
+     */
     private static final Logger logger = Logger.getLogger(FileHandler.class.getName());
 
     /**
-     * Create Inventory object from a .CSV file at pathName
+     * Creates an inventory from a csv file.
      *
-     * @param pathName the path where the file is used from
-     * @return Inventory object
-     * @see Inventory
+     * <p>This method creates an empty inventory and then reads the csv file line by line. If it detects the pattern of
+     * a category, it adds it to the category hash map, else it tries to add it as an inventory item and ignores it if
+     * attributes are not valid or if description and location are not unique. In the end, it returns the entire
+     * inventory.
+     *
+     * @param pathName the path where the csv file lies.
+     * @return the inventory
      */
     public Inventory readInventoryFromCSV(Path pathName) {
         Inventory inventory = new Inventory();
@@ -67,12 +74,12 @@ public class FileHandler {
     }
 
     /**
-     * Takes an Inventory object and writes it to a .CSV file
-     * <p>
-     *  creates backup, writes new file and then deletes backup
-     * </p>
+     * Saves the inventory to its file path.
      *
-     * @param inventory inventory which is to be saved
+     * <p>This method creates a back up before it tries to save to the file path. It writes the categories first and
+     * then the inventory items line by line to the file.
+     *
+     * @param inventory the inventory which shall be saved
      */
     public void storeInventoryInCSV(Inventory inventory) {
         try {
@@ -126,6 +133,12 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Returns true if the array the attributes are matching to the category pattern.
+     *
+     * @param attributes the array of attributes of an object
+     * @return true if it is a category
+     */
     private Boolean isCategory(String[] attributes) {
         if (!attributes[0].equals("-1")) return false;
         if ((attributes[1].equals("-1")) || (attributes[1].indexOf(',') >= 0)) return false;
@@ -136,10 +149,10 @@ public class FileHandler {
     }
 
     /**
-     * Creates a InventoryItem object from an Array that has been read from a .CSV file
+     * Creates an inventory item from an array of attributes.
      *
-     * @param metadata String Array with all needed attributes of an InventoryItem object
-     * @return new InventoryItem containing metadata
+     * @param metadata he array of attributes of an inventory item
+     * @return the inventory item containing the attributes
      */
     private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
         return new InventoryItem(metadata[0],

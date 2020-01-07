@@ -272,8 +272,8 @@ public class Main {
          * Invoked when an action occurs.
          *
          * <p>This method creates a new instance of the AddInventoryItem class which opens a JDialog. When the JDialog
-         * was closed it checks if the was closed by the accept button and then updates the table model and saves the
-         * current inventory to the csv file.
+         * was closed it checks if the dialog was closed by the accept button and then updates the table model and saves
+         * the current inventory to the csv file.
          *
          * @param e the event that occurred
          */
