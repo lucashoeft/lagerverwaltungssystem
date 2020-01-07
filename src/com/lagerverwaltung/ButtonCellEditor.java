@@ -5,6 +5,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+/**
+ * The ButtonCellEditor class adds the functionality to have buttons in table cells. It extends the AbstractCellEditor
+ * class and implements the interfaces of TableCellRenderer, TableCellEditor, ActionListener and MouseListener.
+ */
 public class ButtonCellEditor extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 

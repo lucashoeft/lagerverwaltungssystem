@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
- * CategoryListDialog is the window which shows all categories in a table. From here it is possible to create and
+ * The CategoryList is the window which shows all categories in a table. From here it is possible to create and
  * delete categories
  */
 public class CategoryList {

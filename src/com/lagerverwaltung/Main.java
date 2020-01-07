@@ -12,50 +12,58 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
- * This is the main Window of the Storage-Management-System.
- * It contains a filterable table with all items on stock.
+ * The Main class is the center of the program and also the main window the user interacts with. It holds all buttons
+ * and the main table which shows the data of the inventory. It controls all other classes, events and updates the
+ * inventory and the table model based on the changes of the inventory.
  */
 public class Main {
 
     /**
-     * A FileHandler for loading and saving of the database
+     * A file handler for getting the data and saving the changes of the inventory item.
      */
     private FileHandler fileHandler = new FileHandler();
 
     /**
-     * A search Button
+     * The button triggers the search.
      */
     private JButton searchButton = new JButton("Suchen");
 
     /**
-     * create item button
-      */
+     * The button triggers the event to create new articles.
+     */
     private JButton createInventoryItemButton = new JButton("Artikel erstellen");
 
     /**
-     * manage Categories Button
+     * The button triggers the event to manage the categories of the inventory.
      */
     private JButton manageCategoryButton = new JButton("Kategorien verwalten");
 
     /**
-     * search Field
+     * The text field is the input field for the search.
      */
     private JTextField searchTextField = new JTextField("", 15);
 
     /**
-     * table to show item data
+     * The table shows all attributes of the inventory items.
      */
     private JTable table;
 
     /**
-     * data model which holds data for the table
+     * The table model holds the inventory data that is displayed in the table.
      */
     private InventoryTableModel inventoryTableModel = new InventoryTableModel();
 
+    /**
+     * The frame which holds all buttons and the table.
+     */
     private JFrame frame;
 
     /**
-     * Constructor for the main window of this Software
+     * The constructor of the Main class.
+     *
+     * <p>It creates the frame and adds all components to it and connects the buttons and the table to custom action
+     * listeners. It then tries to get the data out of the csv file and assigns it to the inventory and updates the
+     * table.
      */
     public Main() {
         frame = new JFrame("Lagerverwaltungssystem");
@@ -68,8 +76,6 @@ public class Main {
         createInventoryItemButton.addActionListener(new CreateInventoryListener());
         searchButton.addActionListener(new SearchListener());
 
-        // table creation
-        // data is stored in InventoryTableModel
         table = new JTable(inventoryTableModel);
         table.setRowHeight(table.getRowHeight() + 6);
         table.setAutoCreateRowSorter(true);
@@ -84,7 +90,6 @@ public class Main {
         new ButtonCellEditor(table, new SubAction(), 7);
         new ButtonCellEditor(table, new ManageAction(), 8);
 
-        // If .CSV file exists load it into table
         if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
             Inventory inventory = fileHandler.readInventoryFromCSV(Paths.get(App.getInventory().getPath()));
             App.setInventory(inventory);
@@ -94,15 +99,12 @@ public class Main {
             }
         }
 
-        // area above table as Panel
         JPanel topPanel = new JPanel();
-        // adding of components to the window
         topPanel.add(searchTextField);
         topPanel.add(searchButton);
         topPanel.add(createInventoryItemButton);
         topPanel.add(manageCategoryButton);
 
-        // Scrollable area which contains the table
         JScrollPane scrollPane = new JScrollPane(table);
 
         frame.add(topPanel, BorderLayout.NORTH);
@@ -111,10 +113,20 @@ public class Main {
         frame.setVisible(true);
     }
 
+    /**
+     * The AddAction class extends the AbstractAction class and implements the functionality to increase the stock value
+     * by a value that was entered by the user.
+     */
     private class AddAction extends AbstractAction {
-
-        private String exceptionMessage = "Eingegebener Wert ist fehlerhaft. Bitte überprüfen Sie Ihre Eingabe!";
-
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method detects which button was pressed and then opens an option pane which let the user enter a
+         * number. It then detects if increasing the stock value is possible and saves the changes. If not, it shows
+         * an appropriate error message to the user.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JTable table = (JTable)e.getSource();
@@ -145,7 +157,20 @@ public class Main {
         }
     }
 
+    /**
+     * The SubAction class extends the AbstractAction class and implements the functionality to decrease the stock value
+     * by a value that was entered by the user.
+     */
     private class SubAction extends AbstractAction {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method detects which button was pressed and then opens an option pane which let the user enter a
+         * number. It then detects if decreasing the stock value is possible and saves the changes. If not, it shows
+         * an appropriate error message to the user.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JTable table = (JTable)e.getSource();
@@ -176,7 +201,20 @@ public class Main {
         }
     }
 
+    /**
+     * The ManageAction class extends the AbstractAction class and implements the functionality to open the JDialog with
+     * the belonging inventory item of the table row.
+     */
     private class ManageAction extends AbstractAction {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method detects which button was pressed and then opens the JDialog with the inventory item as a
+         * parameter. After the JDialog was closed, this method detects if the inventory updated and then updates the
+         * content of the table.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JTable table = (JTable)e.getSource();
@@ -191,7 +229,19 @@ public class Main {
         }
     }
 
+    /**
+     * The SearchListener class implements the ActionListener interface and adds the functionality to search the table
+     * by text.
+     */
     private class SearchListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method takes the input from the search text field, filters the rows and updates the graphical user
+         * interface. If there is not input, it shows all rows of the table.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             String text = searchTextField.getText();
@@ -213,7 +263,20 @@ public class Main {
         }
     }
 
+    /**
+     * The CreateInventoryListener class implements the ActionListener interface and adds the functionality to create
+     * new inventory items.
+     */
     private class CreateInventoryListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method creates a new instance of the AddInventoryItem class which opens a JDialog. When the JDialog
+         * was closed it checks if the was closed by the accept button and then updates the table model and saves the
+         * current inventory to the csv file.
+         *
+         * @param e the event that occurred
+         */
         public void actionPerformed(ActionEvent e) {
             AddInventoryItem addInventoryItem = new AddInventoryItem();
             if (addInventoryItem.isAcceptButtonClicked()) {
@@ -223,19 +286,54 @@ public class Main {
         }
     }
 
+    /**
+     * The ManageCategoryListener class implements the ActionListener interface and adds the functionality to show
+     * the category list.
+     */
     private class ManageCategoryListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method creates a new instance of the CategoryList class which opens a JDialog with the current list
+         * of all categories.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             new CategoryList();
         }
     }
 
+    /**
+     * The StockTableCellRenderer class extends DefaultTableCellRenderer by rendering the stock value with the semantic
+     * which is known in Germany.
+     */
     private class StockTableCellRenderer extends DefaultTableCellRenderer {
 
+        /**
+         * Aligns the content of the cell to the right side.
+         */
         public StockTableCellRenderer() {
             setHorizontalAlignment(JLabel.RIGHT);
         }
 
+        /**
+         * Returns the default table cell renderer.
+         *
+         * <p>During a printing operation, this method will be called to let it customize the value that is shown to the
+         * user. This method specifically renders the provided stock value to the same stock value, but with the
+         * semantic which is known in Germany.
+         *
+         * @param table  the table
+         * @param value  the value to assign to the cell
+         * @param isSelected true if cell is selected
+         * @param hasFocus true if cell has focus
+         * @param row  the row of the cell to render
+         * @param column the column of the cell to render
+         * @return the default table cell renderer
+         * @return the constructor of default table cell renderer with changed value
+         */
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (value instanceof Number) {
@@ -245,19 +343,49 @@ public class Main {
         }
     }
 
+    /**
+     * The LocationTableCellRenderer class extends DefaultTableCellRenderer and aligns the location number to the right
+     * side.
+     */
     private class LocationTableCellRenderer extends DefaultTableCellRenderer {
 
+        /**
+         * Aligns the content of the cell to the right side.
+         */
         public LocationTableCellRenderer() {
             setHorizontalAlignment(JLabel.RIGHT);
         }
     }
 
+    /**
+     * The WeightTableCellRenderer class extends DefaultTableCellRenderer by rendering the decigram value to the gram
+     * value with the semantic which is known in Germany.
+     */
     private class WeightTableCellRenderer extends DefaultTableCellRenderer {
 
+        /**
+         * Aligns the content of the cell to the right side.
+         */
         public WeightTableCellRenderer() {
             setHorizontalAlignment(JLabel.RIGHT);
         }
 
+        /**
+         * Returns the default table cell renderer.
+         *
+         * <p>During a printing operation, this method will be called to let it customize the value that is shown to the
+         * user. This method specifically renders the provided decigram value to the gram value with the semantic which
+         * is known in Germany.
+         *
+         * @param table  the table
+         * @param value  the value to assign to the cell
+         * @param isSelected true if cell is selected
+         * @param hasFocus true if cell has focus
+         * @param row  the row of the cell to render
+         * @param column the column of the cell to render
+         * @return the default table cell renderer
+         * @return the constructor of default table cell renderer with changed value
+         */
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (value instanceof Number) {
@@ -270,12 +398,35 @@ public class Main {
         }
     }
 
+    /**
+     * The PriceTableCellRenderer class extends DefaultTableCellRenderer by rendering the cent value to an euro value
+     * with the semantic which is known in Germany.
+     */
     private class PriceTableCellRenderer extends DefaultTableCellRenderer {
 
+        /**
+         * Aligns the content of the cell to the right side.
+         */
         public PriceTableCellRenderer() {
             setHorizontalAlignment(JLabel.RIGHT);
         }
 
+        /**
+         * Returns the default table cell renderer.
+         *
+         * <p>During a printing operation, this method will be called to let it customize the value that is shown to the
+         * user. This method specifically renders the provided cent value to an euro value with the semantic which is
+         * known in Germany.
+         *
+         * @param table  the table
+         * @param value  the value to assign to the cell
+         * @param isSelected true if cell is selected
+         * @param hasFocus true if cell has focus
+         * @param row  the row of the cell to render
+         * @param column the column of the cell to render
+         * @return the default table cell renderer
+         * @return the constructor of default table cell renderer with changed value
+         */
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (value instanceof Number) {
@@ -286,12 +437,23 @@ public class Main {
         }
     }
 
+    /**
+     * Shows the custom error message to the user above every other JDialog or JFrame.
+     *
+     * @param message the error message that shall be shown
+     */
     private void showErrorOptionPane(String message) {
         final JDialog messageDialog = new JDialog();
         messageDialog.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(messageDialog,message,"Fehler beim Bearbeiten des Lagerbestandes",JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Returns a text which does not contain any characters that could be interpreted as regex characters.
+     *
+     * @param text the text which contains regex meta characters
+     * @return the text with escaped all regex characters
+     */
     private String escapeRegexCharacters(String text) {
         final String[] regexCharacters = {"\\","^","$","{","}","[","]","(",")",".","*","+","?","|","<",">","-","&","%"};
 

@@ -5,19 +5,50 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The ViewInventoryItem class is responsible for letting the user managing the displayed inventory item. It displays
+ * the attributes of the inventory item, but also let the user edit and delete the inventory item.
+ */
 public class ViewInventoryItem {
 
+    /**
+     * A file handler for saving the changes of the inventory item.
+     */
     private FileHandler fileHandler = new FileHandler();
 
+    /**
+     * The inventory item which is shown to the user.
+     */
     private InventoryItem inventoryItem;
 
+    /**
+     * The boolean value which represents if the inventory item has been updated.
+     */
     private Boolean inventoryUpdated = false;
+
+    /**
+     * The panel holds the labels and text fields which are used for displaying the attributes of the selected inventory
+     * item to the user.
+     */
     private InventoryItemInputPanel inputPanel = new InventoryItemInputPanel(App.getInventory().getCategoryMap());
+
+    /**
+     * The buttons of the graphical user interface which can be used to edit and delete the inventory item.
+     */
     private JButton leftButton = new JButton("Bearbeiten");
     private JButton rightButton = new JButton("Löschen");
 
     private JDialog dialog;
 
+    /**
+     * The constructor of the ViewInventoryItem class.
+     *
+     * <p>As a parameter, the constructor receives the inventory item that shall be shown the user. It assigns
+     * the parameter to the attribute of the class, creates the JDialog and passes the inventory item to the text
+     * fields.
+     *
+     * @param inventoryItem the inventory item that shall be shown
+     */
     public ViewInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItem = inventoryItem;
 
@@ -46,7 +77,18 @@ public class ViewInventoryItem {
         dialog.setVisible(true);
     }
 
+    /**
+     * The ButtonListener class implements the ActionListener interface and adds the functionality to edit and delete
+     * the inventory item.
+     */
     class ButtonListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * <p>This method detects which button was pressed and based on the current title and reacts accordingly.
+         *
+         * @param e the event that occurred
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == leftButton) {
@@ -114,10 +156,20 @@ public class ViewInventoryItem {
         }
     }
 
+    /**
+     * Returns the boolean value if inventory updated.
+     *
+     * @return true if inventory updated while the inventory item was viewed
+     */
     public Boolean isInventoryUpdated() {
         return this.inventoryUpdated;
     }
 
+    /**
+     * Shows the custom error message to the user above every other JDialog or JFrame.
+     *
+     * @param message the error message that shall be shown
+     */
     private void showErrorOptionPane(String message) {
         final JDialog messageDialog = new JDialog();
         messageDialog.setAlwaysOnTop(true);

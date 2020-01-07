@@ -98,6 +98,11 @@ public class AddInventoryItem {
         }
     }
 
+    /**
+     * Shows the custom error message to the user above every other JDialog or JFrame.
+     *
+     * @param message the error message that shall be shown
+     */
     private void showErrorOptionPane(String message) {
         final JDialog messageDialog = new JDialog();
         messageDialog.setAlwaysOnTop(true);

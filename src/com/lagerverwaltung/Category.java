@@ -1,24 +1,25 @@
 package com.lagerverwaltung;
 
 /**
- * Category is an attribute of an item.
+ * The Category class represents the model of a category and holds the number of inventory items in this category.
  */
 public class Category {
 
     /**
-     * Name of the category
+     * The name of the category which consists of numbers and alphabetic characters with a length between 1 and 256
+     * characters.
      */
     private String name;
 
     /**
-     * Count of items inside this category
+     * The amount of inventory items that exist with this category as a selected value.
      */
     private Integer count;
 
     /**
-     * Category Constructor
+     * The constructor of the Category class.
      *
-     * @param name name of new category
+     * @param name the name of the new category
      */
     public Category (String name){
         this.name = name;
@@ -26,10 +27,10 @@ public class Category {
     }
 
     /**
-     * Category Constructor
+     * The constructor of the Category class.
      *
-     * @param name name of new category
-     * @param count amount of items inside this category
+     * @param name the name of the new category
+     * @param count the amount of inventory items that exist with this category as a selected value.
      */
     public Category (String name, Integer count){
         this.name = name;
@@ -37,52 +38,60 @@ public class Category {
     }
 
     /**
-     * @return name of category
+     * Returns the name of the category.
+     *
+     * @return the name of the category
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @param name new name of the category
+     * Assigns a new name to the category.
+     *
+     * @param name the new name of the category
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @return amount of items inside category
+     * Returns the amount of inventory items that exist with this category as a selected value.
+     *
+     * @return the amount of inventory items that exist with this category as a selected value
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * @param count new amount of items inside category
+     * Assigns new value to the amount.
+     *
+     * @param count the new amount of inventory items that exist with this category as a selected value.
      */
     public void setCount(int count) {
         this.count = count;
     }
 
     /**
-     * Increase the amount of items inside category by one
+     * Increases the amount of inventory items inside category by 1
      */
     public void increaseCount(){
         this.count ++;
     }
 
     /**
-     * Decrease the amount of items inside category by one
+     * Decreases the amount of inventory items inside the category by 1
      */
     public void decreaseCount(){
         this.count --;
     }
 
     /**
-     * Checks if given object equals this Category
+     * Checks if given object equals to this category
      *
      * @param o another object
-     * @return true if both objects are the same, else false
+     * @return true if both objects are equal
      */
     public boolean equals(Object o){
         if ((o == null) || (o.getClass() != this.getClass())){
@@ -94,9 +103,9 @@ public class Category {
     }
 
     /**
-     * Converts category into .csv compatible String
+     * Converts the category into a csv compatible string value
      *
-     * @return .csv compatible String
+     * @return the category represented as a csv row
      */
     public String toStringCSV(){
         return  "-1," + name + ",-1,-1,-1,-1";

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 /**
- * Panel that shows the input fields the user can interact with.
+ * The InventoryItemInputPanel class extends the JPanel class from the Java swing package.
  */
 public class InventoryItemInputPanel extends JPanel {
 
