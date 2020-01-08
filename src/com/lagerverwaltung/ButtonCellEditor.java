@@ -12,11 +12,34 @@ import javax.swing.table.*;
 public class ButtonCellEditor extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 
+    /**
+     * The table which shall contain the buttons.
+     */
     private JTable table;
+
+    /**
+     * The action which invokes the button behavior.
+     */
     private Action action;
+
+    /**
+     * The button which is used for the TableCellRenderer interface.
+     */
     private JButton renderButton;
+
+    /**
+     * The button which is used for the TableCellEditor interface.
+     */
     private JButton editButton;
+
+    /**
+     * The content of the cell respectively the button.
+     */
     private Object editorValue;
+
+    /**
+     * The flag to check if button column was pressed.
+     */
     private boolean isButtonColumnEditor;
 
     /**

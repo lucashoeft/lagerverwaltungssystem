@@ -13,69 +13,69 @@ import java.util.Locale;
 public class InventoryItemInputPanel extends JPanel {
 
     /**
-     * Label which holds title for descriptionTextField
+     * The label which shows the location of the description text field.
      */
     private JLabel descriptionLabel = new JLabel("Produktbezeichnung");
 
     /**
-     * Text field which holds the new description of the item
+     * The text field which holds the description of the inventory item.
      */
     private JTextField descriptionTextField = new JTextField(15);
 
     /**
-     * Label which holds title for categoryComboBox
+     * The label which shows the location of the category combo box.
      */
     private JLabel categoryLabel = new JLabel("Kategorie");
 
     /**
-     * Dropdown menu so select the category
+     * The combo box which lets the user select a category.
      */
     private JComboBox categoryComboBox = new JComboBox();
 
     /**
-     * Label which holds label for stockTextField
+     * The label which shows the location of the stock text field.
      */
     private JLabel stockLabel = new JLabel("Lagerbestand");
 
     /**
-     * Text field which holds the new stock of the item
+     * The text field which holds the stock of the inventory item.
      */
     private JTextField stockTextField = new JTextField(15);
 
     /**
-     * Label which golds title for locationTextField
+     * The label which shows the location of the location text field.
      */
     private JLabel locationLabel = new JLabel("Lagerort");
 
     /**
-     * Text field which holds the new location of the item
+     * The text field which holds the location of the inventory item.
      */
     private JTextField locationTextField = new JTextField(15);
 
     /**
-     * Label which holds title for weightTextField
+     * The label which shows the location of the weight text field.
      */
     private JLabel weightLabel = new JLabel("Gewicht in g");
 
     /**
-     * Text field which holds the new weight of the item in gram
+     * The text field which holds the weight of the inventory item.
      */
     private JTextField weightTextField = new JTextField(15);
 
     /**
-     * Label which holds description of priceTextField
+     * The label which shows the location of the price text field.
      */
     private JLabel priceLabel = new JLabel("Preis in €");
 
     /**
-     * Text field which holds the new price of the item
+     * The text field which holds the price of the inventory item.
      */
     private JTextField priceTextField = new JTextField(15);
 
     /**
-     * Constructor for a new InventoryItemInputPanel
+     * The constructor of the InventoryItemInputPanel class.
      *
-     * @param categoryMap categoryMap contains all categories needed for the categoryComboBox
+     * @param categoryMap hash map with all available categories
      */
     InventoryItemInputPanel(HashMap<String, Category> categoryMap) {
         this.setBorder(new EmptyBorder(10,10,10,10));
@@ -141,15 +141,19 @@ public class InventoryItemInputPanel extends JPanel {
     }
 
     /**
-     * @return the description
+     * Returns the description from the description text field.
+     *
+     * @return the description of the inventory item
      */
     public String getDescription() {
         return descriptionTextField.getText();
     }
 
     /**
+     * Returns the category that is currently chosen in the category combo box.
+     *
      * @return the category that is currently chosen
-     * @throws NullPointerException if no category was available
+     * @throws NullPointerException if no category was available to select
      */
     public String getCategory() throws NullPointerException {
         return categoryComboBox.getSelectedItem().toString();
@@ -319,18 +323,38 @@ public class InventoryItemInputPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets the input of the description text field.
+     *
+     * @param text the new input for the description text field
+     */
     private void setDescription(String text) {
         this.descriptionTextField.setText(text);
     }
 
+    /**
+     * Selects the category in the category combo box.
+     *
+     * @param text the category to be selected
+     */
     private void setCategory(String text) {
         this.categoryComboBox.setSelectedItem(text);
     }
 
+    /**
+     * Sets the input of the stock text field.
+     *
+     * @param text the new input for the stock text field
+     */
     private void setStock(Integer text) {
         this.stockTextField.setText(text.toString());
     }
 
+    /**
+     * Sets the input of the location text field.
+     *
+     * @param text the new input for the location text field
+     */
     private void setItemLocation(String text) {
         this.locationTextField.setText(text);
     }
