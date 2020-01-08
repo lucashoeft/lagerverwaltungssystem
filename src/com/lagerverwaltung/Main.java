@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -92,26 +93,27 @@ public class Main {
 
 
         try {
-            if (App.getInventory().getPath() != "") {
+            if (!App.getInventory().getPath().equals("")) {
                 String backupPath = Paths.get(App.getInventory().getPath()).getParent().toString() + "/backup.csv";
+                Path inventoryPath = Paths.get(App.getInventory().getPath());
                 // backup recovery
                 if (Files.exists(Paths.get(backupPath))) {
                     logger.log(Level.INFO, "Backup found");
-                    if (Files.exists(Paths.get(App.getInventory().getPath()))) {
-                        Files.delete(Paths.get(App.getInventory().getPath()));
+                    if (Files.exists(inventoryPath)) {
+                        Files.delete(inventoryPath);
                     }
-                    Files.move(Paths.get(backupPath), Paths.get(App.getInventory().getPath()));
+                    Files.move(Paths.get(backupPath), inventoryPath);
                     logger.log(Level.INFO, "recovered from backup");
                 }
-            }
-            // load existing .csv data
-            if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
-                Inventory inventory = fileHandler.readInventoryFromCSV(Paths.get(App.getInventory().getPath()));
-                App.setInventory(inventory);
-                logger.log(Level.INFO, "Inventory found");
+                // load existing .csv data
+                if (Files.exists(inventoryPath)) {
+                    Inventory inventory = fileHandler.readInventoryFromCSV(inventoryPath);
+                    App.setInventory(inventory);
+                    logger.log(Level.INFO, "Inventory found");
 
-                if (App.getInventory().getItemMap().size() > 0) {
-                    inventoryTableModel.setData(App.getInventory());
+                    if (App.getInventory().getItemMap().size() > 0) {
+                        inventoryTableModel.setData(App.getInventory());
+                    }
                 }
             }
         } catch (IOException e) {
