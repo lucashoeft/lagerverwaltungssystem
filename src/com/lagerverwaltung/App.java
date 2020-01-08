@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The App Class contains the runnable main method and manages all actions before opening the main window and after
- * closing. The
+ * The App class contains the runnable main method and manages all actions before opening the main window. This means
+ * to read the config file to locate the csv file containing the inventory.
  */
 public class App {
 
@@ -29,13 +29,13 @@ public class App {
     private static final Logger logger = Logger.getLogger(App.class.getName());
 
     /**
-     * Starts the software
+     * Starts the application.
      *
-     * <p>1. read Config
-     * <p>2. start GUI
+     * <p>1. Read the config file.
+     * <p>2. Start the Main class containing the graphical user interface.
      *
      *
-     * @param args arguments which could be given over to this main method
+     * @param args the arguments which could be given over to this main method
      */
     public static void main(String[] args) {
 
@@ -49,9 +49,12 @@ public class App {
     }
 
     /**
-     * Reads existing config file, if it does not exist, create one
+     * Reads existing config file
      *
-     * @param path path of the config file
+     * <p>This method tries to read the config file. It creates a new one if it could not find the config file at the
+     * path location.
+     *
+     * @param path the path of the config file
      */
     public static void readConfigFile(String path) {
         try {
@@ -79,10 +82,10 @@ public class App {
     }
 
     /**
-     * Rewrites the config file to contain new_path as a new path
+     * Updates the config file with a new path pointing at csv file containing the inventory.
      *
-     * @param config_path path of the config file
-     * @param new_path new path inside the config file
+     * @param config_path the path of the config file
+     * @param new_path the new path of the inventory csv file
      */
     public static void setConfigFile(String config_path, String new_path) {
         try {
@@ -102,10 +105,10 @@ public class App {
     }
 
     /**
-     * Deletes an empty config file at path
+     * Deletes an empty config file at the location of the path.
      *
-     * @param path path of config file
-     * @return return 1 if config file at path was deleted
+     * @param path the path of the config file
+     * @return 1 if config file at path was deleted
      */
     public static int clearConfigFile(String path){
         File cfgFile = new File(path);
@@ -118,18 +121,27 @@ public class App {
     }
 
     /**
-     * @return Inventory object
+     * Returns the current inventory.
+     *
+     * @return the inventory
      */
     public static Inventory getInventory(){
         return inventory;
     }
 
+    /**
+     * Updates the current inventory to a new inventory.
+     *
+     * @param newInventory the new inventory
+     */
     public static void setInventory(Inventory newInventory) {
         inventory = newInventory;
     }
 
     /**
-     * @return path of the configuration file
+     * Returns the location of the current config file.
+     *
+     * @return the path of the config file
      */
     public static String getConfigPath(){
         return configPath;

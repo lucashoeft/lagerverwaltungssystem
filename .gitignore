@@ -98,4 +98,5 @@ hs_err_pid*
 .idea/misc.xml
 .idea/vcs.xml
 Data/Lagersystem.csv
+Data/backup.csv
 /doc

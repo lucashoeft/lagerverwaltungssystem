@@ -5,35 +5,40 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * During runtime an Inventory object contains all items of the database
+ * The Inventory class holds all information about the inventory items, the shelves and the categories.
  */
 public class Inventory {
 
     /**
-     * path stores the path where the .csv file of the database lies
+     * The path where the csv file of the inventory lies
      */
     private String path;
 
     /**
-     * itemMap contains all items at the key of their description
+     * The hash map contains all inventory items and are keyed by their description as this description has to be
+     * unqiue.
      */
     private HashMap<String, InventoryItem> itemMap;
 
     /**
-     * shelfMap contains all shelves at the key of their ID
+     * The hash map contains all shelves and are keyed by their number as this number has to be unique.
      */
     private HashMap<Integer, Shelf> shelfMap;
 
     /**
-     * categoryMap contains all categories at the key of their name
+     * The hash map  contains all categories and are keyed by their category name as this name has to be unique.
      */
     private HashMap<String, Category> categoryMap;
 
+    /**
+     * A logger to log messages
+     */
     private static final Logger logger = Logger.getLogger(Inventory.class.getName());
 
     /**
-     * Constructor for a new Inventory object
+     * The constructor of the Inventory class.
+     *
+     * <p>It initialises an empty path and the empty hash maps.
      */
     public Inventory(){
         path = "";
@@ -43,30 +48,34 @@ public class Inventory {
     }
 
     /**
-     * Constructor for a new Inventory object
+     * The constructor of the Inventory class, which initialises the path of the csv file.
      *
-     * @param path the path of the database .CSV file
+     * @param path the path of the csv file
      */
     public Inventory(String path){
         this.path = path;
     }
 
     /**
-     * @param path new .CSV database file path
+     * Updates the csv file path to a new file path.
+     *
+     * @param path new csv file path
      */
     public void setPath(String path){
         this.path = path;
     }
 
     /**
-     * @return .CSV database file path of this Inventory object
+     * Returns the current file path where the inventory lies.
+     *
+     * @return The path where the csv file of the inventory lies
      */
     public String getPath() {
         return path;
     }
 
     /**
-     * Sets itemMap and initializes storage and categories
+     * Sets the item map  and initialises the storage and the categories
      *
      * @param itemMap HashMap which contains all items
      */
@@ -77,12 +86,12 @@ public class Inventory {
     }
 
     /**
-     * Add a new item to itemMap.
+     * Tries to add a new inventory item to the item map.
      *
-     * <p>Is successful when item doesn't exist yet and won't make shelf too heavy.
+     * <p>This method succeeds if item does not exist yet with the description and will not make the shelf too heavy.
      *
-     * @param item item to be added
-     * @return true if successful else return false
+     * @param item the inventory item to be added
+     * @return true if successful
      */
     public boolean addNewItem(InventoryItem item) {
         // new item?
@@ -111,10 +120,10 @@ public class Inventory {
     }
 
     /**
-     * Remove item from itemMap
+     * Removes item from item map.
      *
-     * @param name name of the item
-     * @return true if item removed else return false
+     * @param name the description of the inventory item
+     * @return true if item was removed
      */
     public boolean deleteItem(String name) {
         // item exists?
@@ -131,17 +140,19 @@ public class Inventory {
     }
 
     /**
-     * @return all existing items
+     * Returns a hash map of all inventory items in the inventory.
+     *
+     * @return hash map of all inventory items
      */
     public HashMap<String, InventoryItem> getItemMap() {
         return itemMap;
     }
 
     /**
-     * Returns specified item
+     * Returns the inventory item with the matching description.
      *
-     * @param name name of an item
-     * @return item object with name
+     * @param name the description of the inventory item
+     * @return the inventory item
      */
     public InventoryItem getItem(String name)
     {
@@ -149,11 +160,11 @@ public class Inventory {
     }
 
     /**
-     * Increase the stock of an item
+     * Increases the stock of an inventory item by a certain number.
      *
-     * @param name name of the item
-     * @param count new stock = old stock + count
-     * @return true if successful else return false
+     * @param name the description of the inventory item
+     * @param count the number the stock shall be increased by
+     * @return true if successful
      */
     public boolean increaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
@@ -166,11 +177,11 @@ public class Inventory {
     }
 
     /**
-     * Decrease the stock of an item
+     * Decreases the stock of an item inventory item by a certain number.
      *
-     * @param name name of the item
-     * @param count new stock= old stock - count
-     * @return true if successful else return false
+     * @param name the description of the inventory item
+     * @param count the number the stock shall be decreased by
+     * @return true if successful
      */
     public boolean decreaseStockBy(String name, int count){
         if (itemMap.containsKey(name) && categoryMap.containsKey(itemMap.get(name).getCategory())){
@@ -185,25 +196,33 @@ public class Inventory {
     }
 
     /**
-     * @return all shelves Map
+     * Returns the hash map with all shelves of the inventory.
+     *
+     * @return hash map of shelves
      */
     public HashMap<Integer, Shelf> getShelfMap() {
         return shelfMap;
     }
 
     /**
-     * @param shelfMap new Map of all shelves
+     * Sets the hash map of shelves in the inventory to a new hash map.
+     *
+     * @param shelfMap the new hash map of shelves
      */
     public void setShelfMap(HashMap<Integer, Shelf> shelfMap) {
         this.shelfMap = shelfMap;
     }
 
     /**
-     * Add count new items to Storage if it doesn't make shelf too heavy
+     * Tries to update the shelf with the new weight of an inventory item.
      *
-     * @param item item to be added
-     * @param count amount of items
-     * @return true if successful, else return false
+     * <p>This method adds the inventory item weight to the shelf if the total weight of the shelf is equal or below
+     * 100000000 decigram which equals 10 tons.
+     *
+     *
+     * @param item the inventory item to be added
+     * @param count the new or current stock of the inventory item
+     * @return true if successful
      */
     public boolean addItemToStorage(InventoryItem item, int count){
         // if shelf exists
@@ -224,11 +243,11 @@ public class Inventory {
     }
 
     /**
-     * Remove count items from Storage
+     * Updates the shelf with the weight of an inventory item by removing the weight.
      *
-     * @param item item to be removed
-     * @param count amount of items to be removed
-     * @return true if successful, else return false
+     * @param item the inventory item to be removed
+     * @param count the amount of items to be removed
+     * @return true if successful
      */
     public boolean removeItemFromStorage(InventoryItem item, int count){
         // if shelf exists
@@ -244,17 +263,21 @@ public class Inventory {
     }
 
     /**
-     * @return Map of all categories
+     * Returns the hash map of all categories.
+     *
+     * @return the hash map of all categories.
      */
     public HashMap<String, Category> getCategoryMap(){
         return categoryMap;
     }
 
     /**
-     * Add new category, if it doesn't exist already
+     * Tries to add a new category to the inventory.
      *
-     * @param cat new categorie which is added to categoryMap
-     * @return true if successful, else return false
+     * <p>This method returns false if a category already exists with this name.
+     *
+     * @param cat the new category
+     * @return true if successful
      */
     public boolean addCategory(Category cat){
         // category already exists?
@@ -269,10 +292,10 @@ public class Inventory {
     }
 
     /**
-     * Remove category, if it exists
+     * Removes a category if it exists.
      *
-     * @param cat category which is to be removed
-     * @return true if successful, else return false
+     * @param cat the category which is to be removed
+     * @return true if successful
      */
     public boolean removeCategory(Category cat){
         // category exists and is empty?
@@ -288,7 +311,7 @@ public class Inventory {
     }
 
     /**
-     * Initialize storage with all valid shelves
+     * Initialises the storage with all valid shelves.
      */
     private void initStorage(){
         // get all used shelves
@@ -309,7 +332,7 @@ public class Inventory {
     }
 
     /**
-     * Find all categories in itemMap and set categoryMap to all used categories
+     * Initialises all categories that are used by inventory items.
      */
     private void initCategories(){
         // get all used categories
