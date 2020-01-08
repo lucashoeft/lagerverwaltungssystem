@@ -92,15 +92,17 @@ public class Main {
 
 
         try {
-            String backupPath = Paths.get(App.getInventory().getPath()).getParent().toString() + "/backup.csv";
-            // backup recovery
-            if (Files.exists(Paths.get(backupPath))) {
-                logger.log(Level.INFO, "Backup found");
-                if (Files.exists(Paths.get(App.getInventory().getPath()))) {
-                    Files.delete(Paths.get(App.getInventory().getPath()));
+            if (App.getInventory().getPath() != "") {
+                String backupPath = Paths.get(App.getInventory().getPath()).getParent().toString() + "/backup.csv";
+                // backup recovery
+                if (Files.exists(Paths.get(backupPath))) {
+                    logger.log(Level.INFO, "Backup found");
+                    if (Files.exists(Paths.get(App.getInventory().getPath()))) {
+                        Files.delete(Paths.get(App.getInventory().getPath()));
+                    }
+                    Files.move(Paths.get(backupPath), Paths.get(App.getInventory().getPath()));
+                    logger.log(Level.INFO, "recovered from backup");
                 }
-                Files.move(Paths.get(backupPath), Paths.get(App.getInventory().getPath()));
-                logger.log(Level.INFO, "recovered from backup");
             }
             // load existing .csv data
             if (App.getInventory().getPath() != "" && Files.exists(Paths.get(App.getInventory().getPath()))) {
