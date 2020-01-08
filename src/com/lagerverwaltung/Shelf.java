@@ -7,12 +7,12 @@ package com.lagerverwaltung;
 public class Shelf {
 
     /**
-     * The number of the shelf
+     * The number of the shelf which is in the range of 0 to 999 and is unique.
      */
     private Integer id;
 
     /**
-     * The total weight of shelf
+     * The total weight of shelf.
      */
     private int weight;
 
