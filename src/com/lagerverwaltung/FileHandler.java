@@ -50,7 +50,7 @@ public class FileHandler {
 
                 if (isCategory(attributes)) {
                     inventory.addCategory(new Category(attributes[1]));
-                } else {
+                } else if (isInventoryItem(attributes)) {
                     try {
                         InventoryItem inventoryItem = createInventoryItem(attributes);
                         if (!checkSet.add(inventoryItem.getLocation())) {
@@ -134,7 +134,7 @@ public class FileHandler {
     }
 
     /**
-     * Returns true if the array the attributes are matching to the category pattern.
+     * Returns true if the array of attributes are matching to the category pattern.
      *
      * @param attributes the array of attributes of an object
      * @return true if it is a category
@@ -149,6 +149,16 @@ public class FileHandler {
     }
 
     /**
+     * Returns true if the array of attributes could be an inventory item.
+     *
+     * @param attributes the array of attributes of an object
+     * @return true if it could be an inventory item
+     */
+    private Boolean isInventoryItem(String[] attributes) {
+        return (attributes.length == 6);
+    }
+
+    /**
      * Creates an inventory item from an array of attributes.
      *
      * @param metadata he array of attributes of an inventory item
@@ -156,7 +166,7 @@ public class FileHandler {
      */
     private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
         return new InventoryItem(metadata[0],
-                    metadata[1],
+                metadata[1],
                     Integer.parseInt(metadata[2]),
                     metadata[3],
                     Integer.parseInt(metadata[4]),
