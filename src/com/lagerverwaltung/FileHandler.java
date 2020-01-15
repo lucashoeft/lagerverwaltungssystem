@@ -134,7 +134,7 @@ public class FileHandler {
     }
 
     /**
-     * Returns true if the array the attributes are matching to the category pattern.
+     * Returns true if the array of attributes are matching to the category pattern.
      *
      * @param attributes the array of attributes of an object
      * @return true if it is a category
@@ -155,12 +155,15 @@ public class FileHandler {
      * @return the inventory item containing the attributes
      */
     private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
+        if (metadata.length != 6) {
+            throw new IllegalArgumentException("Fehlerhafte Zeile ignoriert.");
+        }
         return new InventoryItem(metadata[0],
-                    metadata[1],
-                    Integer.parseInt(metadata[2]),
-                    metadata[3],
-                    Integer.parseInt(metadata[4]),
-                    Integer.parseInt(metadata[5]));
+                metadata[1],
+                Integer.parseInt(metadata[2]),
+                metadata[3],
+                Integer.parseInt(metadata[4]),
+                Integer.parseInt(metadata[5]));
     }
 
 }
