@@ -14,5 +14,6 @@ class ShelfTest {
         assertNotEquals(1, myShelf11);
         assertEquals(myShelf11, myShelf12); // TODO: even if weight is different?
         assertNotEquals(myShelf11, myShelf2);
+        assertNotEquals(myShelf11, 1);
     }
 }
