@@ -31,24 +31,24 @@ class FileHandlerTest {
             FileHandler myParser = new FileHandler();
             String content =
                     "\n" + // emty line in category section -> ignore
-                    "-1,Kat1,-1,-1,-1,-1\n" + // category entry in category section
-                    // TODO "-1,KatFehler1,-1,-1,-1\n" + // invalid category -> ignore
-                    ",KatFehler2,-1,-1,-1,-1\n" + // invalid category -> ignore
-                    "Prod-1(ö!?.),Kat1,8,200000,116,1571\n" + // valid article entry
-                    "Prod-2,Kat2,0,000001,100000000,1\n" + // valid article entry (0 article with 10t max weight)
-                    "Prod-3,Kat1,100000000,000002,1,9999900\n" + // valid article entry (100.000.000 articles with 1g in storage => 10t in shelf)
-                    "\n" + // empty line -> ignore
-                    // TODO "Prod-2,Kat2,0,001000,375,799\n" + // duplicate description -> ignore
-                    "fehler-art-1,test,Kat1,24,001001,375,799\n" + // description with embedded , -> invalid number of fields -> ignore
-                    "fehler-art -2,Kat1,24,001001,375,799\n" + // description with embedded space -> ignore
-                    "fehler-art_3,Kat1,24,001002,375,799\n" + // description with not allowed character (_) -> ignore
-                    // TODO "fehler-art-4,KatUnbekannt,24,001003,375,799\n" + // unknown category used -> ignore
-                    "fehler-art-5,Kat1,24,0001004,375,799\n" + // invalid storage-> ignore
-                    "-1,Kat1,-1,-1,-1,-1\n" + // double category -> ignore
-                    "fehler-art-6,Kat1,24,1005,375,799\n" + // invalid storage -> ignore
-                    "fehler-art-7,Kat1,24,00A006,375,799\n" + // invalid storage -> ignore
-                    "fehler-art-8,Kat1,24,,375,799\n" + // invalid storage -> ignore
-                    "fehler-art-9,Kat1,-1,001007,375,799\n" + // invalid count -> ignore
+                            "-1,Kat1,-1,-1,-1,-1\n" + // category entry in category section
+                            "-1,KatFehler1,-1,-1,-1\n" + // invalid category -> ignore
+                            ",KatFehler2,-1,-1,-1,-1\n" + // invalid category -> ignore
+                            "Prod-1(ö!?.),Kat1,8,200000,116,1571\n" + // valid article entry
+                            "Prod-2,Kat2,0,000001,100000000,1\n" + // valid article entry (0 article with 10t max weight)
+                            "Prod-3,Kat1,100000000,000002,1,9999900\n" + // valid article entry (100.000.000 articles with 1g in storage => 10t in shelf)
+                            "\n" + // empty line -> ignore
+                            "Prod-2,Kat2,0,001000,375,799\n" + // duplicate description -> ignore       DONE
+                            "fehler-art-1,test,Kat1,24,001001,375,799\n" + // description with embedded , -> invalid number of fields -> ignore
+                            "fehler-art -2,Kat1,24,001001,375,799\n" + // description with embedded space -> ignore
+                            "fehler-art_3,Kat1,24,001002,375,799\n" + // description with not allowed character (_) -> ignore
+                            // "fehler-art-4,KatUnbekannt,24,001003,375,799\n" + // unknown category used -> ignore        Entfaellt
+                            "fehler-art-5,Kat1,24,0001004,375,799\n" + // invalid storage-> ignore
+                            "-1,Kat1,-1,-1,-1,-1\n" + // double category -> ignore
+                            "fehler-art-6,Kat1,24,1005,375,799\n" + // invalid storage -> ignore
+                            "fehler-art-7,Kat1,24,00A006,375,799\n" + // invalid storage -> ignore
+                            "fehler-art-8,Kat1,24,,375,799\n" + // invalid storage -> ignore
+                            "fehler-art-9,Kat1,-1,001007,375,799\n" + // invalid count -> ignore
                     "-1,Kat3,-1,-1,-1,-1\n" + // category entry in article section is allowed
                     "fehler-art-10,Kat1,a,001008,375,799\n" + // invalid count -> ignore
                     "fehler-art-11,Kat1,100000001,001009,375,799\n" + // invalid count -> ignore
@@ -59,7 +59,7 @@ class FileHandlerTest {
                     "fehler-art-16,Kat1,0,001014,1,\n" + // no price -> ignore
                     "fehler-art-17,Kat1,0,001015,1,0\n" + // zero price -> ignore
                     "fehler-art-18,Kat1,0,001016,1,9999901\n" + // price to high -> ignore
-                    // TODO "fehler-art-19,Kat1,1,000017,1,1\n" + // shelf 000 overloaded -> ignore
+                            // "fehler-art-19,Kat1,1,000017,1,1\n" + // shelf 000 overloaded -> ignore     Entfaellt bis auf weiteres
                     "last,last,0,999999,1,1";
             String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", content);
             Inventory myInventory = myParser.readInventoryFromCSV(Paths.get(fileName));
