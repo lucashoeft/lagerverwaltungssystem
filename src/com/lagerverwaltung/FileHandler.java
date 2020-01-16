@@ -56,7 +56,9 @@ public class FileHandler {
                         if (!checkSet.add(inventoryItem.getLocation())) {
                             logger.log(Level.WARNING, "invalid item: " + inventoryItem.getDescription());
                         } else {
-                            itemMap.put(inventoryItem.getDescription(), inventoryItem);
+                            if (!itemMap.containsKey(inventoryItem.getDescription())) {
+                                itemMap.put(inventoryItem.getDescription(), inventoryItem);
+                            }
                         }
                     } catch (IllegalArgumentException iae) {
                         logger.log(Level.WARNING, iae.getMessage());
@@ -64,7 +66,6 @@ public class FileHandler {
                 }
                 line = br.readLine();
             }
-
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage());
         }
@@ -140,6 +141,7 @@ public class FileHandler {
      * @return true if it is a category
      */
     private Boolean isCategory(String[] attributes) {
+        if (attributes.length != 6) return false;
         if (!attributes[0].equals("-1")) return false;
         if ((attributes[1].equals("-1")) || (attributes[1].indexOf(',') >= 0)) return false;
         if (!attributes[2].equals("-1")) return false;
@@ -165,5 +167,4 @@ public class FileHandler {
                 Integer.parseInt(metadata[4]),
                 Integer.parseInt(metadata[5]));
     }
-
 }
