@@ -371,7 +371,6 @@ public class Main {
          * @param hasFocus true if cell has focus
          * @param row  the row of the cell to render
          * @param column the column of the cell to render
-         * @return the default table cell renderer
          * @return the constructor of default table cell renderer with changed value
          */
         @Override
@@ -423,7 +422,6 @@ public class Main {
          * @param hasFocus true if cell has focus
          * @param row  the row of the cell to render
          * @param column the column of the cell to render
-         * @return the default table cell renderer
          * @return the constructor of default table cell renderer with changed value
          */
         @Override
@@ -464,7 +462,6 @@ public class Main {
          * @param hasFocus true if cell has focus
          * @param row  the row of the cell to render
          * @param column the column of the cell to render
-         * @return the default table cell renderer
          * @return the constructor of default table cell renderer with changed value
          */
         @Override
