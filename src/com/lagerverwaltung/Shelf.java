@@ -53,15 +53,6 @@ public class Shelf {
     }
 
     /**
-     * Sets the number of this shelf to a new number.
-     *
-     * @param id the new number for the shelf
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
      * Returns the total weight of the shelf.
      *
      * @return the weight of the shelf
@@ -69,16 +60,6 @@ public class Shelf {
     public int getWeight() {
         return weight;
     }
-
-    /**
-     * Sets the weight of this shelf to a new weight.
-     *
-     * @param w the new weight of the shelf
-     */
-    public void setWeight(int w) {
-        this.weight = w;
-    }
-
 
     /**
      * Tries to add an inventory item to the shelf weight multiplied by the count.

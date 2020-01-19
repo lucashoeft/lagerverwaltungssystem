@@ -47,30 +47,12 @@ public class Category {
     }
 
     /**
-     * Assigns a new name to the category.
-     *
-     * @param name the new name of the category
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Returns the amount of inventory items that exist with this category as a selected value.
      *
      * @return the amount of inventory items that exist with this category as a selected value
      */
     public int getCount() {
         return count;
-    }
-
-    /**
-     * Assigns new value to the amount.
-     *
-     * @param count the new amount of inventory items that exist with this category as a selected value.
-     */
-    public void setCount(int count) {
-        this.count = count;
     }
 
     /**

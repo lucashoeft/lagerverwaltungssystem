@@ -158,7 +158,7 @@ public class FileHandler {
      */
     private InventoryItem createInventoryItem(String[] metadata) throws IllegalArgumentException {
         if (metadata.length != 6) {
-            throw new IllegalArgumentException("Fehlerhafte Zeile ignoriert.");
+            throw new IllegalArgumentException("Invalid line ignored");
         }
         return new InventoryItem(metadata[0],
                 metadata[1],
