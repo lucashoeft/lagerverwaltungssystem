@@ -24,9 +24,9 @@ public class Validierungstests {
     private Inventory inventory = new Inventory();
 
     @Test
-    void persistentStorageTest() {
+    public void persistentStorageTest() {
         assertDoesNotThrow(() -> {
-            String fileName = TestHelpers.createTmpFileWithContent("my_test_database_", ".csv", "");
+            String fileName = createTmpFileWithContent("my_test_database_", ".csv", "");
 
             inventory.addNewItem(new InventoryItem("Rote-Stifte", "Buntstifte", 24, "000000", 10, 199));
             inventory.setPath(fileName);
@@ -77,25 +77,26 @@ public class Validierungstests {
     @Test
     void searchTest() {
         assertDoesNotThrow(() -> {
-            inventory.addNewItem(new InventoryItem("Stift-blau-0.05mm","Schreibgeräte",360,"000012",1,60));
-            inventory.addNewItem(new InventoryItem("Stift-schwarz-0.03mm","Schreibgeräte",130,"000013",1,60));
-            inventory.addNewItem(new InventoryItem("Tippex-3x","Korrekturflüssigkeit",97,"951167",16,495));
-            inventory.addNewItem(new InventoryItem("Tippex-10x","Korrekturflüssigkeit",48,"461168",55,1550));
-            inventory.addNewItem(new InventoryItem("Locher-25-Blatt-rot","Büromaterial",37,"332471",24,625));
-            inventory.addNewItem(new InventoryItem("Post-it-Block-weiß","Notizzettel",460,"123483",30,215));
-            inventory.addNewItem(new InventoryItem("Hefter-100x-bunt","Hefter",179,"513513",450,2500));
-            inventory.addNewItem(new InventoryItem("Textmarker-3x-neongrün","Schreibgeräte",255,"986722",2000,350));
-            inventory.addNewItem(new InventoryItem("Kopierpapier-10x-500","Papier",513,"002001",2500,3595));
+            inventory.addNewItem(new InventoryItem("Stift-blau-0.05mm","Schreibgeräte",360,"000012",100,60));
+            inventory.addNewItem(new InventoryItem("Stift-schwarz-0.03mm","Schreibgeräte",130,"000013",100,60));
+            inventory.addNewItem(new InventoryItem("Tippex-3x","Korrekturflüssigkeit",97,"951167",160,495));
+            inventory.addNewItem(new InventoryItem("Tippex-10x","Korrekturflüssigkeit",48,"461168",550,1550));
+            inventory.addNewItem(new InventoryItem("Locher-25-Blatt-rot","Büromaterial",37,"332471",240,625));
+            inventory.addNewItem(new InventoryItem("Post-it-Block-weiß","Notizzettel",460,"123483",300,215));
+            inventory.addNewItem(new InventoryItem("Hefter-100x-bunt","Hefter",179,"513513",45000,250));
+            inventory.addNewItem(new InventoryItem("Textmarker-3x-neongrün","Schreibgeräte",255,"986722",20000,350));
+            inventory.addNewItem(new InventoryItem("Kopierpapier-10x-500","Papier",513,"002001",25000,3595));
             inventory.addNewItem(new InventoryItem("Trennstreifen-5x-100-bunt","Register",83,"501993",24,2500));
 
             Assertions.assertEquals(2,searchHelper(inventory,"Tippex"));
             Assertions.assertEquals(1,searchHelper(inventory,"Locher-25-Blatt-rot"));
             Assertions.assertEquals(1,searchHelper(inventory,"Kopierpapier-10x-500"));
-            Assertions.assertEquals(0,searchHelper(inventory,"Tuppex 10x"));
+            Assertions.assertEquals(0,searchHelper(inventory,"Tuppex-10x"));
             Assertions.assertEquals(9,searchHelper(inventory,"3"));
         });
     }
 
+    // Helper method that implements the search from the Main class
     private Integer searchHelper(Inventory inventory, String text) {
         InventoryTableModel inventoryTableModel = new InventoryTableModel();
         inventoryTableModel.setData(inventory);
@@ -116,6 +117,7 @@ public class Validierungstests {
         return table.getRowCount();
     }
 
+    // Implemented method from the Main class
     private String escapeRegexCharacters(String text) {
         final String[] regexCharacters = {"\\","^","$","{","}","[","]","(",")",".","*","+","?","|","<",">","-","&","%"};
 
