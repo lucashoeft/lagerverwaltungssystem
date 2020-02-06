@@ -109,7 +109,9 @@ public class Inventory {
             }
             // add new category
             else{
-                addCategory(new Category(item.getCategory()));
+                if (!addCategory(new Category(item.getCategory()))) {
+                    return false;
+                }
             }
             itemMap.put(item.getDescription(), item);
             logger.log(Level.INFO,"New InventoryItem created");
@@ -279,12 +281,11 @@ public class Inventory {
      * @param cat the new category
      * @return true if successful
      */
-    public boolean addCategory(Category cat){
+    public boolean addCategory(Category cat) {
         // category already exists?
-        if (categoryMap.containsKey(cat.getName())){
+        if ((categoryMap.containsKey(cat.getName())) || !cat.getName().matches("[a-zA-ZöäüÖÄÜß0-9]{1,256}")) {
             return false;
-        }
-        else {
+        } else {
             categoryMap.put(cat.getName(), cat);
             // category added
             return true;
