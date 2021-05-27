@@ -1,5 +1,37 @@
 # lagerverwaltungssystem
 
+This warehouse management software was developed as a group project for the course 'Software Engineering 1' at Universität Potsdam.
+
+## Features
+
+* View, search and sort all products
+
+<p align="center">
+<img width="891" alt="Screenshot 2021-05-27 at 16 10 26" src="https://user-images.githubusercontent.com/26332559/119841758-6202ed00-bf06-11eb-9d41-40ca07cbfb0f.png">
+</p>
+
+* Create, update and delete products
+
+<p align="center">
+<img width="414" alt="Screenshot 2021-05-27 at 16 10 46" src="https://user-images.githubusercontent.com/26332559/119841800-6b8c5500-bf06-11eb-89e1-9720240814bc.png">
+  
+<img width="414" alt="Screenshot 2021-05-27 at 16 10 57" src="https://user-images.githubusercontent.com/26332559/119842065-a8f0e280-bf06-11eb-85d5-a73d3a9efebf.png">
+</p>
+
+* Create and delete categories
+
+<p align="center">
+<img width="570" alt="Screenshot 2021-05-27 at 16 10 54" src="https://user-images.githubusercontent.com/26332559/119842038-a098a780-bf06-11eb-8ae0-8dc53b194ed7.png">
+</p>
+
+* Handling wrong input by showing proper error message
+
+<p align="center">
+<img width="422" alt="Screenshot 2021-05-27 at 16 20 21" src="https://user-images.githubusercontent.com/26332559/119843105-857a6780-bf07-11eb-8256-b1c2ff74ccfb.png">
+</p>
+
+## Technology
+
 * IDE: IntelliJ
 * Java Version: JDK 1.8 / SE 8
 
